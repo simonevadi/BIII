@@ -180,3 +180,40 @@ plt.suptitle('PGM-Dipole, 2400 l/mm blazed grating + ML')
 plt.tight_layout()
 plt.savefig('plot/PGM-2400-ML-Dipole.png')
 # plt.show()
+
+
+fig, (axs) = plt.subplots(2, 1,figsize=(10,10))
+
+
+# PERMIL BANDWIDTH
+ax = axs[0]
+for ind, es_size in enumerate(SlitSize):
+    filtered_rp = rp[rp['ExitSlit.totalHeight'] == es_size]
+    energy = filtered_rp['Dipole.photonEnergy']
+    bw = filtered_rp['Bandwidth']
+    ax.plot(energy/1000,energy/(1000*bw) )
+
+ax.set_xlabel('Energy [keV]')
+ax.set_ylabel('Energy/1000/bandwidth [a.u.]')
+ax.set_title('PerMil Transmission')
+ax.grid(which='both', axis='both')
+
+
+# PERMIL FLUX 
+ax = axs[1]
+for ind, es_size in enumerate(SlitSize):
+    filtered_flux = flux[flux['ExitSlit.totalHeight'] == es_size]
+    energy = filtered_flux['Dipole.photonEnergy']
+    abs_flux = filtered_flux['PhotonFlux']
+    filtered_rp = rp[rp['ExitSlit.totalHeight'] == es_size]
+    bw = filtered_rp['Bandwidth']
+    ax.plot(energy,(energy/1000/bw)*abs_flux)
+
+ax.set_xlabel(r'Energy [eV]')
+ax.set_ylabel('Flux [ph/s/tbw]')
+ax.set_title('Transmission / Per MIl bandwidth')
+ax.grid(which='both', axis='both')
+
+plt.suptitle('PGM-Dipole, 2400 l/mm blazed grating + ML')
+plt.tight_layout()
+plt.savefig('plot/PGM-2400-ML-Dipole-PerMil.png')
