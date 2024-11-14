@@ -216,4 +216,4 @@ ax.grid(which='both', axis='both')
 
 plt.suptitle('PGM-Dipole, 2400 l/mm blazed grating + ML')
 plt.tight_layout()
-plt.savefig('plot/PGM-2400-ML-Dipole-PerMil.png')
+plt.savefig('plot/PGM-2400-ML-Dipole-PerMil.pdf')
