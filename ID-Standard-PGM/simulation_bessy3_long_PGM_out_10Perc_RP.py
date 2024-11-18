@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 from helper_lib import delete_round_folders
-from parameter import rml_file_name_bessy3_long_PGM_10Perc_coupling as rml_file_name
+from parameter import rml_file_name_bessy3_standard_PGM_10Perc_coupling as rml_file_name
 
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 rml_file = os.path.join('rml/'+rml_file_name+'.rml')
@@ -24,18 +24,18 @@ sim_name = rml_file_name+'_RP'
 # define the values of the parameters to scan 
 from parameter import order, energy_rp as energy
 from parameter import SlitSize, cff, nrays_rp as nrays
-from parameter import grating
 from parameter import round_rp as rounds
+from parameter import grating
 
 
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
             {beamline.ExitSlit.openingHeight:SlitSize},
-            {beamline.PG.lineDensity:grating},
+            {beamline.PG.lineDensity:grating},          
             {beamline.PG.orderDiffraction:order},
             {beamline.SU.numberRays:nrays},
-            {beamline.SU.photonEnergy:energy}
+            {beamline.SU.photonEnergy:energy}         
         ]
 
 #and then plug them into the Simulation class
