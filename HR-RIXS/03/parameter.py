@@ -18,8 +18,8 @@ rml_file_name_bessy3_HRRIXS_100Perc_coupling   = 'bessy3_93m_HRRIXS_100Perc_coup
 
 
 order       = 1
-SlitSize    = np.array([.012, .010])
-grating     = np.array([1200, 2400])
+SlitSize    = np.array([0.010])
+grating     = np.array([2400])
 cff         = np.array([2.50])
 
 energy_flux = np.arange(100, 2001, 50)
@@ -28,10 +28,10 @@ energy_rp   = np.arange(100, 2001, 50)
 nrays_flux  = 1e5
 nrays_rp    = 1e5
 
-round_flux = 4
-round_rp   = 4
+round_flux = 10
+round_rp   = 10
 
-ncpu       = 8
+ncpu       = 10
 
 ### plotting colors
 import matplotlib

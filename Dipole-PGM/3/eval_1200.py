@@ -81,7 +81,7 @@ for ind, es_size in enumerate(SlitSize):
     filtered_flux = flux[flux['ExitSlit.totalHeight'] == es_size]
     energy = filtered_flux['Dipole.photonEnergy']
     perc_flux = filtered_flux['PercentageRaysSurvived']
-    ax.plot(energy,perc_flux, label=f'ExitSlit {int(es_size*1000)} um' )
+    ax.plot(energy,perc_flux, label=f'ExitSlit {int(es_size*1000)} um')
 
 ax.set_xlabel(r'Energy [eV]')
 ax.set_ylabel('Transmission [%]')

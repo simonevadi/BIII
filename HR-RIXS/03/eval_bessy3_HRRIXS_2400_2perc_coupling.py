@@ -17,7 +17,7 @@ from helper_lib import scale_undulator_flux, order
 # import simulation parameters
 from parameter import energy_rp, energy_flux
 from parameter import SlitSize
-from parameter import rml_file_name_bessy3_standard_PGM_2Perc_coupling as rml_file_name
+from parameter import rml_file_name_bessy3_HRRIXS_2Perc_coupling as rml_file_name
 from parameter import colors, grating
 
 
@@ -122,29 +122,46 @@ ax.legend()
 # HORIZONTAL FOCUS
 
 ax = axs[2,0]
-# Initialize an empty list to accumulate 'HorizontalFocusFWHM' data
-focx = []
 
-# Loop through each slit size in the 'SlitSize' list
 for ind, es_size in enumerate(SlitSize):
-    # Filter the DataFrame for the current slit size
     filtered_rp = rp[rp['ExitSlit.openingHeight'] == es_size]
-    
     energy = filtered_rp['SU.photonEnergy']
-    
-    # Sum up 'HorizontalFocusFWHM' for each slit size
-    focx.append(filtered_rp['HorizontalFocusFWHM'])
-
-# Convert 'focx_plot' to a numpy array for element-wise operations
-focx = np.array(focx)
-focx = np.mean(focx, axis=0)
-
-ax.plot(energy,focx*1000, label=f'ExitSlit {int(es_size*1000)} um' )
+    focx = filtered_rp['HorizontalFocusFWHM']
+    ax.plot(energy,focx*1000, label=f'ExitSlit {int(es_size*1000)} um' )
 
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Focus Size [um]')
 ax.set_title('Horizontal focus')
-ax.legend()
+
+plt.suptitle('PGM, 2400 l/mm grating (unkonwn)')
+plt.tight_layout()
+plt.savefig('plot/FluxRpFocus'+rml_file_name+'.pdf')
+# plt.show()
+
+
+## Initialize an empty list to accumulate 'HorizontalFocusFWHM' data
+#focx = []
+#
+## Loop through each slit size in the 'SlitSize' list
+#for ind, es_size in enumerate(SlitSize):
+#    # Filter the DataFrame for the current slit size
+#    filtered_rp = rp[rp['ExitSlit.openingHeight'] == es_size]
+#    
+#    energy = filtered_rp['SU.photonEnergy']
+#    
+#    # Sum up 'HorizontalFocusFWHM' for each slit size
+#    focx.append(filtered_rp['HorizontalFocusFWHM'])
+#
+## Convert 'focx_plot' to a numpy array for element-wise operations
+#focx = np.array(focx)
+#focx = np.mean(focx, axis=0)
+#
+#ax.plot(energy,focx*1000, label=f'ExitSlit {int(es_size*1000)} um' )
+#
+#ax.set_xlabel('Energy [eV]')
+#ax.set_ylabel('Focus Size [um]')
+#ax.set_title('Horizontal focus')
+#ax.legend()
 
 
 
@@ -161,7 +178,7 @@ ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Focus Size [um]')
 ax.set_title('Vertical focus')
 
-plt.suptitle('PGM, 1200 l/mm grating (unkonwn)')
+plt.suptitle('PGM, 2400 l/mm grating (unkonwn)')
 plt.tight_layout()
 plt.savefig('plot/FluxRpFocus'+rml_file_name+'.pdf')
 # plt.show()
@@ -185,21 +202,21 @@ ax.set_title('PerMil Transmission')
 ax.grid(which='both', axis='both')
 
  
-# PERMIL FLUX 
-ax = axs[1]
-for ind, es_size in enumerate(SlitSize):
-     filtered_flux = flux[flux['ExitSlit.openingHeight'] == es_size]
-     energy = filtered_flux['SU.photonEnergy']
-     abs_flux = filtered_flux['PhotonFlux']
-     filtered_rp = rp[rp['ExitSlit.openingHeight'] == es_size]
-     bw = filtered_rp['Bandwidth']
-     ax.plot(energy,(energy/1000/bw)*abs_flux)
- 
-ax.set_xlabel(r'Energy [eV]')
-ax.set_ylabel('Flux [ph/s/tbw]')
-ax.set_title('Transmission / Per MIl bandwidth')
-ax.grid(which='both', axis='both')
- 
-plt.suptitle('PGM-Dipole, 2400 l/mm blazed grating + ML')
+## PERMIL FLUX 
+#ax = axs[1]
+#for ind, es_size in enumerate(SlitSize):
+#     filtered_flux = flux[flux['ExitSlit.openingHeight'] == es_size]
+#     energy = filtered_flux['SU.photonEnergy']
+#     abs_flux = filtered_flux['PhotonFlux']
+#     filtered_rp = rp[rp['ExitSlit.openingHeight'] == es_size]
+#     bw = filtered_rp['Bandwidth']
+#     ax.plot(energy,(energy/1000/bw)abs_flux)
+# 
+#ax.set_xlabel(r'Energy [eV]')
+#ax.set_ylabel('Flux [ph/s/tbw]')
+#ax.set_title('Transmission / Per MIl bandwidth')
+#ax.grid(which='both', axis='both')
+# 
+plt.suptitle('PGM-Dipole, 2400 l/mm grating (unkonwn)')
 plt.tight_layout()
-plt.savefig('plot/PGM-2400-ML-PGM-PerMil.pdf')
+plt.savefig('plot/HRRIXS-2400-PGM-PerMil.pdf')

@@ -5,4 +5,4 @@
 |-------|----------------|---------------------------------------|----------------------|
 | 1     | Firs tests     |                                       |                      |
 | 2     | otpimization   |optimization of the first attempt      |                      |
-| 3     | coupling       |optimized BL with 2; 10; 100 coupling  |eval not done         |
+| 3     | coupling       |optimized BL with 2; 10; 100 coupling  |eval partially done   |
