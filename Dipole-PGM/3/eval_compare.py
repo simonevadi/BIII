@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import pandas as pd
 
 # path to xrt:
@@ -50,7 +51,7 @@ plt.rcParams['xtick.labelsize'] = 12
 plt.rcParams['ytick.labelsize'] = 12
 
 # plotting Flux and RP
-fig, (axs) = plt.subplots(4, 2,figsize=(10,10))
+fig, (axs) = plt.subplots(3, 2,figsize=(10,10))
 
 # MIRROR COATING
 ax=axs[0,0]
@@ -72,10 +73,12 @@ IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
 Pt = rm.Material('Pt', rho=21.45,  kind='mirror',  table=table)
 Pt1, _ = get_reflectivity(Pt, E=E, theta=theta)
 
+ax.plot(E, IrCrB4C, 'blue', label='IrCrB4C')
+ax.plot(E, Pt1, 'green', label='Pt')
+
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Reflectivity [a.u.]')
 ax.set_title(f'Mirror Coating Reflectivity at {theta}° ')
-ax.plot(E, Pt1, label='Pt°')
 ax.legend()
 
 # text
@@ -84,10 +87,9 @@ ax.set_title('Dipole Flux')
 ax.grid(which='both', axis='both')
 ax.plot(source_flux1200['Dipole.photonEnergy'],
         source_flux1200['SourcePhotonFlux'],
+        'magenta',
         label='Dipole Flux')
 ax.set_ylabel('Flux [ph/s/0.1%bw]')
-
-ax.legend(loc=6)
 
 # AVAILABLE FLUX IN PERCENTAGE
 ax = axs[1,0]
@@ -104,6 +106,13 @@ ax.set_ylabel('Transmission [%]')
 ax.set_title('Available Flux (in transmitted bandwidth)')
 ax.grid(which='both', axis='both')
 ax.set_yscale('log')
+
+# Define a custom formatter function to display labels as floats with two decimal places
+def custom_formatter(x, pos):
+    return f"{x:.2f}"
+
+# Apply the custom formatter to the y-axis
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(custom_formatter))
 
 # AVAILABLE FLUX ABSOLUTE
 ax = axs[1,1]
@@ -126,8 +135,8 @@ ax.set_yscale('log')
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Flux [ph/s/tbw]')
 ax.grid(which='both', axis='both')
+# ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
 ax.legend()
-
 
 # BANDWIDTH
 ax = axs[2,0]
@@ -145,7 +154,6 @@ ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Transmitted Bandwidth [eV]')
 ax.set_title('Transmitted bandwidth (tbw)')
 ax.grid(which='both', axis='both')
-# ax.legend()
 
 
 # RESOLVING POWER
@@ -165,10 +173,16 @@ ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('RP [a.u.]')
 ax.set_title('Resolving Power')
 ax.grid(which='both', axis='both')
-ax.legend()
+
+plt.suptitle('PGM-Dipole', fontsize=suptitle_size)
+plt.tight_layout()
+plt.savefig('plot/PGM-Dipole.png')
+
+# plotting Flux and RP
+fig, (axs) = plt.subplots(2, 1,figsize=(10,10))
 
 # HORIZONTAL FOCUS
-ax = axs[3,0]
+ax = axs[0]
 energy_400 = rp400['Dipole.photonEnergy']
 focx_400 = rp400['HorizontalFocusFWHM']
 energy_1200 = rp1200['Dipole.photonEnergy']
@@ -183,10 +197,9 @@ ax.plot(energy_ml,focx_ml*1000)
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Focus Size [um]')
 ax.set_title('Horizontal focus')
-ax.legend()
 
 # VERTICAL FOCUS
-ax = axs[3,1]
+ax = axs[1]
 energy_400 = rp400['Dipole.photonEnergy']
 focy_400 = rp400['VerticalFocusFWHM']
 energy_1200 = rp1200['Dipole.photonEnergy']
@@ -202,9 +215,9 @@ ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Focus Size [um]')
 ax.set_title('Vertical focus')
 
-plt.suptitle('PGM-Dipole', fontsize=suptitle_size)
+plt.suptitle('PGM-Dipole Focus Size', fontsize=suptitle_size)
 plt.tight_layout()
-plt.savefig('plot/PGM-Dipole.png')
+plt.savefig('plot/PGM-Dipole-Focus.png')
 # plt.show()
 
 
