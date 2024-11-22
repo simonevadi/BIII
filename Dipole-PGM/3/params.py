@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-rounds=10
+rounds=100
 cpu = 30
 # BESSYIII params
 # possible values for coupling
