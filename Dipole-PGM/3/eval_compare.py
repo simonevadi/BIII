@@ -52,7 +52,7 @@ plt.rcParams['ytick.labelsize'] = 12
 
 # plotting Flux and RP
 fig, (axs) = plt.subplots(3, 2,figsize=(10,10))
-
+log = False
 # MIRROR COATING
 ax=axs[0,0]
 
@@ -81,7 +81,8 @@ ax.set_ylabel('Reflectivity [a.u.]')
 ax.set_title(f'Mirror Coating Reflectivity at {theta}° ')
 ax.legend()
 
-# text
+# Dipole
+
 ax = axs[0,1]
 ax.set_title('Dipole Flux')
 ax.grid(which='both', axis='both')
@@ -89,7 +90,10 @@ ax.plot(source_flux1200['Dipole.photonEnergy'],
         source_flux1200['SourcePhotonFlux'],
         'magenta',
         label='Dipole Flux')
-ax.set_ylabel('Flux [ph/s/0.1%bw]')
+ax.plot(source_fluxml['Dipole.photonEnergy'],
+        source_fluxml['SourcePhotonFlux'], 
+        'magenta',)
+ax.set_ylabel('Flux [ph/s/0.1A/0.1%bw]')
 
 # AVAILABLE FLUX IN PERCENTAGE
 ax = axs[1,0]
@@ -105,7 +109,8 @@ ax.set_xlabel(r'Energy [eV]')
 ax.set_ylabel('Transmission [%]')
 ax.set_title('Available Flux (in transmitted bandwidth)')
 ax.grid(which='both', axis='both')
-ax.set_yscale('log')
+if log:
+    ax.set_yscale('log')
 
 # Define a custom formatter function to display labels as floats with two decimal places
 def custom_formatter(x, pos):
@@ -130,11 +135,12 @@ abs_flux_ml = ML_eff(abs_flux_ml,
 ax.plot(energy_400, abs_flux_400, label=f'400 l/mm' )
 ax.plot(energy_1200, abs_flux_1200, label=f'1200 l/mm' )
 ax.plot(energy_ml, abs_flux_ml, label=f'ML' )
-
-ax.set_yscale('log')
+if log:
+    ax.set_yscale('log')
 ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('Flux [ph/s/tbw]')
+ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
 ax.grid(which='both', axis='both')
+ax.set_title('Available Flux (absolute)')
 # ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
 ax.legend()
 
@@ -265,8 +271,8 @@ ax.plot(energy_1200,(energy_1200/1000/bw_1200)*abs_flux_1200)
 ax.plot(energy_ml,(energy_ml/1000/bw_ml)*abs_flux_ml)
 
 ax.set_xlabel(r'Energy [eV]')
-ax.set_ylabel('Flux [ph/s/tbw]')
-ax.set_title('Transmission / Per MIl bandwidth')
+ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
+ax.set_title('Transmission / Per Mil bandwidth')
 ax.grid(which='both', axis='both')
 ax.set_yscale('log')
 
