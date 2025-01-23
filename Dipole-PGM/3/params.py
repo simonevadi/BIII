@@ -57,6 +57,8 @@ lb_400_file_path   = os.path.join('rml/'+lb_400_rml_file_name+'.rml')
 
 #   PARAMS FOR ML 2400l/mm GRATING SIMULATIONS
 ml_order        = 2
+ml_index        = 'MLBG_mfm_second'
+ml_table        = os.path.join('ML_eff', 'grating_eff_5000.xlsx')
 ml_SlitSize     = np.array([0.1])
 ml_grating      = np.array([2400])
 ml_nrays_flux   = 1e5
