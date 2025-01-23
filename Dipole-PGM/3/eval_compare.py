@@ -6,41 +6,25 @@ import pandas as pd
 # path to xrt:
 import os, sys; sys.path.append(os.path.join('..', '..', '..'))  # analysis:ignore
 import xrt.backends.raycing.materials as rm
+
+# helper lib
 from helper_lib import get_reflectivity
+from helper_lib import scale_undulator_flux
 
 # andrey ML
 from multilayer_helper import ML_eff
 
 # file/folder/ml index definition
-from params import ml_order, ml_table, ml_index
-from params import lb_400_SlitSize, hb_1200_SlitSize, ml_SlitSize 
-from params import lb_400_cff , hb_1200_cff
-from params import lb_400_sim_name_flux, hb_1200_sim_name_flux, ml_sim_name_flux
-from params import lb_400_sim_name_rp, hb_1200_sim_name_rp, ml_sim_name_rp
+from params import hb_1200_sim_name_flux, ml_sim_name_flux
+from params import hb_1200_sim_name_rp, ml_sim_name_rp
 
+from params import undulator_spectra, undulator_file_path
 
-flux_simulation_folder_400 = 'RAYPy_Simulation_' + lb_400_sim_name_flux
-rp_simulation_folder_400   = 'RAYPy_Simulation_' + lb_400_sim_name_rp
-flux_simulation_folder_1200 = 'RAYPy_Simulation_' + hb_1200_sim_name_flux
-rp_simulation_folder_1200   = 'RAYPy_Simulation_' + hb_1200_sim_name_rp
-flux_simulation_folder_ml = 'RAYPy_Simulation_' + ml_sim_name_flux
-rp_simulation_folder_ml   = 'RAYPy_Simulation_' + ml_sim_name_rp
+from raypyng.postprocessing import PostProcessAnalyzed
 
-# loading the data
-oe = 'DetectorAtFocus' + '_RawRaysOutgoing.csv'
-# 400 l/mm
-flux400 = pd.read_csv(os.path.join(flux_simulation_folder_400, oe))
-rp400 = pd.read_csv(os.path.join(rp_simulation_folder_400, oe))
-source_flux400 = flux400.drop_duplicates(subset='Dipole.photonEnergy')[['Dipole.photonEnergy', 'SourcePhotonFlux']]
-# 1200 l/mm
-flux1200 = pd.read_csv(os.path.join(flux_simulation_folder_1200, oe))
-rp1200 = pd.read_csv(os.path.join(rp_simulation_folder_1200, oe))
-source_flux1200 = flux1200.drop_duplicates(subset='Dipole.photonEnergy')[['Dipole.photonEnergy', 'SourcePhotonFlux']]
-# ml 
-fluxml = pd.read_csv(os.path.join(flux_simulation_folder_ml, oe))
-rpml = pd.read_csv(os.path.join(rp_simulation_folder_ml, oe))
-source_fluxml = fluxml.drop_duplicates(subset='Dipole.photonEnergy')[['Dipole.photonEnergy', 'SourcePhotonFlux']]
-
+beamline_name = 'BESSYIII_Dipole'
+p = PostProcessAnalyzed()
+window = 50
 # Set global font sizes
 suptitle_size = 18
 plt.rcParams['axes.titlesize'] = 16
@@ -58,7 +42,7 @@ ax=axs[0,0]
 
 de = 38.9579-30.0000
 table = 'Henke'
-theta = 1.0
+theta = 0.8
 E = np.arange(50, 5001, de)
 # triple coating
 Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
@@ -69,215 +53,267 @@ IrCrB4C = rm.Multilayer( tLayer=B4C, tThickness=40,
                         nPairs=1, substrate=Ir)
 IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
 
-# Platinum
-Pt = rm.Material('Pt', rho=21.45,  kind='mirror',  table=table)
-Pt1, _ = get_reflectivity(Pt, E=E, theta=theta)
 
 ax.plot(E, IrCrB4C, 'blue', label='IrCrB4C')
-ax.plot(E, Pt1, 'green', label='Pt')
 
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Reflectivity [a.u.]')
 ax.set_title(f'Mirror Coating Reflectivity at {theta}° ')
 ax.legend()
 
-# Dipole
+# CPMU20
 
 ax = axs[0,1]
-ax.set_title('Dipole Flux')
+ax.plot(undulator_spectra[:,0], undulator_spectra[:,3])
+
+ax.set_title('CPMU20 Flux')
 ax.grid(which='both', axis='both')
-ax.plot(source_flux1200['Dipole.photonEnergy'],
-        source_flux1200['SourcePhotonFlux'],
-        'magenta',
-        label='Dipole Flux')
-ax.plot(source_fluxml['Dipole.photonEnergy'],
-        source_fluxml['SourcePhotonFlux'], 
-        'magenta',)
+
 ax.set_ylabel('Flux [ph/s/0.1A/0.1%bw]')
 
-# AVAILABLE FLUX IN PERCENTAGE
-ax = axs[1,0]
-energy400 = flux400['Dipole.photonEnergy']
-perc_flux_400 = flux400['PercentageRaysSurvived']
-energy1200 = flux1200['Dipole.photonEnergy']
-perc_flux_1200 = flux1200['PercentageRaysSurvived']
 
-ax.plot(energy400,perc_flux_400, label=f'400 l/mm' )
-ax.plot(energy1200,perc_flux_1200, label=f'1200 l/mm' )
+flux_simulation_folder_1200_list = ['RAYPy_Simulation_' + hb_1200_sim_name_flux, 
+                                    'RAYPy_Simulation_' + hb_1200_sim_name_flux[:-6]]
+rp_simulation_folder_1200_list   = ['RAYPy_Simulation_' + hb_1200_sim_name_rp,
+                                    'RAYPy_Simulation_' + hb_1200_sim_name_rp[:-6]]
+flux_simulation_folder_ml_list = ['RAYPy_Simulation_' + ml_sim_name_flux,
+                                  'RAYPy_Simulation_' + ml_sim_name_flux[:-6]]
+rp_simulation_folder_ml_list   = ['RAYPy_Simulation_' + ml_sim_name_rp,
+                                  'RAYPy_Simulation_' + ml_sim_name_rp[:-6]]
 
-ax.set_xlabel(r'Energy [eV]')
-ax.set_ylabel('Transmission [%]')
-ax.set_title('Available Flux (in transmitted bandwidth)')
-ax.grid(which='both', axis='both')
-if log:
-    ax.set_yscale('log')
+color_list = [('blue','orange'), ('cyan', 'red')]
+labels_list = ['M1 out', 'M1 in']
+for ind in range (2):
+    flux_simulation_folder_1200 = flux_simulation_folder_1200_list[ind]
+    rp_simulation_folder_1200   = rp_simulation_folder_1200_list[ind]
+    flux_simulation_folder_ml = flux_simulation_folder_ml_list[ind]
+    rp_simulation_folder_ml   = rp_simulation_folder_ml_list[ind]
 
-# Define a custom formatter function to display labels as floats with two decimal places
-def custom_formatter(x, pos):
-    return f"{x:.2f}"
-
-# Apply the custom formatter to the y-axis
-ax.yaxis.set_major_formatter(ticker.FuncFormatter(custom_formatter))
-
-# AVAILABLE FLUX ABSOLUTE
-ax = axs[1,1]
-energy_400 = flux400['Dipole.photonEnergy']
-abs_flux_400 = flux400['PhotonFlux']
-energy_1200 = flux1200['Dipole.photonEnergy']
-abs_flux_1200 = flux1200['PhotonFlux']
-energy_ml = fluxml['Dipole.photonEnergy']
-abs_flux_ml = fluxml['PhotonFlux']
-abs_flux_ml = ML_eff(abs_flux_ml, 
-                ind=ml_index, 
-                energy=energy_ml,
-                grating_eff_file=ml_table)
-
-ax.plot(energy_400, abs_flux_400, label=f'400 l/mm' )
-ax.plot(energy_1200, abs_flux_1200, label=f'1200 l/mm' )
-ax.plot(energy_ml, abs_flux_ml, label=f'ML' )
-if log:
-    ax.set_yscale('log')
-ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
-ax.grid(which='both', axis='both')
-ax.set_title('Available Flux (absolute)')
-# ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
-ax.legend()
-
-# BANDWIDTH
-ax = axs[2,0]
-energy_400 = rp400['Dipole.photonEnergy']
-bw_400 = rp400['Bandwidth']
-energy_1200 = rp1200['Dipole.photonEnergy']
-bw_1200 = rp1200['Bandwidth']
-energy_ml = rpml['Dipole.photonEnergy']
-bw_ml = rpml['Bandwidth']
-
-ax.plot(energy_400,bw_400)
-ax.plot(energy_1200,bw_1200)
-ax.plot(energy_ml, bw_ml)
-ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('Transmitted Bandwidth [eV]')
-ax.set_title('Transmitted bandwidth (tbw)')
-ax.grid(which='both', axis='both')
+    # loading the data
+    oe = 'DetectorAtFocus' + '_RawRaysOutgoing.csv'
+    # 1200 l/mm
+    flux1200 = pd.read_csv(os.path.join(flux_simulation_folder_1200, oe))
+    rp1200 = pd.read_csv(os.path.join(rp_simulation_folder_1200, oe))
+    source_flux1200 = flux1200.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
+    # ml 
+    fluxml = pd.read_csv(os.path.join(flux_simulation_folder_ml, oe))
+    rpml = pd.read_csv(os.path.join(rp_simulation_folder_ml, oe))
+    source_fluxml = fluxml.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
 
 
-# RESOLVING POWER
-ax = axs[2,1]
-energy_400 = rp400['Dipole.photonEnergy']
-bw_400 = rp400['Bandwidth']
-energy_1200 = rp1200['Dipole.photonEnergy']
-bw_1200 = rp1200['Bandwidth']
-energy_ml = rpml['Dipole.photonEnergy']
-bw_ml = rpml['Bandwidth']
+    # AVAILABLE FLUX IN PERCENTAGE
+    ax = axs[1,0]
+    energy1200 = flux1200['CPMU20.photonEnergy']
+    perc_flux_1200 = flux1200['PercentageRaysSurvived']
 
-ax.plot(energy_400,energy_400/bw_400)
-ax.plot(energy_1200,energy_1200/bw_1200)
-ax.plot(energy_ml,energy_ml/bw_ml)
+    ax.plot(energy1200,perc_flux_1200, color=color_list[ind][0], label=f'1200 l/mm' )
 
-ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('RP [a.u.]')
-ax.set_title('Resolving Power')
-ax.grid(which='both', axis='both')
+    ax.set_xlabel(r'Energy [eV]')
+    ax.set_ylabel('Transmission [%]')
+    ax.set_title('Available Flux (in transmitted bandwidth)')
+    ax.grid(which='both', axis='both')
+    if log:
+        ax.set_yscale('log')
 
-plt.suptitle('PGM-Dipole', fontsize=suptitle_size)
+    # Define a custom formatter function to display labels as floats with two decimal places
+    def custom_formatter(x, pos):
+        return f"{x:.2}%"
+
+    # Apply the custom formatter to the y-axis
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(custom_formatter))
+
+    # AVAILABLE FLUX ABSOLUTE
+    ax = axs[1,1]
+    energy_1200 = flux1200['CPMU20.photonEnergy']
+    perc_flux_1200 = flux1200['PercentageRaysSurvived']
+    abs_flux_1200 = scale_undulator_flux(energy_1200,
+                                        perc_flux_1200,
+                                        undulator_file_path)
+    energy_ml = fluxml['CPMU20.photonEnergy']
+    perc_flux_ml = fluxml['PercentageRaysSurvived']
+    abs_flux_ml = ML_eff(perc_flux_ml, 
+                    ind=ml_index, 
+                    energy=energy_ml,
+                    grating_eff_file=ml_table)
+    abs_flux_ml = scale_undulator_flux(energy_ml,
+                                        abs_flux_ml,
+                                        undulator_file_path)
+
+    ax.plot(energy_1200, abs_flux_1200,
+            color=color_list[ind][0] )
+    ax.plot(energy_ml, abs_flux_ml,
+            color=color_list[ind][1] )
+    if log:
+        ax.set_yscale('log')
+    ax.set_xlabel('Energy [eV]')
+    ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
+    ax.grid(which='both', axis='both')
+    ax.set_title('Available Flux (absolute)')
+
+
+    # BANDWIDTH
+    ax = axs[2,0]
+    energy_1200 = rp1200['CPMU20.photonEnergy']
+    bw_1200 = rp1200['Bandwidth']
+    energy_ml = rpml['CPMU20.photonEnergy']
+    bw_ml = rpml['Bandwidth']
+
+    ax.plot(energy_1200,bw_1200,color=color_list[ind][0])
+    ax.plot(p.moving_average(energy_ml, window), p.moving_average(bw_ml, window),color=color_list[ind][1])
+    # Calculate the line as 6000 divided by the energy values
+    energy_threshold = np.arange(energy1200.iloc[0], energy_ml.iloc[-1])
+    threshold_transmission = energy_threshold/6000
+    if ind==1:
+        ax.plot(energy_threshold, threshold_transmission, linestyle='dashed', color='black')
+    # Plot this calculated line on the same axes
+    # ax.plot(energy_ml, inv_energy_line, label='6000/Energy', linestyle='--', color='red')
+
+    ax.set_xlabel('Energy [eV]')
+    ax.set_ylabel('Transmitted Bandwidth [eV]')
+    ax.set_title('Transmitted bandwidth (tbw)')
+    ax.grid(which='both', axis='both')
+
+
+    # RESOLVING POWER
+    ax = axs[2,1]
+    energy_1200 = rp1200['CPMU20.photonEnergy']
+    bw_1200 = rp1200['Bandwidth']
+    energy_ml = rpml['CPMU20.photonEnergy']
+    bw_ml = rpml['Bandwidth']
+
+    ax.plot(energy_1200,energy_1200/bw_1200,
+            color=color_list[ind][0], label=f'{labels_list[ind]}, 1200 l/mm')
+    ax.plot(p.moving_average(energy_ml, window),p.moving_average(energy_ml/bw_ml, window),
+            color=color_list[ind][1], label=f'{labels_list[ind]}, 2400 l/mm')
+
+    ax.set_xlabel('Energy [eV]')
+    ax.set_ylabel('RP [a.u.]')
+    ax.set_title('Resolving Power')
+    ax.grid(which='both', axis='both')
+    if ind==1:
+        ax.axhline(y=6000, color='k', linestyle='--', label='RP 6000')
+        ax.legend()
+
+plt.suptitle('SoTeXs', fontsize=suptitle_size)
 plt.tight_layout()
-plt.savefig('plot/PGM-Dipole.png')
+plt.savefig('plot/SoTeXs.png')
 
 # plotting Flux and RP
 fig, (axs) = plt.subplots(2, 1,figsize=(10,10))
+for ind in range (2):
+    flux_simulation_folder_1200 = flux_simulation_folder_1200_list[ind]
+    rp_simulation_folder_1200   = rp_simulation_folder_1200_list[ind]
+    flux_simulation_folder_ml = flux_simulation_folder_ml_list[ind]
+    rp_simulation_folder_ml   = rp_simulation_folder_ml_list[ind]
 
-# HORIZONTAL FOCUS
-ax = axs[0]
-energy_400 = rp400['Dipole.photonEnergy']
-focx_400 = rp400['HorizontalFocusFWHM']
-energy_1200 = rp1200['Dipole.photonEnergy']
-focx_1200 = rp1200['HorizontalFocusFWHM']
-energy_ml = rpml['Dipole.photonEnergy']
-focx_ml = rpml['HorizontalFocusFWHM']
+    # loading the data
+    oe = 'DetectorAtFocus' + '_RawRaysOutgoing.csv'
+    # 1200 l/mm
+    flux1200 = pd.read_csv(os.path.join(flux_simulation_folder_1200, oe))
+    rp1200 = pd.read_csv(os.path.join(rp_simulation_folder_1200, oe))
+    source_flux1200 = flux1200.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
+    # ml 
+    fluxml = pd.read_csv(os.path.join(flux_simulation_folder_ml, oe))
+    rpml = pd.read_csv(os.path.join(rp_simulation_folder_ml, oe))
+    source_fluxml = fluxml.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
 
-ax.plot(energy_400,focx_400*1000)
-ax.plot(energy_1200,focx_1200*1000)
-ax.plot(energy_ml,focx_ml*1000)
+    # HORIZONTAL FOCUS
+    ax = axs[0]
+    energy_1200 = rp1200['CPMU20.photonEnergy']
+    focx_1200 = rp1200['HorizontalFocusFWHM']
+    energy_ml = rpml['CPMU20.photonEnergy']
+    focx_ml = rpml['HorizontalFocusFWHM']
 
-ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('Focus Size [um]')
-ax.set_title('Horizontal focus')
+    ax.plot(p.moving_average(energy_1200,window),p.moving_average(focx_1200*1000,window),
+            color=color_list[ind][0], label=f'{labels_list[ind]}, 1200 l/mm')
+    ax.plot(p.moving_average(energy_ml,window),p.moving_average(focx_ml*1000,window),
+            color=color_list[ind][1], label=f'{labels_list[ind]}, 1200 l/mm')
 
-# VERTICAL FOCUS
-ax = axs[1]
-energy_400 = rp400['Dipole.photonEnergy']
-focy_400 = rp400['VerticalFocusFWHM']
-energy_1200 = rp1200['Dipole.photonEnergy']
-focy_1200 = rp1200['VerticalFocusFWHM']
-energy_ml = rpml['Dipole.photonEnergy']
-focy_ml = rpml['VerticalFocusFWHM']
+    ax.set_xlabel('Energy [eV]')
+    ax.set_ylabel('Focus Size [um]')
+    ax.set_title('Horizontal focus')
 
-ax.plot(energy_400,focy_400*1000)
-ax.plot(energy_1200,focy_1200*1000)
-ax.plot(energy_ml,focy_ml*1000)
+    # VERTICAL FOCUS
+    ax = axs[1]
+    energy_1200 = rp1200['CPMU20.photonEnergy']
+    focy_1200 = rp1200['VerticalFocusFWHM']
+    energy_ml = rpml['CPMU20.photonEnergy']
+    focy_ml = rpml['VerticalFocusFWHM']
 
-ax.set_xlabel('Energy [eV]')
-ax.set_ylabel('Focus Size [um]')
-ax.set_title('Vertical focus')
+    ax.plot(p.moving_average(energy_1200, window),p.moving_average(focy_1200*1000,window),
+            color=color_list[ind][0], label=f'{labels_list[ind]}, 1200 l/mm')
+    ax.plot(p.moving_average(energy_ml,window),p.moving_average(focy_ml*1000,window),
+            color=color_list[ind][1], label=f'{labels_list[ind]}, 1200 l/mm')
 
-plt.suptitle('PGM-Dipole Focus Size', fontsize=suptitle_size)
+    ax.set_xlabel('Energy [eV]')
+    ax.set_ylabel('Focus Size [um]')
+    ax.set_title('Vertical focus')
+    if ind==1:
+        ax.legend()
+plt.suptitle('SoTeXs Focus Size', fontsize=suptitle_size)
 plt.tight_layout()
-plt.savefig('plot/PGM-Dipole-Focus.png')
+plt.savefig('plot/SoTeXs-Focus.png')
 # plt.show()
 
 
 fig, (axs) = plt.subplots(2, 1,figsize=(10,10))
 
+for ind in range (2):
+    flux_simulation_folder_1200 = flux_simulation_folder_1200_list[ind]
+    rp_simulation_folder_1200   = rp_simulation_folder_1200_list[ind]
+    flux_simulation_folder_ml = flux_simulation_folder_ml_list[ind]
+    rp_simulation_folder_ml   = rp_simulation_folder_ml_list[ind]
 
-# PERMIL BANDWIDTH
-ax = axs[0]
-energy_400 = rp400['Dipole.photonEnergy']
-bw_400 = rp400['Bandwidth']
-energy_1200 = rp1200['Dipole.photonEnergy']
-bw_1200 = rp1200['Bandwidth']
-energy_ml = rpml['Dipole.photonEnergy']
-bw_ml = rpml['Bandwidth']
+    # loading the data
+    oe = 'DetectorAtFocus' + '_RawRaysOutgoing.csv'
+    # 1200 l/mm
+    flux1200 = pd.read_csv(os.path.join(flux_simulation_folder_1200, oe))
+    rp1200 = pd.read_csv(os.path.join(rp_simulation_folder_1200, oe))
+    source_flux1200 = flux1200.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
+    # ml 
+    fluxml = pd.read_csv(os.path.join(flux_simulation_folder_ml, oe))
+    rpml = pd.read_csv(os.path.join(rp_simulation_folder_ml, oe))
+    source_fluxml = fluxml.drop_duplicates(subset='CPMU20.photonEnergy')[['CPMU20.photonEnergy', 'SourcePhotonFlux']]
 
-ax.plot(energy_400/1000,energy_400/(1000*bw_400), label=f'400 l/mm')
-ax.plot(energy_1200/1000,energy_1200/(1000*bw_1200), label=f'1200 l/mm')
-ax.plot(energy_ml/1000,energy_ml/(1000*bw_ml), label=f'ML')
+    # PERMIL BANDWIDTH
+    ax = axs[0]
+    energy_1200 = rp1200['CPMU20.photonEnergy']
+    permil_bw_1200 = flux1200['EnergyPerMilPerBw']
+    permil_bw_ml = fluxml['EnergyPerMilPerBw']
 
-ax.set_xlabel('Energy [keV]')
-ax.set_ylabel('Energy/1000/bandwidth [a.u.]')
-ax.set_title('PerMil Transmission')
-ax.grid(which='both', axis='both')
-ax.legend()
+    ax.plot(p.moving_average(energy_1200/1000,window),p.moving_average(permil_bw_1200,window),
+            color=color_list[ind][0], label=f'{labels_list[ind]}, 1200 l/mm')
+    ax.plot(p.moving_average(energy_ml/1000,window),p.moving_average(permil_bw_ml,window), 
+            color=color_list[ind][1], label=f'{labels_list[ind]}, 1200 l/mm')
+
+    ax.set_xlabel('Energy [keV]')
+    ax.set_ylabel('Energy/1000/bandwidth [a.u.]')
+    ax.set_title('PerMil Transmission')
+    ax.grid(which='both', axis='both')
+    ax.legend()
 
 
-# PERMIL FLUX 
-ax = axs[1]
-energy_400 = flux400['Dipole.photonEnergy']
-abs_flux_400 = flux400['PhotonFlux']
-bw_400 = rp400['Bandwidth']
-energy1200 = flux1200['Dipole.photonEnergy']
-abs_flux_1200 = flux1200['PhotonFlux']
-bw_1200 = rp1200['Bandwidth']
-energy_ml = fluxml['Dipole.photonEnergy']
-bw_ml = rpml['Bandwidth']
-abs_flux_ml = fluxml['PhotonFlux']
-abs_flux_ml = ML_eff(abs_flux_ml, 
-                ind=ml_index, 
-                energy=energy_ml,
-                grating_eff_file=ml_table)
+    # PERMIL FLUX 
+    ax = axs[1]
+    energy1200 = flux1200['CPMU20.photonEnergy']
+    permil_flux_1200 = flux1200['FluxPerMilPerBwPerc']
+    permil_flux_ml = fluxml['FluxPerMilPerBwPerc']
 
-ax.plot(energy_400,(energy_400/1000/bw_400)*abs_flux_400)
-ax.plot(energy_1200,(energy_1200/1000/bw_1200)*abs_flux_1200)
-ax.plot(energy_ml,(energy_ml/1000/bw_ml)*abs_flux_ml)
+    ax.plot(p.moving_average(energy_1200,10),p.moving_average(permil_flux_1200,10), 
+            color=color_list[ind][0], label=f'{labels_list[ind]}, 1200 l/mm')
+    ax.plot(p.moving_average(energy_ml,10),p.moving_average(permil_flux_ml,10),
+            color=color_list[ind][1], label=f'{labels_list[ind]}, 1200 l/mm')
 
-ax.set_xlabel(r'Energy [eV]')
-ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
-ax.set_title('Transmission / Per Mil bandwidth')
-ax.grid(which='both', axis='both')
-ax.set_yscale('log')
+    ax.set_xlabel(r'Energy [eV]')
+    ax.set_ylabel('Flux [ph/s/0.1A/tbw]')
+    ax.set_title('Transmission / Per Mil bandwidth')
+    ax.grid(which='both', axis='both')
+    # ax.set_yscale('log')
+    if ind==1:
+        ax.legend()
 
-plt.suptitle('PGM-Dipole PerMil', fontsize=suptitle_size)
+plt.suptitle('SoTeXs PerMil', fontsize=suptitle_size)
 plt.tight_layout()
-plt.savefig('plot/PGM-Dipole-PerMil.png')
+plt.savefig('plot/SoTeXs-PerMil.png')
 
 

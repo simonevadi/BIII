@@ -1,8 +1,9 @@
 import numpy as np
 import os
+import pandas as pd
 
-rounds=100
-cpu = 30
+rounds=1
+cpu = 8
 # BESSYIII params
 # possible values for coupling
 # 2, 10, 50, 75, 100
@@ -56,10 +57,6 @@ lb_400_file_path   = os.path.join('rml/'+lb_400_rml_file_name+'.rml')
 
 #   PARAMS FOR ML 2400l/mm GRATING SIMULATIONS
 ml_order        = 2
-ml_index        = 'MLBG_mfm_second'
-ml_table        = os.path.join('ML_eff', 'grating_eff_5000.xlsx')
-ml_energy_flux  = np.arange(500, 5001,500)
-ml_energy_rp    = np.arange(500, 5001,500)
 ml_SlitSize     = np.array([0.1])
 ml_grating      = np.array([2400])
 ml_nrays_flux   = 1e5
@@ -75,3 +72,16 @@ ml_rml_file_name   = 'Dipole_PGM_2400_ML'
 
 this_file_dir      = os.path.dirname(os.path.realpath(__file__))
 ml_rml_file_path   = os.path.join('rml/'+ml_rml_file_name+'.rml')
+
+grating_file_path = os.path.join('ML_eff',
+        'ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLbGR.dat')
+grating_df = pd.read_csv(grating_file_path, delim_whitespace=True, header=[0, 1])
+
+beta_file_path = os.path.join('ML_eff',
+        'ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLPM-max.dat')
+beta_df = pd.read_csv(beta_file_path, delim_whitespace=True, header=[0, 1])
+
+
+ml_cff = grating_df['Cff'].to_numpy().flatten()
+ml_energy_rp = grating_df['Energy'].to_numpy().flatten()
+ml_energy_flux = grating_df['Energy'].to_numpy().flatten()
