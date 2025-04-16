@@ -60,7 +60,7 @@ fig.suptitle(f"{rml_file_name}, {grating[0]} l/mm grating")
 # MIRROR COATING
 # de = 38.9579-30.0000
 # table = 'Henke'
-# theta = 
+# theta = 1.5
 # E = np.arange(50, 5001, de)
 # Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
 # Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
