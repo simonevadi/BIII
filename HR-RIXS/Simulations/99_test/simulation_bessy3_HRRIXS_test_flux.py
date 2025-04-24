@@ -25,7 +25,6 @@ from parameter import SlitSize, cff, nrays_flux as nrays
 
 
 # define a list of dictionaries with the parameters to scan
-# define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
             {beamline.ExitSlit.openingHeight:SlitSize},
@@ -49,11 +48,13 @@ sim.repeat = rounds
 sim.analyze = False # don't let RAY-UI analyze the results
 sim.raypyng_analysis=True # let raypyng analyze the results
 
-undulator_file_path = os.path.join(this_file_dir, 
-                                   'undulator_flux_curves','b3_ue42_5_ver_300mA_flux.csv')
+# Undulator on/off and settings
 
-undulator = pd.read_csv(undulator_file_path)
-sim.undulator_table=undulator
+# undulator_file_path = os.path.join(this_file_dir, 
+#                                    'undulator_flux_curves','b3_ue42_5_ver_300mA_flux.csv')
+
+# undulator = pd.read_csv(undulator_file_path)
+# sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
 sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
@@ -61,5 +62,5 @@ sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
 
 
 
-#uncomment to run the simulations
+# uncomment to run the simulations
 sim.run(multiprocessing=ncpu, force=False, remove_rawrays=True, remove_round_folders=True)
