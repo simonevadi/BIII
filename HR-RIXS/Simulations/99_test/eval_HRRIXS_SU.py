@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import xrt.backends.raycing.materials as rm
- 
+
 from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
 from parameter import SlitSize
@@ -14,7 +14,7 @@ from parameter import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_Versuch_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_Versuch_3_no_err_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
 
@@ -22,7 +22,7 @@ BL_df = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('UE42 BESSY III HRRIXS Beamline (93 m)', size=16)
+fig.suptitle('UE42 BESSY III HRRIXS Beamline (91 m)', size=16)
 x_range = [50, 3100]
 
 # MIRROR REFLECTIVITY
@@ -30,7 +30,7 @@ ax1 = axs[0, 0]
 # Coatings:
 de = 38.9579-30.0000
 table = 'Henke'
-theta = 0.55
+theta = 0.75
 E = np.arange(50, 5001, de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
@@ -80,10 +80,10 @@ harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Dep
 ax3 = axs[1, 0]
 
 ax3.plot(BL_df['PhotonEnergy'], BL_df['Bandwidth']*1000)
-ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize*1000)} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth @{float(SlitSize*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
-ax3.legend(loc='best', fontsize=12)
+# ax3.legend(loc='best', fontsize=12)
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -93,10 +93,10 @@ ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax4 = axs[1, 1]
 
 ax4.plot(BL_df['PhotonEnergy'], BL_df['PercentageRaysSurvived'])   
-ax4.set_title('Flux curve 93 m HRRIXS-Beamline with SU')
+ax4.set_title('Flux curve 91 m HRRIXS-Beamline with SU')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
-ax4.legend(loc='best', fontsize=12)
+ax4.set_ylabel('Photon flux [%]')
+# ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -106,14 +106,13 @@ ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax5 = axs[2, 0]
 
 ax5.plot(BL_df['PhotonEnergy'], (BL_df[f'PhotonEnergy']/BL_df[f'Bandwidth']))
-ax5.set_title(f'Resolving Power @ {int(SlitSize*1000)} µm ExitSlit')
+ax5.set_title(f'Resolving Power @ {float(SlitSize*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
-ax5.legend(loc='best', fontsize=12)
+# ax5.legend(loc='best', fontsize=12)
 ax5.set_xlim(x_range)
 ax5.minorticks_on()
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
 
 # Flux Density
 ax6 = axs[2, 1]
@@ -124,15 +123,15 @@ ax6 = axs[2, 1]
 #     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
 #     ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}')
 
-FWHM_vf = BL_df['VerticalFocusFWHM']*1000  # in µm
-FWHM_hf = BL_df['HorizontalFocusFWHM']*1000  # in µm
-foc_area = (FWHM_vf*FWHM_hf)  # in µm²
+FWHM_vf = BL_df['VerticalFocusFWHM']*1000000  # in nm
+FWHM_hf = BL_df['HorizontalFocusFWHM']*1000000  # in nm
+foc_area = (FWHM_vf*FWHM_hf)  # in nm²
 
 ax6.plot(BL_df['PhotonEnergy'], (BL_df['PercentageRaysSurvived']/foc_area))
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
-ax6.set_ylabel('Photons flux per µm²')
-ax6.legend(loc='best', fontsize=12)
+ax6.set_ylabel('Photons per nm² [%]')
+# ax6.legend(loc='best', fontsize=12)
 ax6.set_xlim(x_range)
 ax6.minorticks_on()
 ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -172,6 +171,6 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-# plt.savefig('plot/Flux_curves HRRIXS (93m) with UE42 @ BESSY III.pdf')
+plt.savefig('plot/Flux_curves HRRIXS (91m) with SU @ BESSY III (Versuch 3)_ES_2.0_mu_Ord2_c25.pdf')
 plt.tight_layout()
 plt.show()
