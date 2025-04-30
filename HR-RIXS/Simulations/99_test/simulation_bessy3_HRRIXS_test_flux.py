@@ -2,7 +2,7 @@ from raypyng import Simulate
 import pandas as pd
 import os
 
-from parameter import rml_file_name_bessy3_HRRIXS_93m_errors_on as rml_file_name
+from parameter import rml_file_name_bessy3_HRRIXS_93m_errors_off as rml_file_name
 
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 rml_file = os.path.join('rml/'+rml_file_name+'.rml')
@@ -40,7 +40,7 @@ sim.params=params
 sim.simulation_name = sim_name
 
 # turn off reflectivity
-# sim.reflectivity(reflectivity=True)
+sim.reflectivity(reflectivity=False)
 
 # repeat the simulations as many time as needed
 sim.repeat = rounds

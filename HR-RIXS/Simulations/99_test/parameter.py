@@ -2,12 +2,12 @@ import numpy as np
 
 # Load in rml file 
 # BESSY III:
-rml_file_name_bessy3_HRRIXS_93m_errors_on    = 'HRRIXS_Versuch_1_no_err'
+rml_file_name_bessy3_HRRIXS_93m_errors_off    = 'HRRIXS_91m_Versuch_3_no_err'
 
 # Paramter
 order       = 2
-SlitSize    = np.array([.005]) # mm
-grating     = np.array([2500])
+SlitSize    = np.array([.002]) # mm
+grating     = np.array([2400])
 cff         = np.array([25])
 
 energy_flux = np.arange(100, 3100,5)
@@ -15,7 +15,7 @@ energy_flux = np.arange(100, 3100,5)
 nrays_flux  = 1e5
 nrays_rp    = 1e5
 
-round_flux = 8
+round_flux = 3
 
 ncpu = 12
 ### plotting colors
