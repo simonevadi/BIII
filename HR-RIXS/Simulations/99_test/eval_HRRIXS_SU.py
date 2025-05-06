@@ -14,7 +14,7 @@ from parameter import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_Versuch_3_no_err_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_93m_Versuch_5_no_err_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
 
@@ -32,22 +32,30 @@ de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.75
 E = np.arange(50, 5001, de)
+
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
-Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
-# Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
-# Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
-B4C = rm.Material('C', rho=2.52,  kind='mirror',  table=table)
-# IrCrB4C = rm.Multilayer( tLayer=B4C, tThickness=40, 
-#                         bLayer=Cr, bThickness=60, 
-#                         nPairs=1, substrate=Ir)
+B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
+Cr  = rm.Material('Cr',  rho=7.14,  kind='mirror',table=table)
+Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
+IrCrB4C = rm.Multilayer( tLayer=B4C, tThickness=40, 
+                        bLayer=Cr, bThickness=60, 
+                        nPairs=1, substrate=Ir)
+# Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 
 Au, _ = get_reflectivity(Au, E=E, theta=theta)
-Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
+Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
+Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
+IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
+# Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
-ax1.plot(E, Au, 'b', label='Au')
-ax1.plot(E, Pt, 'r', label='Pt')
-ax1.plot(E, B4C, 'g', label='B4C')
+ax1.plot(E, Au, 'gold', label='Au')
+ax1.plot(E, B4C, 'black', label=r'B$_4$C')
+ax1.plot(E, Cr, 'grey', label='Cr')
+ax1.plot(E, Ir, 'silver', label='Ir')
+ax1.plot(E, IrCrB4C, 'green', label=r'IrCrB$_4$C')
+# ax1.plot(E, Pt, 'r', label='Pt')
+
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
@@ -123,14 +131,14 @@ ax6 = axs[2, 1]
 #     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
 #     ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}')
 
-FWHM_vf = BL_df['VerticalFocusFWHM']*1000000  # in nm
-FWHM_hf = BL_df['HorizontalFocusFWHM']*1000000  # in nm
+FWHM_vf = BL_df['VerticalFocusFWHM']*1000  # in µm
+FWHM_hf = BL_df['HorizontalFocusFWHM']*1000  # in µm
 foc_area = (FWHM_vf*FWHM_hf)  # in nm²
 
 ax6.plot(BL_df['PhotonEnergy'], (BL_df['PercentageRaysSurvived']/foc_area))
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
-ax6.set_ylabel('Photons per nm² [%]')
+ax6.set_ylabel('Photons per µm² [%]')
 # ax6.legend(loc='best', fontsize=12)
 ax6.set_xlim(x_range)
 ax6.minorticks_on()
@@ -171,6 +179,6 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-plt.savefig('plot/Flux_curves HRRIXS (91m) with SU @ BESSY III (Versuch 3)_ES_2.0_mu_Ord2_c25.pdf')
+# plt.savefig('plot/Flux_curves HRRIXS (91m) with SU @ BESSY III (Versuch 3)_ES_1.2_mu_Ord2_c25_w_errors.pdf')
 plt.tight_layout()
 plt.show()

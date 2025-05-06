@@ -2,13 +2,17 @@ import numpy as np
 
 # Load in rml file 
 # BESSY III:
-rml_file_name_bessy3_HRRIXS_93m_errors_off    = 'HRRIXS_91m_Versuch_3_no_err'
+
+rml_file_name_bessy3_HRRIXS_91m_errors_off  = 'HRRIXS_91m_no_err_no_refl'
+rml_file_name_bessy3_HRRIXS_93m_errors_off  = 'HRRIXS_93m_no_err_no_refl'
 
 # Paramter
-order       = 2
-SlitSize    = np.array([.002]) # mm
-grating     = np.array([2400])
-cff         = np.array([25])
+order           = 2
+SlitSize        = np.array([.0012]) # mm
+grating         = np.array([2400])
+cff             = np.array([25])
+# bandwidth       = np.array([0.1])   # in %
+# bandwidth_unit  = '%'               # % or eV
 
 energy_flux = np.arange(100, 3100,5)
 
