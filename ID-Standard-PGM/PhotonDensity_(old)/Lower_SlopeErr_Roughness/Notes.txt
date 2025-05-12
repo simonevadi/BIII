@@ -1,0 +1,4 @@
+- All Distances are the same...but z-Offset of the premirror is different.
+
+- Set source Parameter Bessy II low Alpha to the real ones
+- Resolution Limit found at 15 µm ExistSlit , grating2400, cfactor: 2.25 -Sims: 
