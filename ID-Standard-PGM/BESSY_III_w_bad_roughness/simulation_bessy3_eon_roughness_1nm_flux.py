@@ -2,7 +2,7 @@ from raypyng import Simulate
 import pandas as pd
 import os
 
-from parameter import rml_file_name_bessy3_long_56m_errors_on as rml_file_name
+from parameter import rml_file_name_bessy3_long_56m_errors_on_rough_1nm as rml_file_name
 
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 rml_file = os.path.join('rml/'+rml_file_name+'.rml')

@@ -2,7 +2,7 @@ from raypyng import Simulate
 import pandas as pd
 import os
 
-from parameter import rml_file_name_bessy3_long_56m_errors_on_bad as rml_file_name
+from parameter import rml_file_name_bessy3_long_56m_errors_on as rml_file_name
 
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 rml_file = os.path.join('rml/'+rml_file_name+'.rml')
@@ -23,6 +23,8 @@ sim_name = rml_file_name+'_FLUX'
 from parameter import order, energy_flux as energy, round_flux as rounds    
 from parameter import SlitSize, cff, nrays_flux as nrays
 
+
+# define a list of dictionaries with the parameters to scan
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
