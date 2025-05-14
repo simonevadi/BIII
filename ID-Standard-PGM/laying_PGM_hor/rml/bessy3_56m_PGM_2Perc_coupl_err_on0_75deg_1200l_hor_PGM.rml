@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">20000</param>
+   <param id="numberRays" enabled="T">100000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -56,13 +56,13 @@
    <param id="totalLength" enabled="T">600</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLengthSag" enabled="T">23500</param>
-   <param id="exitArmLengthSag" enabled="T">1e+19</param>
+   <param id="exitArmLengthSag" enabled="T">25570</param>
    <param id="entranceArmLengthMer" enabled="T">23500</param>
-   <param id="exitArmLengthMer" enabled="T">25500</param>
-   <param id="longRadius" auto="T" enabled="T">1868597.355827791</param>
-   <param id="shortRadius" auto="T" enabled="T">615.2109918531871</param>
+   <param id="exitArmLengthMer" enabled="T">1e+19</param>
+   <param id="longRadius" auto="T" enabled="T">3590638.056296531</param>
+   <param id="shortRadius" auto="T" enabled="T">320.5817212489512</param>
    <param id="distancePreceding" enabled="T">23500</param>
-   <param id="azimuthalAngle" enabled="T">0</param>
+   <param id="azimuthalAngle" enabled="T">90</param>
    <param id="reflectivityType" comment="Derived by Material" enabled="T">1</param>
    <param id="materialSubstrate" enabled="T">Si</param>
    <param id="roughnessSubstrate" enabled="T">0.1</param>
@@ -104,18 +104,18 @@
     <z>23500.0000000000000000</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>1.0000000000000000</x>
-    <y>0.0000000000000000</y>
+    <x>0.0000000000000000</x>
+    <y>1.0000000000000000</y>
     <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>0.0000000000000000</x>
-    <y>0.9999143275740070</y>
+    <x>-0.9999143275740070</x>
+    <y>0.0000000000000000</y>
     <z>-0.0130895955713444</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>0.0000000000000000</x>
-    <y>0.0130895955713444</y>
+    <x>-0.0130895955713444</x>
+    <y>0.0000000000000000</y>
     <z>0.9999143275740070</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
@@ -181,24 +181,24 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>0.6552412656434096</x>
-    <y>97.6758703823655026</y>
-    <z>27230.0910003985154617</z>
+    <x>-97.0208536515388147</x>
+    <y>0.0000000000000000</y>
+    <z>27230.1081526152556762</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
-    <y>-0.9996573249755573</y>
-    <z>0.0261769483078731</z>
+    <y>-1.0000000000000000</y>
+    <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>0.9990332525122463</x>
-    <y>-0.0011507621014689</y>
-    <z>-0.0439458316725064</z>
+    <x>0.9998416708694915</x>
+    <y>0.0000000000000000</y>
+    <z>-0.0177941898636469</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>0.0439608959736087</x>
-    <y>0.0261516418088595</y>
-    <z>0.9986909087680226</z>
+    <x>0.0177941898636469</x>
+    <y>0.0000000000000000</y>
+    <z>0.9998416708694915</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -271,24 +271,24 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310895295</x>
-    <y>104.7077927559293329</y>
-    <z>27498.6292817412031582</z>
+    <x>-79.7161536710525809</x>
+    <y>0.0000000000000000</y>
+    <z>27499.2837108421626908</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
-    <y>0.9996573249755573</y>
-    <z>-0.0261769483078731</z>
+    <y>1.0000000000000000</y>
+    <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.9981462988739438</x>
-    <y>0.0015931347610733</y>
-    <z>0.0608393619779225</z>
+    <x>-0.9993973938276530</x>
+    <y>0.0000000000000000</y>
+    <z>0.0347109379086044</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>0.0608602172543578</x>
-    <y>0.0261284240693181</y>
-    <z>0.9978042590665798</z>
+    <x>0.0347109379086044</x>
+    <y>0.0000000000000000</y>
+    <z>0.9993973938276530</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -304,14 +304,14 @@
   <object name="M3" type="Cylinder">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">20</param>
-   <param id="totalLength" enabled="T">500</param>
+   <param id="totalLength" enabled="T">800</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">1e+19</param>
-   <param id="exitArmLength" enabled="T">20520</param>
-   <param id="bendingRadius" comment="Short Radius rho" enabled="T">1</param>
-   <param id="radius" auto="T" enabled="T">537.1970022479746</param>
+   <param id="exitArmLength" enabled="T">21400</param>
+   <param id="bendingRadius" comment="Long Radius R" enabled="T">0</param>
+   <param id="radius" auto="T" enabled="T">3269772.527861523</param>
    <param id="distancePreceding" enabled="T">1000</param>
-   <param id="azimuthalAngle" enabled="T">180</param>
+   <param id="azimuthalAngle" enabled="T">270</param>
    <param id="reflectivityType" comment="Derived by Material" enabled="T">1</param>
    <param id="materialSubstrate" enabled="T">Si</param>
    <param id="roughnessSubstrate" enabled="T">0.1</param>
@@ -348,24 +348,24 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310892880</x>
-    <y>130.8847410638024940</y>
-    <z>28498.2866067167597066</z>
+    <x>-105.8931019789259977</x>
+    <y>0.0000000000000000</y>
+    <z>28498.9410358177192393</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>-0.9999999999999999</x>
-    <y>-0.0000000000000000</y>
-    <z>-0.0000000000000003</z>
+    <x>0.0000000000000000</x>
+    <y>-1.0000000000000000</y>
+    <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>0.0000000000000000</x>
-    <y>-0.9999143275740069</y>
-    <z>0.0130895955713444</z>
+    <x>0.9999143275740070</x>
+    <y>0.0000000000000000</y>
+    <z>0.0130895955713447</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>-0.0000000000000002</x>
-    <y>0.0130895955713444</y>
-    <z>0.9999143275740069</z>
+    <x>-0.0130895955713447</x>
+    <y>0.0000000000000000</y>
+    <z>0.9999143275740070</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -378,10 +378,10 @@
    <param id="cylindricalBowingAmp" enabled="F">0</param>
    <param id="cylindricalBowingRadius" enabled="F">0</param>
   </object>
-  <object name="HorSlit" type="Slit">
+  <object name="VertSlit" type="Slit">
    <param id="openingShape" comment="rectangle" enabled="T">0</param>
-   <param id="openingWidth" enabled="T">20</param>
-   <param id="openingHeight" enabled="T">1</param>
+   <param id="openingWidth" enabled="T">5</param>
+   <param id="openingHeight" enabled="T">0.2</param>
    <param id="centralBeamstop" comment="none" enabled="T">0</param>
    <param id="stopWidth" enabled="F">20</param>
    <param id="stopHeight" enabled="F">1</param>
@@ -398,9 +398,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310843355</x>
-    <y>130.8847410638024655</y>
-    <z>48898.2866067167560686</z>
+    <x>-105.8931019789313410</x>
+    <y>0.0000000000000000</y>
+    <z>48898.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9999999999999999</x>
@@ -408,14 +408,14 @@
     <z>0.0000000000000003</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.0000000000000000</x>
-    <y>0.9999999999999998</y>
+    <x>0.0000000000000000</x>
+    <y>1.0000000000000000</y>
     <z>0.0000000000000000</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>-0.0000000000000002</x>
-    <y>-0.0000000000000000</y>
-    <z>0.9999999999999998</z>
+    <x>-0.0000000000000003</x>
+    <y>0.0000000000000000</y>
+    <z>0.9999999999999999</z>
    </param>
   </object>
   <object name="ExitSlit" type="Slit">
@@ -438,9 +438,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310843106</x>
-    <y>130.8847410638024655</y>
-    <z>48998.2866067167560686</z>
+    <x>-105.8931019789313694</x>
+    <y>0.0000000000000000</y>
+    <z>48998.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9999999999999999</x>
@@ -448,14 +448,14 @@
     <z>0.0000000000000003</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.0000000000000000</x>
-    <y>0.9999999999999998</y>
+    <x>0.0000000000000000</x>
+    <y>1.0000000000000000</y>
     <z>0.0000000000000000</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>-0.0000000000000002</x>
-    <y>-0.0000000000000000</y>
-    <z>0.9999999999999998</z>
+    <x>-0.0000000000000003</x>
+    <y>0.0000000000000000</y>
+    <z>0.9999999999999999</z>
    </param>
   </object>
   <object name="M4" type="Ellipsoid">
@@ -463,11 +463,11 @@
    <param id="totalWidth" enabled="T">20</param>
    <param id="totalLength" enabled="T">200</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
-   <param id="entranceArmLength" enabled="T">5000</param>
-   <param id="exitArmLength" enabled="T">2000</param>
+   <param id="entranceArmLength" enabled="T">5100</param>
+   <param id="exitArmLength" enabled="T">1985</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">3500</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">41.39293565590147</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">3542.5</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">41.64775270015103</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
    <param id="distancePreceding" enabled="T">5000</param>
@@ -509,9 +509,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310830956</x>
-    <y>130.8847410638024655</y>
-    <z>53998.2866067167560686</z>
+    <x>-105.8931019789326768</x>
+    <y>0.0000000000000000</y>
+    <z>53998.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9999999999999999</x>
@@ -519,14 +519,14 @@
     <z>0.0000000000000003</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.0000000000000000</x>
-    <y>0.9999143275740068</y>
+    <x>0.0000000000000000</x>
+    <y>0.9999143275740070</y>
     <z>-0.0130895955713444</z>
    </param>
    <param id="worldZdirection" enabled="F">
-    <x>-0.0000000000000002</x>
+    <x>-0.0000000000000003</x>
     <y>0.0130895955713444</y>
-    <z>0.9999143275740068</z>
+    <z>0.9999143275740069</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -544,11 +544,11 @@
    <param id="totalWidth" enabled="T">20</param>
    <param id="totalLength" enabled="T">550</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
-   <param id="entranceArmLength" enabled="T">5700</param>
-   <param id="exitArmLength" enabled="T">1506</param>
+   <param id="entranceArmLength" enabled="T">5600</param>
+   <param id="exitArmLength" enabled="T">1570</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">3603</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">38.35095138859788</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">3585</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">38.81236152890206</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
    <param id="distancePreceding" enabled="T">600</param>
@@ -590,24 +590,24 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>25.0002060310829499</x>
-    <y>146.5909100485263536</y>
-    <z>54598.0810017020921805</z>
+    <x>-105.8931019789328332</x>
+    <y>15.7061689847238899</y>
+    <z>54598.7354308030480752</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>-0.0000000000000000</x>
-    <y>0.9996573249755570</y>
+    <x>0.0000000000000000</x>
+    <y>0.9996573249755573</y>
     <z>-0.0261769483078731</z>
    </param>
    <param id="worldYdirection" enabled="F">
     <x>-0.9999143275740069</x>
-    <y>-0.0003426456666421</y>
-    <z>-0.0130851100938624</z>
+    <y>-0.0003426456666420</y>
+    <z>-0.0130851100938623</z>
    </param>
    <param id="worldZdirection" enabled="F">
     <x>-0.0130895955713447</x>
     <y>0.0261747056652065</y>
-    <z>0.9995716819073647</z>
+    <z>0.9995716819073648</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -623,9 +623,9 @@
   <object name="DetectorAtFocus" type="ImagePlane">
    <param id="distanceImagePlane" enabled="T">1400</param>
    <param id="worldPosition" enabled="F">
-    <x>-11.6475215999397967</x>
-    <y>183.2260794185870054</y>
-    <z>55997.1216760302922921</z>
+    <x>-142.5408296099556082</x>
+    <y>52.3413383547845612</y>
+    <z>55997.7761051312481868</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9996573249755571</x>
@@ -633,14 +633,14 @@
     <z>0.0261679781214722</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.0000000000000000</x>
-    <y>0.9996573249755570</y>
+    <x>0.0000000000000000</x>
+    <y>0.9996573249755573</y>
     <z>-0.0261769483078731</z>
    </param>
    <param id="worldZdirection" enabled="F">
     <x>-0.0261769483078734</x>
     <y>0.0261679781214719</y>
-    <z>0.9993147673772866</z>
+    <z>0.9993147673772868</z>
    </param>
   </object>
  </beamline>
