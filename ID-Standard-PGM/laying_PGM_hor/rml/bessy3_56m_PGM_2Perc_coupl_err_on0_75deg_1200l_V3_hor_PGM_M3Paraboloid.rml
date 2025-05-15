@@ -273,7 +273,7 @@
    <param id="worldPosition" enabled="F">
     <x>-79.7161536710525809</x>
     <y>0.0000000000000000</y>
-    <z>27499.2837108421663288</z>
+    <z>27499.2837108421626908</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -281,14 +281,14 @@
     <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.9993973938276531</x>
+    <x>-0.9993973938276530</x>
     <y>0.0000000000000000</y>
     <z>0.0347109379086044</z>
    </param>
    <param id="worldZdirection" enabled="F">
     <x>0.0347109379086044</x>
     <y>0.0000000000000000</y>
-    <z>0.9993973938276531</z>
+    <z>0.9993973938276530</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -353,7 +353,7 @@
    <param id="worldPosition" enabled="F">
     <x>-105.8931019789259977</x>
     <y>0.0000000000000000</y>
-    <z>28498.9410358177228773</z>
+    <z>28498.9410358177192393</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -361,20 +361,20 @@
     <z>0.0000000000000000</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>0.9999143275740071</x>
+    <x>0.9999143275740070</x>
     <y>0.0000000000000000</y>
     <z>0.0130895955713447</z>
    </param>
    <param id="worldZdirection" enabled="F">
     <x>-0.0130895955713447</x>
     <y>0.0000000000000000</y>
-    <z>0.9999143275740071</z>
+    <z>0.9999143275740070</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.02</param>
-   <param id="slopeErrorMer" enabled="T">0.01</param>
+   <param id="slopeErrorSag" enabled="T">0.2</param>
+   <param id="slopeErrorMer" enabled="T">0.1</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
@@ -401,12 +401,12 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-105.8931019789313126</x>
+    <x>-105.8931019789313410</x>
     <y>0.0000000000000000</y>
-    <z>48898.9410358177265152</z>
+    <z>48898.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>1.0000000000000000</x>
+    <x>0.9999999999999999</x>
     <y>0.0000000000000000</y>
     <z>0.0000000000000003</z>
    </param>
@@ -418,7 +418,7 @@
    <param id="worldZdirection" enabled="F">
     <x>-0.0000000000000003</x>
     <y>0.0000000000000000</y>
-    <z>1.0000000000000000</z>
+    <z>0.9999999999999999</z>
    </param>
   </object>
   <object name="ExitSlit" type="Slit">
@@ -441,12 +441,12 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-105.8931019789313410</x>
+    <x>-105.8931019789313694</x>
     <y>0.0000000000000000</y>
-    <z>48998.9410358177265152</z>
+    <z>48998.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>1.0000000000000000</x>
+    <x>0.9999999999999999</x>
     <y>0.0000000000000000</y>
     <z>0.0000000000000003</z>
    </param>
@@ -458,7 +458,7 @@
    <param id="worldZdirection" enabled="F">
     <x>-0.0000000000000003</x>
     <y>0.0000000000000000</y>
-    <z>1.0000000000000000</z>
+    <z>0.9999999999999999</z>
    </param>
   </object>
   <object name="M4" type="Ellipsoid">
@@ -512,12 +512,12 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-105.8931019789326484</x>
+    <x>-105.8931019789326768</x>
     <y>0.0000000000000000</y>
-    <z>53998.9410358177265152</z>
+    <z>53998.9410358177119633</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>1.0000000000000000</x>
+    <x>0.9999999999999999</x>
     <y>0.0000000000000000</y>
     <z>0.0000000000000003</z>
    </param>
@@ -529,7 +529,7 @@
    <param id="worldZdirection" enabled="F">
     <x>-0.0000000000000003</x>
     <y>0.0130895955713444</y>
-    <z>0.9999143275740070</z>
+    <z>0.9999143275740069</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -593,9 +593,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-105.8931019789328047</x>
+    <x>-105.8931019789328332</x>
     <y>15.7061689847238899</y>
-    <z>54598.7354308030626271</z>
+    <z>54598.7354308030480752</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -603,14 +603,14 @@
     <z>-0.0261769483078731</z>
    </param>
    <param id="worldYdirection" enabled="F">
-    <x>-0.9999143275740070</x>
+    <x>-0.9999143275740069</x>
     <y>-0.0003426456666420</y>
     <z>-0.0130851100938623</z>
    </param>
    <param id="worldZdirection" enabled="F">
     <x>-0.0130895955713447</x>
     <y>0.0261747056652065</y>
-    <z>0.9995716819073649</z>
+    <z>0.9995716819073648</z>
    </param>
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
@@ -626,12 +626,12 @@
   <object name="DetectorAtFocus" type="ImagePlane">
    <param id="distanceImagePlane" enabled="T">1400</param>
    <param id="worldPosition" enabled="F">
-    <x>-142.5408296099555798</x>
-    <y>52.3413383547845683</y>
-    <z>55997.7761051312627387</z>
+    <x>-142.5408296099556082</x>
+    <y>52.3413383547845612</y>
+    <z>55997.7761051312481868</z>
    </param>
    <param id="worldXdirection" enabled="F">
-    <x>0.9996573249755573</x>
+    <x>0.9996573249755571</x>
     <y>0.0006852326227131</y>
     <z>0.0261679781214722</z>
    </param>
@@ -643,7 +643,7 @@
    <param id="worldZdirection" enabled="F">
     <x>-0.0261769483078734</x>
     <y>0.0261679781214719</y>
-    <z>0.9993147673772869</z>
+    <z>0.9993147673772868</z>
    </param>
   </object>
  </beamline>
