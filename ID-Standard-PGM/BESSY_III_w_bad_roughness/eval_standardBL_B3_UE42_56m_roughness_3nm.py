@@ -92,7 +92,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}')
 
-ax3.set_title(f'Transmitted Bandwidth @ {int(SlitSize*1000)} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
 ax3.legend(loc='best', fontsize=12)
@@ -128,7 +128,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}')
 
-ax5.set_title(f'Resolving Power @ {int(SlitSize*1000)} µm ExitSlit')
+ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
 ax5.legend(loc='best', fontsize=12)
@@ -189,6 +189,6 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-plt.savefig('plot/Flux_curves UE42 @ BESSY III_err_on_rough_3nm.pdf')
+# plt.savefig('plot/Flux_curves UE42 @ BESSY III_err_on_rough_3nm.pdf')
 plt.tight_layout()
 plt.show()
