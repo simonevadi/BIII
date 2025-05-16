@@ -25,7 +25,6 @@ from parameter import SlitSize, cff, nrays_flux as nrays
 
 
 # define a list of dictionaries with the parameters to scan
-# define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
             {beamline.ExitSlit.openingHeight:SlitSize},
