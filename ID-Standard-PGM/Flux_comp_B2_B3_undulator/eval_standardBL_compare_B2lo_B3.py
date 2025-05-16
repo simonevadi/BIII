@@ -120,6 +120,6 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-plt.savefig('plot/CDR-Plots/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
+# plt.savefig('plot/CDR-Plots/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
 plt.tight_layout()
 plt.show()

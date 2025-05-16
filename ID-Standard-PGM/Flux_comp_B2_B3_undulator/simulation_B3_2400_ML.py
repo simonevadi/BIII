@@ -31,6 +31,9 @@ sim.params=params
 # sim.simulation_folder = '/home/simone/Documents/RAYPYNG/raypyng/test'
 sim.simulation_name = rml_file_name+'_FLUX'
 
+# turn off reflectivity
+# sim.reflectivity(reflectivity=True)
+
 # repeat the simulations as many time as needed
 sim.repeat = rounds
 
@@ -43,9 +46,9 @@ sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 undulator_file_path = os.path.join(this_file_dir,
                                    'undulator_flux_curves',
-                                   'b2_HiBeta_UE46_2025_smalerz_300mA_flux.txt')
+                                   'b3_ue42_5_ver_300mA_flux.csv')
 
-undulator = pd.read_csv(undulator_file_path, delimiter='\t')
+undulator = pd.read_csv(undulator_file_path)
 sim.undulator_table=undulator
 
 
