@@ -12,7 +12,6 @@ sim = Simulate(rml_file, hide=True)
 rml=sim.rml
 beamline = sim.rml.beamline
 
-
 # cpu
 from parameter import ncpu
 
@@ -23,8 +22,6 @@ sim_name = rml_file_name+'_FLUX'
 from parameter import order, energy_flux as energy, round_flux as rounds    
 from parameter import SlitSize, cff, nrays_flux as nrays
 
-
-# define a list of dictionaries with the parameters to scan
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
@@ -58,8 +55,6 @@ sim.undulator_table=undulator
 ## This must be a list of dictionaries
 sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
                  {beamline.DetectorAtFocus:['RawRaysOutgoing']}]
-
-
 
 #uncomment to run the simulations
 sim.run(multiprocessing=ncpu, force=False, remove_rawrays=True, remove_round_folders=True)
