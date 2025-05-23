@@ -46,9 +46,9 @@ sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 undulator_file_path = os.path.join(this_file_dir,
                                    'undulator_flux_curves',
-                                   'b3_ue42_5_ver_300mA_flux.csv')
+                                   'UE17_b3_2025_3p4T_smalerz_300mA-flux.txt')
 
-undulator = pd.read_csv(undulator_file_path)
+undulator = pd.read_csv(undulator_file_path, sep='\t')
 sim.undulator_table=undulator
 
 
