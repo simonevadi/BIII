@@ -2,7 +2,7 @@ import numpy as np
 import os
 import pandas as pd
 
-rounds=1
+rounds=5
 cpu = 30
 # BESSYIII params
 # possible values for coupling

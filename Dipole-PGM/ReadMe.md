@@ -5,6 +5,6 @@
 |-----|----------------------|----------------------|
 | 1 | BII-ELISA  |  This is a copy of ELISA, not adapted to BIII |
 | 2 | BIII-ELISA  |  BIII source, ELISA design |
-| 3 | BIII-ELISA  |  BIII source, BIII-design, 2% coupling |
+| 3 | BIII-ELISA  |  BIII source, BIII-design, 2% coupling, to change the ML calculation to new files |
 
 
