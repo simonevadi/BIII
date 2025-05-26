@@ -14,7 +14,7 @@ from parameter import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read Undulator CSV-File BESSY III
-undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','UE17_b3_2025_3p4T_smalerz_300mA-flux.txt')
+undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','UE17_b3_2025_smalerz_300mA_flux.txt')
 undulator_df = pd.read_csv(undulator_table_filename, sep='\t')
 
 # Read CSV-File of the Beamline Simulation
