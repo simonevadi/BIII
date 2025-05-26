@@ -9,7 +9,7 @@ order       = 2
 SlitSize    = np.array([.020]) # mm
 grating     = np.array([2400])
 nrays       = 1e5
-rounds      = 20
+rounds      = 10
 ncpu        = 12
 
 grating = pd.read_csv('ML_eff/ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLbGR.dat',

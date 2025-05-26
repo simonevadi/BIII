@@ -72,7 +72,7 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 #Choose the harmonic to plot
 ax2 = axs[0, 1]
 
-harms = [1,3] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
+harms = [1,3,5,7,9] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
