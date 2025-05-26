@@ -268,6 +268,6 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-plt.savefig('plot/Comparison hor vs vert PGM at BESSY III.pdf')
+# plt.savefig('plot/Comparison hor vs vert PGM at BESSY III.pdf')
 plt.tight_layout()
 plt.show()
