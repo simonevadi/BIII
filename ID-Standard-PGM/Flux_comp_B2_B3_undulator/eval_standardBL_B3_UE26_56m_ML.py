@@ -6,7 +6,7 @@ import xrt.backends.raycing.materials as rm
  
 from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
-from parameter import SlitSize
+from parameter_ml import SlitSize
 
 ##############################################################
 # LOAD IN DATA
@@ -14,7 +14,7 @@ from parameter import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read Undulator CSV-File BESSY III
-undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','UE17_b3_2025_smalerz_300mA_flux.txt')
+undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','UE26_b3_2025_smalerz_300mA_2PercCoupl.txt')
 undulator_df = pd.read_csv(undulator_table_filename, sep='\t')
 
 # Read CSV-File of the Beamline Simulation
@@ -26,7 +26,7 @@ BL_df = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('UE42 BESSY III Standard PGM Beamline (56 m)', size=16)
+fig.suptitle('UE26 BESSY III Standard PGM Beamline (56 m) with ML', size=16)
 x_range = [500, 6000]
 
 # MIRROR REFLECTIVITY
@@ -77,7 +77,7 @@ harms = [1,3,5,7,9] # The Harmonics from the ID. Typically 1,3,5, rather higher.
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('UE42 Flux curve')
+ax2.set_title('UE26 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax2.legend(fontsize=12, loc='best')
@@ -113,7 +113,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux curve 56 m PGM-Beamline')
+ax4.set_title('Flux curve 56 m PGM-Beamline with ML')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax4.legend(loc='best', fontsize=12)
@@ -191,6 +191,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-# plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-# plt.savefig('plot/CDR-Plots/Flux_curves UE42 @ BESSY III_err_on.pdf')
+plt.savefig('plot/Flux_curves UE26 @ BESSY III with ML_err_on.pdf')
 plt.show()

@@ -59,14 +59,14 @@ for harm in harms:
     Emin_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Lo_df[(BL_B2Lo_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Lo_df['PhotonEnergy'] <= Emax_harm)]
-    ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize)
+    ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize, linestyle='dotted')
 
 # BESSY III
 for harm in harms:
     Emin_harm = undulator_B3_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_B3_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B3_df[(BL_B3_df['PhotonEnergy'] >= Emin_harm) & (BL_B3_df['PhotonEnergy'] <= Emax_harm)]
-    ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linestyle='--', linewidth=Linesize)
+    ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linewidth=Linesize)
 
 
 ax1.set_title('Flux curves', fontsize=STitle)
@@ -89,7 +89,7 @@ for harm in harms:
     Emax_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Lo_df[(BL_B2Lo_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Lo_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize)
+    ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize, linestyle='dotted')
 
 # BESSY III
 for harm in harms:
@@ -97,7 +97,7 @@ for harm in harms:
     Emax_harm = undulator_B3_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B3_df[(BL_B3_df['PhotonEnergy'] >= Emin_harm) & (BL_B3_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linestyle='--', linewidth=Linesize)
+    ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linewidth=Linesize)
 
 
 ax2.set_title('Flux Density', fontsize=STitle)
@@ -120,6 +120,5 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-# plt.savefig('plot/CDR-Plots/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
-plt.tight_layout()
-plt.show()
+plt.savefig('plot/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
+# plt.show()

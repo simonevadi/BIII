@@ -417,4 +417,4 @@ fig_curve_hist.savefig(os.path.join(plot_folder, 'CDR-Plots/Gain_Curve_Flux_and_
 # Save the element edge gain histogram
 fig_edges.savefig(os.path.join(plot_folder, 'CDR-Plots/Element_Edges_Gain_Bandwidth_Histogram.pdf'))
 
-plt.show()
+# plt.show()

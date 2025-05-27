@@ -380,7 +380,7 @@
   </object>
   <object name="HorSlit" type="Slit">
    <param id="openingShape" comment="rectangle" enabled="T">0</param>
-   <param id="openingWidth" enabled="T">1</param>
+   <param id="openingWidth" enabled="T">5</param>
    <param id="openingHeight" enabled="T">20</param>
    <param id="centralBeamstop" comment="none" enabled="T">0</param>
    <param id="stopWidth" enabled="F">20</param>
