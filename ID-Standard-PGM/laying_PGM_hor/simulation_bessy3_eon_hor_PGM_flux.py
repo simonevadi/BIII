@@ -55,8 +55,7 @@ undulator = pd.read_csv(undulator_file_path)
 sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
-sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
-                 {beamline.DetectorAtFocus:['RawRaysOutgoing']}]
+sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 
 
 
