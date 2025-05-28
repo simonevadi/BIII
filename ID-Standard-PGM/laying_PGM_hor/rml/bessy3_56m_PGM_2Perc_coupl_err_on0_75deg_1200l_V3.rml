@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">20000</param>
+   <param id="numberRays" enabled="T">200000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -58,8 +58,8 @@
    <param id="entranceArmLengthSag" enabled="T">23500</param>
    <param id="exitArmLengthSag" enabled="T">1e+19</param>
    <param id="entranceArmLengthMer" enabled="T">23500</param>
-   <param id="exitArmLengthMer" enabled="T">25973</param>
-   <param id="longRadius" auto="T" enabled="T">1885061.391793302</param>
+   <param id="exitArmLengthMer" enabled="T">26050</param>
+   <param id="longRadius" auto="T" enabled="T">1887711.833835013</param>
    <param id="shortRadius" auto="T" enabled="T">615.2109918531871</param>
    <param id="distancePreceding" enabled="T">23500</param>
    <param id="azimuthalAngle" enabled="T">90</param>
@@ -464,10 +464,10 @@
    <param id="totalLength" enabled="T">200</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">5000</param>
-   <param id="exitArmLength" enabled="T">2000</param>
+   <param id="exitArmLength" enabled="T">2001</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">3500</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">41.39293565590147</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">3500.5</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">41.40328259660949</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
    <param id="distancePreceding" enabled="T">5000</param>
@@ -544,11 +544,11 @@
    <param id="totalWidth" enabled="T">20</param>
    <param id="totalLength" enabled="T">550</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
-   <param id="entranceArmLength" enabled="T">5700</param>
-   <param id="exitArmLength" enabled="T">1506</param>
+   <param id="entranceArmLength" enabled="T">5600</param>
+   <param id="exitArmLength" enabled="T">1507</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">3603</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">38.35095138859788</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">3553.5</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">38.0256693976385</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
    <param id="distancePreceding" enabled="T">600</param>

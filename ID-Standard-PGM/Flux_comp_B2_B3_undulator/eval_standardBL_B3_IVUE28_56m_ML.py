@@ -14,7 +14,7 @@ from parameter_ml import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read Undulator CSV-File BESSY III
-undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','UE26_b3_2025_smalerz_300mA_2PercCoupl.txt')
+undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','IVUE28_b3_2025_smalerz_300mA_2PercCoupl.txt')
 undulator_df = pd.read_csv(undulator_table_filename, sep='\t')
 
 # Read CSV-File of the Beamline Simulation
@@ -26,7 +26,7 @@ BL_df = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('UE26 BESSY III Standard PGM Beamline (56 m) with ML', size=16)
+fig.suptitle('IVUE28 BESSY III Standard PGM Beamline (56 m) with ML', size=16)
 x_range = [500, 6000]
 
 # MIRROR REFLECTIVITY
@@ -77,7 +77,7 @@ harms = [1,3,5,7,9] # The Harmonics from the ID. Typically 1,3,5, rather higher.
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('UE26 Flux curve')
+ax2.set_title('IVUE28 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax2.legend(fontsize=12, loc='best')
@@ -191,5 +191,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/Flux_curves UE26 @ BESSY III with ML_err_on.pdf')
+plt.savefig('plot/Flux_curves IVUE28 @ BESSY III with ML_err_on.pdf')
 plt.show()
