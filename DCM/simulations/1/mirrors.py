@@ -57,22 +57,24 @@ class EllipticalMirror:
         else:
             text += (f"  Object distance p = {self.p*1000:.1f} mm\n"
                      f"  Source size = {self.source_size*1e6:.1f} µm\n"
-                     f"  Geometrical spot ≈ {self.spot_size_geometrical()*1e9:.1f} nm\n")
+                     f"  Geometrical spot ≈ {self.spot_size_geometrical()*1e3:.3f} mm\n")
 
-        text += f"  Diffraction spot ≈ {self.spot_size_diffraction()*1e9:.1f} nm\n"
-        text += f"  Total estimated spot ≈ {self.spot_size_combined()*1e9:.1f} nm (FWHM)\n"
+        text += f"  Diffraction spot ≈ {self.spot_size_diffraction()*1e3:.8f} mm\n"
+        text += f"  Total estimated spot ≈ {self.spot_size_combined()*1e3:.8f} mm (FWHM)\n"
         return text
 
 
 if __name__ == "__main__":
     mirror_parallel = EllipticalMirror(
-        name="KB-X", photon_energy_eV=8000, image_distance_m=1.0, aperture_m=0.02
+        name="Parallel Beam Horizontal", photon_energy_eV=8000, 
+                                        image_distance_m=1, 
+                                        aperture_m=0.546
     )
 
     mirror_finite = EllipticalMirror(
-        name="KB-Y", photon_energy_eV=8000, image_distance_m=1.0,
-        aperture_m=0.02, object_distance_m=10.0, source_size_m=10e-6
+        name="KB-fpcused", photon_energy_eV=8000, image_distance_m=1,
+        aperture_m=0.02, object_distance_m=5, source_size_m=0.00014
     )
 
     print(mirror_parallel)
-    print(mirror_finite)
+    # print(mirror_finite)
