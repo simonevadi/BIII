@@ -1,17 +1,16 @@
 from raypyng import Simulate
 import numpy as np
 import os
-from andrey_lib import AndreyML
 
 # define the values of the parameters to scan 
-from params import hb_1200_order as order,  hb_1200_energy_flux as energy
-from params import hb_1200_SlitSize as SlitSize, hb_1200_grating as grating 
-from params import hb_1200_blaze as blaze, hb_1200_cff as cff
-from params import hb_1200_nrays_flux as nrays, hb_1200_rounds_flux as rounds
-from params import hb_1200_ncpu_flux as ncpu, hb_1200_sim_name_flux as sim_name
-from params import hb_1200_file_path
+from params import hb_400_energy as energy
+from params import hb_400_SlitSize as SlitSize
+from params import hb_400_cff as cff
+from params import hb_400_nrays as nrays, hb_400_rounds as rounds
+from params import hb_400_ncpu as ncpu, hb_400_sim_name as sim_name
+from params import hb_400_file_path
 
-sim = Simulate(hb_1200_file_path, hide=True)
+sim = Simulate(hb_400_file_path, hide=True)
 
 rml=sim.rml
 beamline = sim.rml.beamline
@@ -27,8 +26,6 @@ params = [
 
             {beamline.PG.cFactor:cff}, 
             
-            {beamline.PG.orderDiffraction:order},
-
             {beamline.Dipole.numberRays:nrays}
         ]
 
