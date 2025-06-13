@@ -34,8 +34,9 @@ flux_1200 = pd.read_csv(os.path.join(flux_simulation_folder_1200, oe))
 flux_400 = pd.read_csv(os.path.join(flux_simulation_folder_400, oe))
 
 # define energy regions
-flux_2400 = flux_2400[(flux_2400['Dipole.photonEnergy'] >= 50) & (flux_2400['Dipole.photonEnergy'] <= 3500)]
-
+flux_2400 = flux_2400[(flux_2400['Dipole.photonEnergy'] >= 50) & (flux_2400['Dipole.photonEnergy'] <= 4500)]
+flux_1200 = flux_1200[(flux_1200['Dipole.photonEnergy'] >= 50) & (flux_1200['Dipole.photonEnergy'] <= 1800)]
+flux_400 = flux_400[(flux_400['Dipole.photonEnergy'] >= 50) & (flux_400['Dipole.photonEnergy'] <= 1800)]
 # source flux
 source_flux = flux_2400.drop_duplicates(subset='Dipole.photonEnergy')[['Dipole.photonEnergy', 'SourcePhotonFlux']]
 
@@ -59,19 +60,15 @@ IrCrB4C = rm.Multilayer( tLayer=B4C, tThickness=40,
 IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=1.0)
 
 ax=axs[0,0]
-ax.plot(E, IrCrB4C, label='IrCrB4C@1.5°')
+ax.plot(E, IrCrB4C, label='IrCrB4C@1.0°')
 
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Reflectivity [a.u.]')
 ax.set_title('Mirror Coating Reflectivity at 1.0° ')
 ax.legend()
 
-# white part
-ax = axs[0,1]
-ax.axis("off")
-
 # Dipole Flux
-ax = axs[1,0]
+ax = axs[0,1]
 ax.set_title('Dipole Flux')
 ax.grid(which='both', axis='both')
 ax.plot(source_flux['Dipole.photonEnergy'],
@@ -83,7 +80,7 @@ ax.legend(loc=6)
 
 
 # AVAILABLE FLUX 
-ax = axs[1,1]
+ax = axs[1,0]
 
 # 2400 l/mm
 energy = flux_2400['Dipole.photonEnergy']
@@ -100,6 +97,37 @@ ax.plot(energy, abs_flux, label='400 l/mm')
 
 ax.set_xlabel(r'Energy [eV]')
 ax.set_ylabel('Flux [ph/s/tbw]')
+ax.legend()
+
+# FLUX DENSITY
+ax = axs[1,1]
+window=20
+
+# 2400 l/mm
+energy = mov_av(flux_2400['Dipole.photonEnergy'], window)
+abs_flux = flux_2400['PhotonFlux']
+focx = flux_2400['HorizontalFocusFWHM']*1000  # convert to um
+focy = flux_2400['VerticalFocusFWHM']*1000  # convert to um
+flux_density = mov_av(abs_flux / (focx * focy), window)
+ax.plot(energy, flux_density, label='2400 l/mm')
+# 1200 l/mm
+energy = mov_av(flux_1200['Dipole.photonEnergy'], window)
+abs_flux = flux_1200['PhotonFlux']
+focx = flux_1200['HorizontalFocusFWHM']*1000  # convert to um
+focy = flux_1200['VerticalFocusFWHM']*1000  # convert to um
+flux_density = mov_av(abs_flux / (focx * focy), window)
+ax.plot(energy, flux_density, label='1200 l/mm')
+# 400 l/mm
+energy = mov_av(flux_400['Dipole.photonEnergy'], window)
+abs_flux = flux_400['PhotonFlux']
+focx = flux_400['HorizontalFocusFWHM']*1000  # convert to um
+focy = flux_400['VerticalFocusFWHM']*1000  # convert to um
+flux_density = mov_av(abs_flux / (focx * focy), window)
+ax.plot(energy, flux_density, label='400 l/mm')
+
+ax.set_xlabel(r'Energy [eV]')
+ax.set_ylabel('Flux [ph/s/tbw/µm²]')
+ax.set_title('Flux Density')
 ax.legend()
 
 # BANDWIDTH
@@ -192,7 +220,7 @@ ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Focus Size [um]')
 ax.set_title('Vertical focus')
 
-plt.suptitle('ELISA, hard energy branch')
+# plt.suptitle(f'Dipole-PGM @ BIII, Slit Size {100} um, cff 2.25')
 plt.tight_layout()
-plt.savefig('plot/ELISA_HB.png')
+plt.savefig('plot/Dipole-PGM.png')
 plt.show()
