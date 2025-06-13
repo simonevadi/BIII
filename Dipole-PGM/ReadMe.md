@@ -20,3 +20,4 @@
 
 ## ToDo
 - Make sure the placement of M1 and and the PGM inside the radiation protection wall is fine.
+- Clarify properties of the Dipole. Can we decide the Magnetic Field or is it fixed?
