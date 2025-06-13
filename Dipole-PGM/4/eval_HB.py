@@ -35,7 +35,7 @@ flux_400 = pd.read_csv(os.path.join(flux_simulation_folder_400, oe))
 
 # define energy regions
 flux_2400 = flux_2400[(flux_2400['Dipole.photonEnergy'] >= 50) & (flux_2400['Dipole.photonEnergy'] <= 4500)]
-flux_1200 = flux_1200[(flux_1200['Dipole.photonEnergy'] >= 50) & (flux_1200['Dipole.photonEnergy'] <= 1800)]
+flux_1200 = flux_1200[(flux_1200['Dipole.photonEnergy'] >= 150) & (flux_1200['Dipole.photonEnergy'] <= 1800)]
 flux_400 = flux_400[(flux_400['Dipole.photonEnergy'] >= 50) & (flux_400['Dipole.photonEnergy'] <= 1800)]
 # source flux
 source_flux = flux_2400.drop_duplicates(subset='Dipole.photonEnergy')[['Dipole.photonEnergy', 'SourcePhotonFlux']]
