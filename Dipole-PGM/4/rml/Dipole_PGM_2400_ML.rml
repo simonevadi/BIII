@@ -10,7 +10,7 @@
    <param id="horDiv" enabled="T">1.5</param>
    <param id="electronEnergy" enabled="T">2.5</param>
    <param id="electronEnergyOrientation" comment="clockwise" enabled="T">0</param>
-   <param id="bendingRadius" enabled="T">2.7</param>
+   <param id="bendingRadius" enabled="T">4</param>
    <param id="alignmentError" comment="No" enabled="T">1</param>
    <param id="translationXerror" enabled="F">0</param>
    <param id="translationYerror" enabled="F">0</param>
@@ -44,7 +44,7 @@
    <param id="energySpread" enabled="T">0.02</param>
    <param id="sourcePulseType" comment="all rays start simultaneously" enabled="T">0</param>
    <param id="sourcePulseLength" enabled="F">0</param>
-   <param id="photonFlux" enabled="T">1.43011e+12</param>
+   <param id="photonFlux" enabled="T">1.54413e+12</param>
   </object>
   <object name="M1" type="Toroid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
@@ -130,7 +130,7 @@
    <param id="totalWidth" enabled="T">25</param>
    <param id="totalLength" enabled="T">500</param>
    <param id="grazingIncAngle" enabled="F">5.037834018284542</param>
-   <param id="distancePreceding" enabled="F">6887.443069806362</param>
+   <param id="distancePreceding" enabled="F">2887.443069806362</param>
    <param id="azimuthalAngle" enabled="F">0</param>
    <param id="systemMount" comment="SX700 (as premirror of a grating)" enabled="T">1</param>
    <param id="premirrorShiftZ" enabled="T">-300</param>
@@ -177,9 +177,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-233.9284556145730676</x>
+    <x>-94.3304688045691790</x>
     <y>-16.2666614039976487</y>
-    <z>16698.8345050601928961</z>
+    <z>12701.2711969838128425</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9993908270190958</x>
@@ -267,9 +267,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-244.2964761351008178</x>
+    <x>-104.6984893250969151</x>
     <y>20.0001261693400636</y>
-    <z>16995.7357667284923082</z>
+    <z>12998.1724586521122546</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>-0.9993908270190958</x>
@@ -344,9 +344,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-383.8944629451046922</x>
+    <x>-244.2964761351008178</x>
     <y>20.0001261693399535</y>
-    <z>20993.2990748048759997</z>
+    <z>16995.7357667284959462</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -394,9 +394,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-383.8944629451048627</x>
+    <x>-244.2964761351009884</x>
     <y>20.0001261693392323</y>
-    <z>46993.2990748048759997</z>
+    <z>42995.7357667284959462</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>1.0000000000000000</x>
@@ -465,9 +465,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-383.8944629451049195</x>
+    <x>-244.2964761351010736</x>
     <y>20.0001261693388983</y>
-    <z>58993.2990748048759997</z>
+    <z>54995.7357667284959462</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>1.0000000000000000</x>
@@ -546,9 +546,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-383.8944629451049195</x>
+    <x>-244.2964761351010736</x>
     <y>30.4699751800891825</y>
-    <z>59293.1163229106023209</z>
+    <z>55295.5530148342222674</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -579,9 +579,9 @@
   <object name="DetectorAtFocus" type="ImagePlane">
    <param id="distanceImagePlane" enabled="T">1000</param>
    <param id="worldPosition" enabled="F">
-    <x>-348.9949662426039367</x>
+    <x>-209.3969794326001193</x>
     <y>65.3482120521518084</y>
-    <z>60291.8983480405149749</z>
+    <z>56294.3350399641349213</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9993908270190958</x>
