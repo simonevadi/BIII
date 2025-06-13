@@ -5,14 +5,15 @@ import pandas as pd
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 30
-
+nrays=1e5
+rounds = 1
 
 #   PARAMS FOR HB 1200l/mm GRATING SIMULATIONS
 hb_1200_energy        = np.arange(50, 2551,5)
 hb_1200_SlitSize      = np.array([0.1])
 hb_1200_cff           = np.array([2.25])
-hb_1200_nrays         = 1e5
-hb_1200_rounds        = 5
+hb_1200_nrays         = nrays
+hb_1200_rounds        = rounds
 hb_1200_ncpu          = ncpu
 hb_1200_sim_name      = 'Dipole_PGM_1200'
 hb_1200_rml_file_name = 'Dipole_PGM_1200'
@@ -22,8 +23,8 @@ hb_1200_file_path     = os.path.join('rml/'+hb_1200_rml_file_name+'.rml')
 hb_400_energy        = np.arange(50, 2551,5)
 hb_400_SlitSize      = np.array([0.1])
 hb_400_cff           = np.array([2.25])
-hb_400_nrays         = 1e5
-hb_400_rounds        = 5
+hb_400_nrays         = nrays
+hb_400_rounds        = rounds
 hb_400_ncpu          = ncpu
 hb_400_sim_name      = 'Dipole_PGM_400'
 hb_400_rml_file_name = 'Dipole_PGM_400'
@@ -35,8 +36,8 @@ ml_index           = 'MLBG_mfm_second'
 ml_table           = os.path.join('ML_eff', 'grating_eff_5000.xlsx')
 ml_SlitSize        = np.array([0.1])
 ml_grating         = np.array([2400])
-ml_nrays           = 1e5
-ml_rounds          = 5
+ml_nrays           = nrays
+ml_rounds          = rounds
 ml_ncpu            = ncpu
 ml_sim_name        = 'Dipole_PGM_2400_ML'
 ml_rml_file_name   = 'Dipole_PGM_2400_ML'

@@ -10,7 +10,7 @@
    <param id="horDiv" enabled="T">1.5</param>
    <param id="electronEnergy" enabled="T">2.5</param>
    <param id="electronEnergyOrientation" comment="clockwise" enabled="T">0</param>
-   <param id="bendingRadius" enabled="T">4</param>
+   <param id="bendingRadius" enabled="T">6.4</param>
    <param id="alignmentError" comment="No" enabled="T">1</param>
    <param id="translationXerror" enabled="F">0</param>
    <param id="translationYerror" enabled="F">0</param>
@@ -44,7 +44,7 @@
    <param id="energySpread" enabled="T">0.02</param>
    <param id="sourcePulseType" comment="all rays start simultaneously" enabled="T">0</param>
    <param id="sourcePulseLength" enabled="F">0</param>
-   <param id="photonFlux" enabled="T">1.54413e+12</param>
+   <param id="photonFlux" enabled="T">1.64876e+12</param>
   </object>
   <object name="M1" type="Toroid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
