@@ -3,14 +3,14 @@
  <version>1.15</version>
  <beamline>
   <object name="Dipole" type="Dipole">
-   <param id="numberRays" enabled="T">200000</param>
-   <param id="sourceWidth" enabled="T">0.00889</param>
-   <param id="sourceHeight" enabled="T">0.007343</param>
-   <param id="verEbeamDiv" enabled="T">1.36</param>
-   <param id="horDiv" enabled="T">0.3</param>
+   <param id="numberRays" enabled="T">100000</param>
+   <param id="sourceWidth" enabled="T">0.011</param>
+   <param id="sourceHeight" enabled="T">0.0033</param>
+   <param id="verEbeamDiv" enabled="T">0.6</param>
+   <param id="horDiv" enabled="T">1.5</param>
    <param id="electronEnergy" enabled="T">2.5</param>
    <param id="electronEnergyOrientation" comment="clockwise" enabled="T">0</param>
-   <param id="bendingRadius" enabled="T">2.7797</param>
+   <param id="bendingRadius" enabled="T">6.4</param>
    <param id="alignmentError" comment="No" enabled="T">1</param>
    <param id="translationXerror" enabled="F">0</param>
    <param id="translationYerror" enabled="F">0</param>
@@ -38,13 +38,13 @@
    </param>
    <param id="energyDistributionType" comment="Values" enabled="T">1</param>
    <param id="photonEnergyDistributionFile" absolute="" enabled="F"></param>
-   <param id="photonEnergy" enabled="T">8000</param>
-   <param id="energySpreadType" comment="white band" enabled="T">0</param>
+   <param id="photonEnergy" enabled="T">1000</param>
+   <param id="energySpreadType" comment="3 energies" enabled="T">1</param>
    <param id="energySpreadUnit" comment="%" enabled="T">1</param>
-   <param id="energySpread" enabled="T">0</param>
+   <param id="energySpread" enabled="T">0.02</param>
    <param id="sourcePulseType" comment="all rays start simultaneously" enabled="T">0</param>
    <param id="sourcePulseLength" enabled="F">0</param>
-   <param id="photonFlux" enabled="T">1.49609e+12</param>
+   <param id="photonFlux" enabled="T">1.64876e+12</param>
   </object>
   <object name="Toroid" type="Toroid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
