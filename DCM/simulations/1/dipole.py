@@ -45,16 +45,27 @@ class DipoleSynchrotronSpectrum:
         ])
 
     def compute_flux(self, energy_keV_range):
-        """Compute photon flux for all cases over the given energy range (in keV)"""
+        """Compute absolute photon flux for all cases over the given energy range (in keV)
+        Returns:
+            np.ndarray: shape (n_cases, len(energy_keV_range)), flux in [photons/s/keV]
+        """
         fluxes = []
         for Ec, gamma in zip(self.energy_critical_keV, self.gamma):
             x = energy_keV_range / Ec
             F_vals = self.F_exact(x)
-            flux = gamma * self.current_A * F_vals
+
+            # Empirical normalization factor for total dipole flux around Ec
+            # 1.3e13 photons/s/0.1% BW * current [A] * Ec [keV]
+            norm = 1.3e13 * self.current_A * Ec  # [photons/s/0.1% BW]
+
+            # Convert to per-keV units:
+            delta_E_keV = energy_keV_range * 0.001  # 0.1% of E
+            flux = norm * F_vals / delta_E_keV  # [photons/s/keV]
+
             fluxes.append(flux)
         return np.array(fluxes)
 
-    def plot_spectrum(self, energy_min=0.1, energy_max=20, energy_step=0.1):
+    def plot_spectrum(self, energy_min=0.001, energy_max=10, energy_step=0.1):
         """Plot synchrotron spectra for all field/radius cases"""
         energy_keV = np.arange(energy_min, energy_max + energy_step, energy_step)
         fluxes = self.compute_flux(energy_keV)
@@ -66,13 +77,31 @@ class DipoleSynchrotronSpectrum:
 
         plt.xlabel("Photon Energy [keV]")
         plt.ylabel(f"Photon Flux [photons/s/0.1%BW/{self.current_A:.1f} A]")
+        plt.xscale('log')
+        plt.yscale('log')
         plt.title("Synchrotron Radiation Spectrum for Different Fields")
         plt.legend(title="Magnetic Field")
         plt.grid(True)
         plt.tight_layout()
-        plt.show()
+        return plt
 
 if __name__ == "__main__":
+    import pandas as pd
+    import os
+
     spectrum = DipoleSynchrotronSpectrum(magnetic_field_T=[1.3, 2.0, 3.0])
     print(spectrum)
-    spectrum.plot_spectrum()
+    plt = spectrum.plot_spectrum()
+    magnetic_fields = np.array([0.6, 1.3, 2.0, 3.0])  # Tesla
+    bending_radii = 3.335 * 2.5 / magnetic_fields
+    for index, radius in enumerate(bending_radii): 
+        flux = pd.read_csv(os.path.join('RAYPy_Simulation_Dipole', 'Dipole_RawRaysOutgoing.csv'))
+        print(radius)
+        filtered_flux = flux[np.abs(flux['Dipole.bendingRadius'] - radius) <= 0.1]
+        print(flux)
+        filtered_flux['PhotonEnergy']
+        filtered_flux['PhotonFlux']
+
+        plt.plot(filtered_flux['PhotonEnergy']/1000, filtered_flux['PhotonFlux'], label=f'B = {magnetic_fields[index]} T')
+    plt.legend(title="Magnetic Field")
+    plt.savefig('Dipole.png')

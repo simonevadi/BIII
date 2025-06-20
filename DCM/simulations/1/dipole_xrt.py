@@ -95,29 +95,56 @@ class BendingMagnet(SourceBase):
 
 
 if __name__ == "__main__":
-    # bm = BendingMagnet(B0=1.3)
-    # print(bm)
-    # bm.plot_spectrum()
-
-    # Create the bending magnet source
-    bm = BendingMagnet(B0=1.3, eE=2.5)  # Tesla, GeV
-
-    # Energy range (in eV)
-    energies = np.linspace(-1000, 30000, 2000)  # e.g., from 100 eV to 30 keV
-
-    # On-axis angles: theta = 0, psi = 0
-    theta = np.zeros_like(energies)
-    psi = np.zeros_like(energies)
-
-    # Get on-axis spectral flux
-    flux, _, _ = bm.build_I_map(energies, theta, psi)
-
-    # Plotting
+    import pandas as pd
+    import os
     plt.figure(figsize=(8, 5))
-    plt.plot(energies, flux)
+
+    magnetic_fields = np.array([0.6, 1.3, 2.0, 3.0])  # Tesla
+    bending_radii = 3.335 * 2.5 / magnetic_fields
+    for field in magnetic_fields: 
+        # Create the bending magnet source
+        bm = BendingMagnet(B0=field, eE=2.5)  # Tesla, GeV
+
+        # Energy range (in eV)
+        energies = np.linspace(1, 1e4, 100)  # e.g., from 100 eV to 30 keV
+
+        # On-axis angles: theta = 0, psi = 0
+        theta = np.zeros_like(energies)
+        psi = np.zeros_like(energies)
+
+        # Get on-axis spectral flux
+        flux, _, _ = bm.build_I_map(energies, theta, psi)
+
+        # Plotting
+        plt.plot(energies, flux, label=f'B = {field} T')
+
+    for index, radius in enumerate(bending_radii): 
+        flux = pd.read_csv(os.path.join('RAYPy_Simulation_Dipole', 'Dipole_RawRaysOutgoing.csv'))
+        print(radius)
+        filtered_flux = flux[np.abs(flux['Dipole.bendingRadius'] - radius) <= 0.1]
+        print(flux)
+        filtered_flux['PhotonEnergy']
+        filtered_flux['PhotonFlux']
+
+        plt.plot(filtered_flux['PhotonEnergy'], filtered_flux['PhotonFlux'], label=f'B = {magnetic_fields[index]} T')
+    
+    plt.xscale('log')
+    plt.yscale('log')
+    
+    
+    
+    
+    
+    
+    
+    
+    
     plt.xlabel("Photon Energy [eV]")
     plt.ylabel("Spectral Flux [ph/s/0.1%BW]")
+    # plt.yscale('log')
+    # plt.xscale('log')
     plt.title("On-axis Spectral Flux from Bending Magnet")
     plt.grid(True)
+    plt.legend()
     plt.tight_layout()
-    plt.show()
+    plt.savefig('Dipole_xrt.png')
