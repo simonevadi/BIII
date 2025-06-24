@@ -13,13 +13,11 @@ SlitSize    = np.array([.010]) # mm
 grating     = np.array([1200])
 cff         = np.array([2.25])
 
-energy_flux = np.arange(100, 2101,1)
-
+energy_flux = np.arange(100, 2101,500)
 nrays_flux  = 3e5
 nrays_rp    = 3e5
-
-round_flux = 5
-
+round_flux = 1
+n_sim = 1000
 ncpu = 30
 ### plotting colors
 import matplotlib
@@ -32,4 +30,4 @@ colors = ["Red", "Orange", "Green", "Blue", "Indigo", "Violet"]
 
 
 def get_vibration(amp, n_sim):
-    np.random.rand(n_sim)*2*amp-amp
+    return np.random.rand(n_sim)*2*amp-amp

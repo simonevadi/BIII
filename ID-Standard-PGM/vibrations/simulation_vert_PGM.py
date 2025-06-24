@@ -1,10 +1,9 @@
 from raypyng import Simulate
 import pandas as pd
+import numpy as np
 import os
 
 from parameter import rml_file_name_bessy3_56m_errors_on as rml_file_name
-from parameter import get_vibration
-# define the values of the parameters to scan 
 from parameter import order, energy_flux as energy, round_flux as rounds    
 from parameter import SlitSize, cff, nrays_flux as nrays, ncpu
 
@@ -19,54 +18,14 @@ beamline = sim.rml.beamline
 # name for simulation folder
 sim_name = 'vertical_PGM'
 
-# vibrations
-amp = 0.0003   ## mm 0.3 micrometer
-#amp = 0.003    ## mm 3 micrometer
-#amp = 0.03     ## mm 30 micrometer
-
-if amp == 0.0003:
-    rot_amp = 0.00005 #in mrad, 50 nrad
-elif amp == 0.003:
-    rot_amp = 0.0005
-elif amp == 0.03:
-    rot_amp = 0.005
-n_sim = 100
-
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
             {beamline.ExitSlit.openingHeight:SlitSize},
-            {beamline.SU.photonEnergy:energy},
+            {beamline.SU.photonEnergy:np.arange(100, 2101, 200)},
             {beamline.PG.orderDiffraction:order},
             {beamline.SU.numberRays:nrays},
-            {beamline.SU.translationXerror:get_vibration(amp, n_sim),
-             beamline.SU.translationYerror:get_vibration(amp,n_sim), 
-             beamline.M1.translationXerror:get_vibration(amp, n_sim),
-             beamline.M1.translationYerror:get_vibration(amp, n_sim),
-             beamline.M1.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.M1.rotationYerror:get_vibration(rot_amp, n_sim),
-             beamline.M2.translationXerror:get_vibration(amp, n_sim),
-             beamline.M2.translationYerror:get_vibration(amp, n_sim),
-             beamline.M2.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.M2.rotationYerror:get_vibration(rot_amp, n_sim), 
-             beamline.PG.translationXerror:get_vibration(amp, n_sim),
-             beamline.PG.translationYerror:get_vibration(amp, n_sim),
-             beamline.PG.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.PG.rotationYerror:get_vibration(rot_amp, n_sim), 
-             beamline.M3.translationXerror:get_vibration(amp, n_sim),
-             beamline.M3.translationYerror:get_vibration(amp, n_sim),
-             beamline.M3.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.M3.rotationYerror:get_vibration(rot_amp, n_sim),
-             beamline.KB1.translationXerror:get_vibration(amp, n_sim),
-             beamline.KB1.translationYerror:get_vibration(amp, n_sim),
-             beamline.KB1.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.KB1.rotationYerror:get_vibration(rot_amp, n_sim),
-             beamline.KB2.translationXerror:get_vibration(amp, n_sim),
-             beamline.KB2.translationYerror:get_vibration(amp, n_sim),
-             beamline.KB2.rotationXerror:get_vibration(rot_amp, n_sim),
-             beamline.KB2.rotationYerror:get_vibration(rot_amp, n_sim),
-         }
-        ]
+            ]
 
 #and then plug them into the Simulation class
 sim.params=params
@@ -75,10 +34,10 @@ sim.params=params
 sim.simulation_name = sim_name
 
 # turn off reflectivity
-sim.reflectivity(reflectivity=True)
+sim.reflectivity(True)
 
 # repeat the simulations as many time as needed
-sim.repeat = rounds
+sim.repeat = 5
 
 sim.analyze = False # don't let RAY-UI analyze the results
 sim.raypyng_analysis=True # let raypyng analyze the results
