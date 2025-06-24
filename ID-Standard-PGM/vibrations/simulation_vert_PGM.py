@@ -4,6 +4,10 @@ import os
 
 from parameter import rml_file_name_bessy3_56m_errors_on as rml_file_name
 from parameter import get_vibration
+# define the values of the parameters to scan 
+from parameter import order, energy_flux as energy, round_flux as rounds    
+from parameter import SlitSize, cff, nrays_flux as nrays, ncpu
+
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 rml_file = os.path.join('rml/'+rml_file_name+'.rml')
 
@@ -12,17 +16,10 @@ sim = Simulate(rml_file, hide=True)
 rml=sim.rml
 beamline = sim.rml.beamline
 
-
-# cpu
-from parameter import ncpu
-
 # name for simulation folder
 sim_name = 'vertical_PGM'
 
-# define the values of the parameters to scan 
-from parameter import order, energy_flux as energy, round_flux as rounds    
-from parameter import SlitSize, cff, nrays_flux as nrays
-
+# vibrations
 amp = 0.0003   ## mm 0.3 micrometer
 #amp = 0.003    ## mm 3 micrometer
 #amp = 0.03     ## mm 30 micrometer
