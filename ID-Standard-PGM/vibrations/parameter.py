@@ -18,7 +18,7 @@ nrays_flux  = 3e5
 nrays_rp    = 3e5
 round_flux = 1
 n_sim = 1000
-ncpu = 30
+ncpu = 20
 ### plotting colors
 import matplotlib
 import matplotlib.pyplot as plt
