@@ -1,0 +1,10 @@
+KB-hor Looks to the hor Slit
+KB-ver Looks to the ver Slit
+
+In Version V2: M4 is at 0° (vertical plane); M5 is at 90° (horizontal plane)
+
+In all other versions, M4 is at 90° and M5 at 0°
+
+
+BII all incident angles at 1.5°
+BIII all incident angle at 0.75°
