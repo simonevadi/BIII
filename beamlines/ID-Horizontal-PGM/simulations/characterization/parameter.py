@@ -3,10 +3,8 @@ import numpy as np
 # Load in rml file 
 
 # BESSY III:
-rml_file_name_bessy3_56m_errors_on                  = 'bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_V3'
-rml_file_name_bessy3_56m_errors_on_hor_PGM          = 'bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_hor_PGM'
-rml_file_name_bessy3_56m_errors_on_hor_PGM_M3Para   = 'bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_V3_hor_PGM_M3Paraboloid'
-rml_file_name_bessy3_56m_errors_on_hor_PGM_M1M3Para = 'bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_V3_hor_PGM_M1M3Paraboloid'
+rml_file_name_bessy3_56m_hor_PGM_M3Para   = 'bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_hor_PGM_M3Paraboloid'
+rml_file_name_bessy3_56m_hor_PGM_M1M3Para = 'bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_hor_PGM_M1M3Paraboloid'
 
 
 # Paramter
@@ -17,12 +15,12 @@ cff         = np.array([2.25])
 
 energy_flux = np.arange(100, 2101,1)
 
-nrays_flux  = 3e5
-nrays_rp    = 3e5
+nrays_flux  = 1e5
+nrays_rp    = 1e5
 
-round_flux = 5
+round_flux = 1
 
-ncpu = 30
+ncpu = 12
 ### plotting colors
 import matplotlib
 import matplotlib.pyplot as plt

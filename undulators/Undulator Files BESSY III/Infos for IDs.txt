@@ -1,3 +1,0 @@
-Calculation for emittance:
-
-e_x=e_y= 100 pm and 300 mA ring current.
