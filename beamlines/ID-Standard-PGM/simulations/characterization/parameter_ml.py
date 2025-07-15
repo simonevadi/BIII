@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # BESSY III:
-rml_file_name_bessy3_long_56m_errors_on_ml      = 'bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_2400l_V3'
+rml_file_name_bessy3_56m_ml      = 'bessy3_56m_PGM_2Perc_coupl_0p75deg_2400l'
 
 # Paramter
 order       = 2

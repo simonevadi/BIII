@@ -2,10 +2,10 @@ from raypyng import Simulate
 import pandas as pd
 import os
 
-from parameter import rml_file_name_bessy3_56m_errors_on_hor_PGM_M3Para as rml_file_name
+from parameter import rml_file_name_bessy3_56m_hor_PGM_M3Para as rml_file_name
 
-this_file_dir=os.path.dirname(os.path.realpath(__file__))
-rml_file = os.path.join('rml/'+rml_file_name+'.rml')
+this_file_dir=os.path.dirname(os.path.abspath(__file__))
+rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
 
 sim = Simulate(rml_file, hide=True)
 
@@ -39,8 +39,8 @@ sim.params=params
 # sim.simulation_folder = '/home/simone/Documents/RAYPYNG/raypyng/test'
 sim.simulation_name = sim_name
 
-# turn off reflectivity
-sim.reflectivity(reflectivity=True)
+# turn on/off reflectivity (on=True / off=False)
+sim.reflectivity(True)
 
 # repeat the simulations as many time as needed
 sim.repeat = rounds
@@ -48,15 +48,18 @@ sim.repeat = rounds
 sim.analyze = False # don't let RAY-UI analyze the results
 sim.raypyng_analysis=True # let raypyng analyze the results
 
-undulator_file_path = os.path.join(this_file_dir, 
-                                   'undulator_flux_curves','b3_ue42_5_ver_300mA_flux.csv')
+undulator_file_path = os.path.abspath(
+    os.path.join(this_file_dir,'..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
+)
 
 undulator = pd.read_csv(undulator_file_path)
 sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
 sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
-
 
 
 #uncomment to run the simulations
