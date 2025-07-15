@@ -37,7 +37,6 @@ hb_400_file_path     = os.path.join(Path(__file__).resolve().parents[2],
 
 #   PARAMS FOR HB 2400l/mm GRATING SIMULATIONS
 ml_SlitSize        = np.array([0.02])
-ml_grating         = np.array([2400])
 ml_nrays           = nrays
 ml_rounds          = rounds
 ml_ncpu            = ncpu

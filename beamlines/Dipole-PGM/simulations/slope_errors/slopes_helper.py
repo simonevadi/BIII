@@ -44,7 +44,6 @@ def filter_df_by_values(df, col_values, cols=None, atol=1e-8, debug=False):
 
 def extract_and_plot(dataframe, source_name, axs, label):
     energy = dataframe[f'{source_name}.photonEnergy']
-    abs_flux = dataframe['PhotonFlux1']
     bw = dataframe['Bandwidth']
     vfoc = dataframe['VerticalFocusFWHM']*1000  # convert to um
     hfoc = dataframe['HorizontalFocusFWHM']*1000  # convert to um
