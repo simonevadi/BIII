@@ -36,6 +36,9 @@ hb_400_file_path     = os.path.join(Path(__file__).resolve().parents[2],
                                      ,hb_400_rml_file_name+'.rml')
 
 #   PARAMS FOR HB 2400l/mm GRATING SIMULATIONS
+ml_order           = 2
+ml_index           = 'MLBG_mfm_second'
+ml_table           = os.path.join('ML_eff', 'grating_eff_5000.xlsx')
 ml_SlitSize        = np.array([0.02])
 ml_grating         = np.array([2400])
 ml_nrays           = nrays
@@ -47,7 +50,9 @@ ml_rml_file_path   = os.path.join(Path(__file__).resolve().parents[2],
                                   'rml'
                                   ,ml_rml_file_name+'.rml')
 
+
 # read grating and premirror efficiency
+
 grating_eff_path = os.path.join(Path(__file__).resolve().parents[4],
                                 'multilayer_monochromator_efficiency',
                                 'ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLbGR.dat')
