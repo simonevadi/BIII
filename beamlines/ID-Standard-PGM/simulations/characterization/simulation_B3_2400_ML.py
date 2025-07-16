@@ -1,7 +1,8 @@
 import os
+import sys
 import pandas as pd
-
 from raypyng import Simulate
+from pathlib import Path
 
 # define the values of the parameters to scan 
 from parameter_ml import order, energy
@@ -12,6 +13,14 @@ from parameter_ml import cff
 from parameter_ml import efficiency
 from parameter_ml import rml_file_name_bessy3_56m_ml as rml_file_name
 
+# Load the machine directory
+machine_dir = Path(__file__).resolve().parents[4]      # Go four directories up
+machine_dir = os.path.join(machine_dir, 'machine')
+sys.path.insert(0, str(machine_dir))        # make root importable for this run
+
+from machine_params import emittance_standard
+
+# Load the RML file
 this_file_dir = os.path.dirname(os.path.abspath(__file__))
 rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
 
@@ -28,6 +37,14 @@ params = [
             {beamline.PG.orderDiffraction:order},
             {beamline.SU.numberRays:nrays}, 
         ]
+
+# source parameters
+params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_mm']},
+               #{beamline.SU.electronSigmaXs:emittance_standard['sig_xp_urad']},        #for the horizontal PGM would be the opposite (sig_yp_urad)
+               {beamline.SU.electronSigmaY:emittance_standard['sig_y_mm']},
+               {beamline.SU.electronSigmaYs:emittance_standard['sig_yp_urad']},
+             ])
+
 
 #and then plug them into the Simulation class
 sim.params=params

@@ -13,12 +13,12 @@ SlitSize    = np.array([.020]) # mm
 grating     = np.array([1200])
 cff         = np.array([2.25])
 
-energy_flux = np.arange(100, 2101,1)
+energy_flux = np.arange(100, 2101,5)
 
 nrays_flux  = 1e5
 nrays_rp    = 1e5
 
-round_flux = 1
+round_flux = 10
 
 ncpu = 12
 ### plotting colors

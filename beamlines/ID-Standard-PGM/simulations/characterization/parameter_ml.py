@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 
@@ -12,12 +13,22 @@ nrays       = 1e5
 rounds      = 20
 ncpu        = 12
 
-grating = pd.read_csv('ML_eff/ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLbGR.dat',
-                      sep='\s+')
-mirror = pd.read_csv('ML_eff/ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLPM-max.dat',
-                      sep='\s+')
+
+# Grating efficiency data
+this_file_dir = os.path.dirname(os.path.abspath(__file__))
+ml_eff_dir = os.path.normpath(os.path.join(this_file_dir, '..', '..', '..', '..', 'multilayer_monochromator_efficiency'))
+
+grating = pd.read_csv(
+    os.path.join(ml_eff_dir, 'ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLbGR.dat'),
+    sep='\s+'
+)
+mirror = pd.read_csv(
+    os.path.join(ml_eff_dir, 'ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLPM-max.dat'),
+    sep='\s+'
+)
 
 
+# Extract Cff and energy from the grating data
 cff    = grating['Cff'].to_numpy().flatten()[::10] # take every 10th value
 energy = grating['Energy'].to_numpy().flatten()[::10] # take every 10th value
 

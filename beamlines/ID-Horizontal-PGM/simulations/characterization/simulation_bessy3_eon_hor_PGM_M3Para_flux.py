@@ -1,9 +1,19 @@
 from raypyng import Simulate
+from pathlib import Path
 import pandas as pd
 import os
+import sys
 
 from parameter import rml_file_name_bessy3_56m_hor_PGM_M3Para as rml_file_name
 
+# Load the machine directory
+machine_dir = Path(__file__).resolve().parents[4]      # Go four directories up
+machine_dir = os.path.join(machine_dir, 'machine')
+sys.path.insert(0, str(machine_dir))        # make root importable for this run
+
+from machine_params import emittance_standard
+
+# Load the RML file
 this_file_dir=os.path.dirname(os.path.abspath(__file__))
 rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
 
@@ -11,7 +21,6 @@ sim = Simulate(rml_file, hide=True)
 
 rml=sim.rml
 beamline = sim.rml.beamline
-
 
 # cpu
 from parameter import ncpu
@@ -23,7 +32,6 @@ sim_name = rml_file_name+'_FLUX'
 from parameter import order, energy_flux as energy, round_flux as rounds    
 from parameter import SlitSize, cff, nrays_flux as nrays
 
-
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.PG.cFactor:cff}, 
@@ -32,6 +40,13 @@ params = [
             {beamline.PG.orderDiffraction:order},
             {beamline.SU.numberRays:nrays}
         ]
+
+# source parameters
+params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_mm']},
+               {beamline.SU.electronSigmaXs:emittance_standard['sig_xp_urad']},        #for the vertical PGM would be the opposite (sig_xp_urad)
+               {beamline.SU.electronSigmaY:emittance_standard['sig_y_mm']},
+               # {beamline.SU.electronSigmaYs:emittance_standard['sig_yp_urad']},
+             ])
 
 #and then plug them into the Simulation class
 sim.params=params
