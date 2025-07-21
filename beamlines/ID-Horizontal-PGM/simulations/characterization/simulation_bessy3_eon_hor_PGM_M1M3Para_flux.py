@@ -19,6 +19,7 @@ spec = importlib.util.spec_from_file_location("emittance_module", machine_params
 emittance_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(emittance_module)
 emittance_standard = emittance_module.emittance_standard
+
 # Load the RML file
 this_file_dir=os.path.dirname(os.path.abspath(__file__))
 rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
