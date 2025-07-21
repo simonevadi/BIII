@@ -11,14 +11,20 @@ from parameter import SlitSize
 ##############################################################
 # LOAD IN DATA
 
-this_file_dir=os.path.dirname(os.path.realpath(__file__))
+this_file_dir=os.path.dirname(os.path.abspath(__file__))
 
 # Read Undulator CSV-File BESSY II
-undulator_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','b2_HiBeta_UE46_2025_smalerz_300mA_flux.txt')
-undulator_df = pd.read_csv(undulator_table_filename, delimiter='\t')
+undulator_file_path = os.path.abspath(
+    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_II',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE46_b2_HiBeta_2PercCoupl_2025_smalerz_300mA.txt')
+)
+
+undulator_df = pd.read_csv(undulator_file_path, delimiter='\t')
 
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_err_on_1_5_degree_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
 
@@ -184,5 +190,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/Flux_curves UE46 @ BESSY II HiBeta.pdf')
-# plt.show()
+# plt.savefig('plot/Flux_curves UE46 @ BESSY II HiBeta.pdf')
+plt.show()

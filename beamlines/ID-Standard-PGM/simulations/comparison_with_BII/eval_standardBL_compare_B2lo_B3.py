@@ -14,21 +14,32 @@ from parameter import SlitSize
 this_file_dir=os.path.dirname(os.path.realpath(__file__))
 
 # Read Undulator CSV-File BESSY II LoBeta 
-undulator_B2Lo_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','b2_LoBeta_UE46_2025_smalerz_300mA_flux.txt')
+undulator_B2Lo_table_filename = os.path.abspath(
+    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_II',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE46_b2_LoBeta_2PercCoupl_2025_smalerz_300mA.txt')
+)
 undulator_B2Lo_df = pd.read_csv(undulator_B2Lo_table_filename, delimiter='\t')
 
 # Read Undulator CSV-File BESSY III
-undulator_B3_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','b3_ue42_5_ver_300mA_flux.csv')
+undulator_B3_table_filename = os.path.abspath(
+    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
+)
 undulator_B3_df = pd.read_csv(undulator_B3_table_filename)
 
 
 # Read CSV-File of the Beamline Simulation
 # BESSY II LoBeta
-BL_B2Lo_file_path = os.path.join('RAYPy_Simulation_bessy2lo_37m_PGM_2Perc_coupl_err_on_1_5degree_1200l_V2_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B2Lo_file_path = os.path.join('RAYPy_Simulation_bessy2lo_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B2Lo_df = pd.read_csv(BL_B2Lo_file_path)
 
 # BESSY III
-BL_B3_file_path = os.path.join('RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_V3_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B3_file_path = os.path.join('..', 'characterization',
+                               'RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B3_df = pd.read_csv(BL_B3_file_path)
 
 
@@ -120,5 +131,5 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 # plt.savefig('plot/Photon Density B2_B3 errors_on at 24 mu.png')
-plt.savefig('plot/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
-# plt.show()
+# plt.savefig('plot/Comparison BESSY II LoBeta vs III_err_on_LogScale.pdf')
+plt.show()

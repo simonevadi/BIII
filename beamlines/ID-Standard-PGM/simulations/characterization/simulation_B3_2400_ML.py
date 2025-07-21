@@ -1,7 +1,9 @@
 import os
+import sys
 import pandas as pd
-
+import importlib.util
 from raypyng import Simulate
+from pathlib import Path
 
 # define the values of the parameters to scan 
 from parameter_ml import order, energy
@@ -12,6 +14,20 @@ from parameter_ml import cff
 from parameter_ml import efficiency
 from parameter_ml import rml_file_name_bessy3_56m_ml as rml_file_name
 
+# Load the machine directory
+machine_dir = Path(__file__).resolve().parents[4]    # Go four directories up
+machine_dir = os.path.join(machine_dir, 'machine')
+sys.path.insert(0, str(machine_dir))                 # make root importable for this run
+
+# Load the machine parameter file
+machine_file = "BESSY_III_machine_params"  # File name of the machine parameters module
+machine_params_path = os.path.join(machine_dir, machine_file + ".py")
+spec = importlib.util.spec_from_file_location("emittance_module", machine_params_path)
+emittance_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(emittance_module)
+emittance_standard = emittance_module.emittance_standard
+
+# Load the RML file
 this_file_dir = os.path.dirname(os.path.abspath(__file__))
 rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
 
@@ -29,6 +45,14 @@ params = [
             {beamline.SU.numberRays:nrays}, 
         ]
 
+# source parameters (Dips uses sig_x_mm and sig_y_mm, IDs uses sig_x_um and sig_y_um)
+params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_um']},
+               #{beamline.SU.electronSigmaXs:emittance_standard['sig_xp_urad']},        #for the horizontal PGM would be the opposite (sig_yp_urad)
+               {beamline.SU.electronSigmaY:emittance_standard['sig_y_um']},
+               {beamline.SU.electronSigmaYs:emittance_standard['sig_yp_urad']},
+             ])
+
+
 #and then plug them into the Simulation class
 sim.params=params
 
@@ -36,7 +60,7 @@ sim.params=params
 sim.simulation_name = rml_file_name+'_FLUX'
 
 # turn on/off reflectivity (on=True / off=False)
-sim.reflectivity(True)
+sim.reflectivity(False)
 
 # repeat the simulations as many time as needed
 sim.repeat = rounds

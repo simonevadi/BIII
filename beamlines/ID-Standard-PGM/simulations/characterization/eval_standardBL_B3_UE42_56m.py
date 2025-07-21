@@ -18,7 +18,7 @@ undulator_file_path = os.path.abspath(
     os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
                  'UndulatorFiles_BESSY_III',
                  'undulator_flux_curves_SPECTRA',
-                 'UE42_5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
+                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
 )
 undulator_df = pd.read_csv(undulator_file_path)
 

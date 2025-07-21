@@ -17,24 +17,35 @@ from parameter import SlitSize
 ##############################################################
 # LOAD IN DATA
 
-this_file_dir=os.path.dirname(os.path.realpath(__file__))
+this_file_dir=os.path.dirname(os.path.abspath(__file__))
 
 # Read Undulator CSV-File BESSY II HiBeta
-undulator_B2Hi_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','b2_HiBeta_UE46_2025_smalerz_300mA_flux.txt')
+undulator_B2Hi_table_filename = os.path.abspath(
+    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_II',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE46_b2_HiBeta_2PercCoupl_2025_smalerz_300mA.txt')
+)
 undulator_B2Hi_df = pd.read_csv(undulator_B2Hi_table_filename, delimiter='\t')
 
 # Read Undulator CSV-File BESSY III
-undulator_B3_table_filename = os.path.join(this_file_dir, 'undulator_flux_curves','b3_ue42_5_ver_300mA_flux.csv')
+undulator_B3_table_filename = os.path.abspath(
+    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
+)
 undulator_B3_df = pd.read_csv(undulator_B3_table_filename)
 
 
 # Read CSV-File of the Beamline Simulation
 # BESSY II HiBeta
-BL_B2Hi_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_err_on_1_5_degree_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B2Hi_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B2Hi_df = pd.read_csv(BL_B2Hi_file_path)
 
 # BESSY III
-BL_B3_file_path = os.path.join('RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_err_on0_75deg_1200l_V3_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B3_file_path = os.path.join('..', 'characterization',
+                               'RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B3_df = pd.read_csv(BL_B3_file_path)
 
 
@@ -406,15 +417,15 @@ if not os.path.exists(plot_folder):
     os.makedirs(plot_folder)
 
 # Save the main comparison figure (axs)
-fig_main.savefig(os.path.join(plot_folder, 'CDR-Plots/Main_Comparison_Flux_and_FluxDensity.pdf'))
+# fig_main.savefig(os.path.join(plot_folder, 'CDR-Plots/Main_Comparison_Flux_and_FluxDensity.pdf'))
 
 # Save the combined gain histogram figure
-fig_hist.savefig(os.path.join(plot_folder, 'CDR-Plots/Gain_Histograms_Flux_and_FluxDensity.pdf'))
+# fig_hist.savefig(os.path.join(plot_folder, 'CDR-Plots/Gain_Histograms_Flux_and_FluxDensity.pdf'))
 
 # Save the curve histogram figure
-fig_curve_hist.savefig(os.path.join(plot_folder, 'CDR-Plots/Gain_Curve_Flux_and_FluxDensity.pdf'))
+# fig_curve_hist.savefig(os.path.join(plot_folder, 'CDR-Plots/Gain_Curve_Flux_and_FluxDensity.pdf'))
 
 # Save the element edge gain histogram
-fig_edges.savefig(os.path.join(plot_folder, 'CDR-Plots/Element_Edges_Gain_Bandwidth_Histogram.pdf'))
+# fig_edges.savefig(os.path.join(plot_folder, 'CDR-Plots/Element_Edges_Gain_Bandwidth_Histogram.pdf'))
 
-# plt.show()
+plt.show()
