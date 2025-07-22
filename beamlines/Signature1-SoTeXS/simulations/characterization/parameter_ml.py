@@ -3,15 +3,14 @@ import numpy as np
 import pandas as pd
 
 # BESSY III:
-rml_file_name_bessy3_56m_ml      = 'sotexs_2400'
+sotexs_2400 = 'sotexs_2400'
 
 # Paramter
-order       = 2
 SlitSize    = np.array([.020]) # mm
 grating     = np.array([2400])
 nrays       = 1e5
-rounds      = 20
-ncpu        = 12
+rounds      = 10
+ncpu        = 30
 
 
 # Grating efficiency data

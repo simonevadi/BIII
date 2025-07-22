@@ -189,5 +189,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-# plt.savefig('plot/Flux_curves UE42 @ BESSY III_err_on.pdf')
+plt.savefig('plot/SoTeXS_1200.png')
 plt.show()

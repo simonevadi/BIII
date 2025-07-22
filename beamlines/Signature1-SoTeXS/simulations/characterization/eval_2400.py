@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import xrt.backends.raycing.materials as rm
  
-from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
 from parameter_ml import SlitSize
 
@@ -196,5 +195,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-# plt.savefig('plot/Flux_curves IVUE28 @ BESSY III with ML_err_on.pdf')
+plt.savefig('plot/SoTeXS_2400.png')
 plt.show()

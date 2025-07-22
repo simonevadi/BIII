@@ -1,35 +1,25 @@
 import os
 import sys
-import pandas as pd
-import importlib.util
-from raypyng import Simulate
 from pathlib import Path
-
-# define the values of the parameters to scan 
-from parameter_ml import order, energy
-from parameter_ml import SlitSize
-from parameter_ml import nrays, rounds
-from parameter_ml import ncpu
-from parameter_ml import cff
-from parameter_ml import efficiency
-from parameter_ml import rml_file_name_bessy3_56m_ml as rml_file_name
 
 # Load the machine directory
 machine_dir = Path(__file__).resolve().parents[4]    # Go four directories up
 machine_dir = os.path.join(machine_dir, 'machine')
 sys.path.insert(0, str(machine_dir))                 # make root importable for this run
 
-# Load the machine parameter file
-machine_file = "BESSY_III_machine_params"  # File name of the machine parameters module
-machine_params_path = os.path.join(machine_dir, machine_file + ".py")
-spec = importlib.util.spec_from_file_location("emittance_module", machine_params_path)
-emittance_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(emittance_module)
-emittance_standard = emittance_module.emittance_standard
+# Now regular absolute import works
+from BESSY_III_machine_params import emittance_standard
 
-# Load the RML file
-this_file_dir = os.path.dirname(os.path.abspath(__file__))
-rml_file = os.path.join('..','..','rml/'+rml_file_name+'.rml')
+from raypyng import Simulate
+
+# define the values of the parameters to scan 
+from parameter import energy_2400 as energy, cff_2400 as cff
+from parameter import SlitSize_2400 as SlitSize
+from parameter import nrays, rounds, ncpu
+from parameter import undulator
+from parameter import efficiency_2400 as efficiency
+from parameter import sotexs_2400_file_path as rml_file
+from parameter import sotexs_2400_sim_name as sim_name
 
 sim = Simulate(rml_file, hide=True)
 
@@ -41,7 +31,6 @@ params = [
             {beamline.ExitSlit.openingHeight:SlitSize},
             {beamline.SU.photonEnergy:energy, 
              beamline.PG.cFactor:cff}, 
-            {beamline.PG.orderDiffraction:order},
             {beamline.SU.numberRays:nrays}, 
         ]
 
@@ -57,10 +46,7 @@ params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_um']},
 sim.params=params
 
 # sim.simulation_folder = '/home/simone/Documents/RAYPYNG/raypyng/test'
-sim.simulation_name = rml_file_name+'_FLUX'
-
-# turn on/off reflectivity (on=True / off=False)
-sim.reflectivity(False)
+sim.simulation_name = sim_name
 
 # repeat the simulations as many time as needed
 sim.repeat = rounds
@@ -71,21 +57,9 @@ sim.raypyng_analysis = True # let RAY-UI analyze the results
 ## This must be a list of dictionaries
 sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 
-undulator_file_path=os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                                'UndulatorFiles_BESSY_III',
-                                'undulator_flux_curves_SPECTRA',
-                                'IVUE28_b3_2PercCoupl_2025_smalerz_300mA.txt')
-)
-
-undulator = pd.read_csv(undulator_file_path, sep='\t')
 sim.undulator_table=undulator
 
-
 sim.efficiency = efficiency
-
-# create the rml files
-#sim.rml_list()
 
 #uncomment to run the simulations
 sim.run(multiprocessing=ncpu, force=False, remove_round_folders=True, remove_rawrays=True)
