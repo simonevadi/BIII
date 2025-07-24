@@ -6,27 +6,17 @@ import xrt.backends.raycing.materials as rm
  
 from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
-from parameter import SlitSize
+
+from parameter import B2_HiBeta_SlitSize as SlitSize
+from parameter import B2_HiBeta_undulator as undulator_df
 
 ##############################################################
 # LOAD IN DATA
-
 this_file_dir=os.path.dirname(os.path.abspath(__file__))
 
-# Read Undulator CSV-File BESSY II
-undulator_file_path = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_II',
-                 'undulator_flux_curves_SPECTRA',
-                 'UE46_b2_HiBeta_2PercCoupl_2025_smalerz_300mA.txt')
-)
-
-undulator_df = pd.read_csv(undulator_file_path, delimiter='\t')
-
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
-
 
 ##############################################################
 # PLOTTING AND ANALYSIS
@@ -76,7 +66,7 @@ harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Dep
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('UE46 Flux curve')
+ax2.set_title('UE46 Flux curve (HiBeta)')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax2.legend(fontsize=12, loc='best')

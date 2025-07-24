@@ -4,55 +4,25 @@ import pandas as pd
 import numpy as np
 import xrt.backends.raycing.materials as rm
  
-from raypyng.postprocessing import PostProcessAnalyzed
-from helper_lib import get_reflectivity
-from parameter import SlitSize
+from parameter import B2_LoBeta_undulator as B2_LoBeta_undulator_df
+from parameter import B2_HiBeta_undulator as B2_HiBeta_undulator_df
+from parameter import B3_undulator as B3_undulator_df
 
 ##############################################################
 # LOAD IN DATA
 
-this_file_dir=os.path.dirname(os.path.abspath(__file__))
-
-# Read Undulator CSV-File BESSY II LoBeta 
-undulator_B2Lo_table_filename = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_II',
-                 'undulator_flux_curves_SPECTRA',
-                 'UE46_b2_LoBeta_2PercCoupl_2025_smalerz_300mA.txt')
-)
-undulator_B2Lo_df = pd.read_csv(undulator_B2Lo_table_filename, delimiter='\t')
-
-# Read Undulator CSV-File BESSY II HiBeta
-undulator_B2Hi_table_filename = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_II',
-                 'undulator_flux_curves_SPECTRA',
-                 'UE46_b2_HiBeta_2PercCoupl_2025_smalerz_300mA.txt')
-)
-undulator_B2Hi_df = pd.read_csv(undulator_B2Hi_table_filename, delimiter='\t')
-
-# Read Undulator CSV-File BESSY III
-undulator_B3_table_filename = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'undulator_flux_curves_SPECTRA',
-                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
-)
-undulator_B3_df = pd.read_csv(undulator_B3_table_filename)
-
-
 # Read CSV-File of the Beamline Simulation
 # BESSY II LoBeta
-BL_B2Lo_file_path = os.path.join('RAYPy_Simulation_bessy2lo_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B2Lo_file_path = os.path.join('RAYPy_Simulation_bessy2lo_37m_PGM_2Perc_coupl_1p5deg_1200l', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B2Lo_df = pd.read_csv(BL_B2Lo_file_path)
 
 # BESSY II HiBeta
-BL_B2Hi_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_B2Hi_file_path = os.path.join('RAYPy_Simulation_bessy2hi_37m_PGM_2Perc_coupl_1p5deg_1200l', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B2Hi_df = pd.read_csv(BL_B2Hi_file_path)
 
 # BESSY III
 BL_B3_file_path = os.path.join('..', 'characterization',
-                               'RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+                               'RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_B3_df = pd.read_csv(BL_B3_file_path)
 
 
@@ -81,22 +51,22 @@ ax1 = axs[0]
 
 # BESSY II LoBeta
 for harm in harms:
-    Emin_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B2_LoBeta_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B2_LoBeta_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Lo_df[(BL_B2Lo_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Lo_df['PhotonEnergy'] <= Emax_harm)]
     ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize, linestyle='dotted')
 
 # BESSY II HiBeta
 for harm in harms:
-    Emin_harm = undulator_B2Hi_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B2Hi_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B2_HiBeta_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B2_HiBeta_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Hi_df[(BL_B2Hi_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Hi_df['PhotonEnergy'] <= Emax_harm)]
     ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II HiBeta (56 m)', linewidth=Linesize, linestyle='--')
 
 # BESSY III
 for harm in harms:
-    Emin_harm = undulator_B3_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B3_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B3_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B3_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B3_df[(BL_B3_df['PhotonEnergy'] >= Emin_harm) & (BL_B3_df['PhotonEnergy'] <= Emax_harm)]
     ax1.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linewidth=Linesize)
 
@@ -117,8 +87,8 @@ ax2 = axs[1]
 
 # BESSY II LoBeta
 for harm in harms:
-    Emin_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B2Lo_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B2_LoBeta_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B2_LoBeta_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Lo_df[(BL_B2Lo_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Lo_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
     ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II LoBeta (37 m)', linewidth=Linesize, linestyle='dotted')
@@ -126,16 +96,16 @@ for harm in harms:
 
 # BESSY II HiBeta
 for harm in harms:
-    Emin_harm = undulator_B2Hi_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B2Hi_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B2_HiBeta_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B2_HiBeta_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B2Hi_df[(BL_B2Hi_df['PhotonEnergy'] >= Emin_harm) & (BL_B2Hi_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
     ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE46 @ BESSY II HiBeta (56 m)', linewidth=Linesize, linestyle='--')
 
 # BESSY III
 for harm in harms:
-    Emin_harm = undulator_B3_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_B3_df[f'Energy{harm}[eV]'].max()
+    Emin_harm = B3_undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = B3_undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_B3_df[(BL_B3_df['PhotonEnergy'] >= Emin_harm) & (BL_B3_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
     ax2.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, color=colors[harm], label=f'Harm. {harm} - UE42 @ BESSY III (56 m)', linewidth=Linesize)
