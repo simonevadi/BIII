@@ -31,11 +31,22 @@ sotexs_1200_file_path  = os.path.join(Path(__file__).resolve().parents[2],
                                      'rml',
                                      sotexs_1200_file_name+'.rml')
 
+sotexs_1200_nano_sim_name = 'sotexs_1200_nano'
+sotexs_1200_nano_file_name  = 'sotexs_1200_nano'
+sotexs_1200_nano_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+                                     'rml',
+                                     sotexs_1200_file_name+'.rml')
 # PARAMS FOR SOTEXS 2400l/mm GRATING SIMULATIONS
 SlitSize_2400 = np.array([.020]) # mm
 sotexs_2400_sim_name = 'sotexs_2400'
 sotexs_2400_file_name  = 'sotexs_2400'
 sotexs_2400_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+                                     'rml',
+                                     sotexs_2400_file_name+'.rml')
+
+sotexs_2400_nano_sim_name = 'sotexs_2400_nano'
+sotexs_2400_nano_file_name  = 'sotexs_2400_nano'
+sotexs_2400_nano_file_path  = os.path.join(Path(__file__).resolve().parents[2],
                                      'rml',
                                      sotexs_2400_file_name+'.rml')
 

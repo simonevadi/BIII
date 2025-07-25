@@ -16,7 +16,7 @@ ml = MultilayerBragg(('Ni', 8.9), 21,
 
 results_df_mosi = ml.calculate_reflectivity_vs_energy(energies, 
                                                            order=1, 
-                                                           window_deg=1)
+                                                           window_deg=.5)
 
 ml.prepare_raypyng_efficiency_table('Ni_B4C_efficiency')
 ml.plot_reflectivity_vs_energy(show_plot=False)

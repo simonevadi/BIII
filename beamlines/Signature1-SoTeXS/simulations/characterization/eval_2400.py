@@ -5,24 +5,18 @@ import numpy as np
 import xrt.backends.raycing.materials as rm
  
 from helper_lib import get_reflectivity
-from parameter_ml import SlitSize
+from parameter import SlitSize_2400 as SlitSize
+from parameter import undulator as undulator_df
 
+from raypyng.postprocessing import PostProcessAnalyzed
+
+p = PostProcessAnalyzed()
+mov_av = p.moving_average
 ##############################################################
 # LOAD IN DATA
 
-this_file_dir=os.path.dirname(os.path.realpath(__file__))
-
-# Read Undulator CSV-File BESSY III
-undulator_file_path = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'undulator_flux_curves_SPECTRA',
-                 'IVUE28_b3_2PercCoupl_2025_smalerz_300mA.txt')
-)
-undulator_df = pd.read_csv(undulator_file_path, sep='\t')
-
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_2400l_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_sotexs_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
 
@@ -30,7 +24,7 @@ BL_df = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('IVUE28 BESSY III Standard PGM Beamline (56 m) with ML', size=16)
+fig.suptitle('SoTeXS, 2400 l/mm', size=16)
 x_range = [500, 6000]
 
 # MIRROR REFLECTIVITY
@@ -76,7 +70,7 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 #Choose the harmonic to plot
 ax2 = axs[0, 1]
 
-harms = [1,3,5,7,9] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
+harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
@@ -93,11 +87,14 @@ ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # TRANSMITTED BANDWIDTH
 ax3 = axs[1, 0]
 
+window = 20
 for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}')
+    ax3.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df['Bandwidth']*1000, window),
+             label=f'Harm. {harm}')
 
 ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
@@ -133,7 +130,9 @@ for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}')
+    ax5.plot(mov_av(filtered_df['PhotonEnergy'], window),
+             mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
+             label=f'Harm. {harm}')
 
 ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
@@ -163,8 +162,9 @@ ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # Horizontal Focus Size
 ax7 = axs[3, 0]
-
-ax7.plot(BL_df['PhotonEnergy'], BL_df['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='red')
+ax7.plot(mov_av(BL_df['PhotonEnergy'], window),
+         mov_av(BL_df['HorizontalFocusFWHM']*1000, window),
+         label='Horizontal Focus Size', color='red')
 
 ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
@@ -176,7 +176,9 @@ ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # Vertical Focus Size
 ax8 = axs[3, 1]
 
-ax8.plot(BL_df['PhotonEnergy'], BL_df['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='limegreen')
+ax8.plot(mov_av(BL_df['PhotonEnergy'], window),
+         mov_av(BL_df['VerticalFocusFWHM']*1000, window),
+         label='Vertical Focus Size', color='limegreen')
 
 ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
