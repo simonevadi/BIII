@@ -32,7 +32,7 @@ ax1 = axs[0, 0]
 # Coatings:
 de = 38.9579-30.0000
 table = 'Henke'
-theta = 0.75
+theta = 0.7
 E = np.arange(50, 6001, de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
