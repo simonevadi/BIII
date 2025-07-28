@@ -161,11 +161,43 @@ class MultilayerBragg:
                 self.results_df.to_csv(fname, index=False)
             
         return self.results_df
+
+    def calculate_beta_from_theta(self, theta_deg, energy, grating_density, order=2):
+        # Convert theta from degrees to radians
+        print(energy, theta_deg, grating_density, order)
+        energy = np.array(energy, dtype=float)
+        theta = np.deg2rad(theta_deg)
+        lambdas = 1239.84193 / energy * 1e-9  # Convert eV to meters
+        print(lambdas)
+        spacing = 1 / (grating_density * 1000)  # Convert lines/mm to lines/m
+        beta = np.arcsin(order*lambdas/spacing-np.sin(theta))
+        beta_norm_deg = np.rad2deg(beta)
+
+        print(f'beta_norm_deg {beta_norm_deg}')
+        return beta_norm_deg        
     
-    def prepare_raypyng_efficiency_table(self, filename):
-            raypyng_df = self.results_df[['Energy[eV]', 'peak_rs']].copy()
+    def calculate_c_value(self, alpha_deg, beta_deg):
+        print('c value calculation')
+        print(f'alpha_deg: {alpha_deg}, beta_deg: {beta_deg}')
+        alpha = np.deg2rad(90-alpha_deg)
+        beta = np.deg2rad(90+beta_deg)
+        c_values = np.sin(beta)/np.sin(alpha)
+        return c_values
+
+    def prepare_raypyng_efficiency_table(self, filename, line_density=2400, grating_efficiency_scale=0.85):
+            raypyng_df = self.results_df[['Energy[eV]']].copy()
+            alpha_norm_deg = 90-self.results_df['Angle'].values
+            energies = self.results_df['Energy[eV]'].values
+            beta_norm_deg = self.calculate_beta_from_theta(alpha_norm_deg, energies, line_density, order=2)
+            c_values = self.calculate_c_value(alpha_norm_deg, beta_norm_deg)
+            raypyng_df['alpha_norm_deg'] = alpha_norm_deg
+            raypyng_df['alpha_deg'] = self.results_df['Angle'].values
+            raypyng_df['beta_norm_deg'] = beta_norm_deg
+            raypyng_df['beta_deg'] = 90 + beta_norm_deg
+            raypyng_df['cff'] = c_values
+            print(self.results_df.columns)
             # we take arbitrarly 85% efficiency for the grating
-            raypyng_df['peak_rs'] *= raypyng_df['peak_rs']*0.85
+            raypyng_df['Efficiency'] = self.results_df['peak_rs']*self.results_df['peak_rs']*grating_efficiency_scale
             fname = os.path.join(self.save_recap, f"{filename}.csv")
             raypyng_df.to_csv(fname)
             return raypyng_df
