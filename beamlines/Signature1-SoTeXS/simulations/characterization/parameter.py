@@ -51,6 +51,9 @@ sotexs_2400_nano_file_path  = os.path.join(Path(__file__).resolve().parents[2],
                                      sotexs_2400_nano_file_name+'.rml')
 
 
+
+
+
 # read grating and premirror efficiency
 grating_eff_path = os.path.join(Path(__file__).resolve().parents[4],
                                 'multilayer_monochromator_efficiency',
@@ -90,7 +93,32 @@ else:
         'Efficiency': grating_eff * mirror_eff
     })
     
-    
+
+
+# PARAMS FOR SOTEXS 2400l/mm GRATING SIMULATIONS up to 8kev
+SlitSize_2400_b = np.array([.020]) # mm
+sotexs_2400_b_sim_name = 'sotexs_2400_b'
+sotexs_2400_b_file_name  = 'sotexs_2400'
+sotexs_2400_b_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+                                     'rml',
+                                     sotexs_2400_b_file_name+'.rml')
+
+sotexs_2400_b_nano_sim_name = 'sotexs_2400_nano_b'
+sotexs_2400_b_nano_file_name  = 'sotexs_2400_nano'
+sotexs_2400_b_nano_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+                                     'rml',
+                                     sotexs_2400_b_nano_file_name+'.rml')
+
+efficiency_path = os.path.join(Path(__file__).resolve().parents[4],
+                                'multilayer_monochromator_efficiency',
+                                'calculate_ml',
+                                'Ni_B4C - 40 layers', 
+                                'Ni_B4C_2400lmm_2order.csv')
+efficiency_2400_b = pd.read_csv(efficiency_path)
+cff_2400_b    = efficiency_2400_b['cff'].to_numpy().flatten()
+energy_2400_b = efficiency_2400_b['Energy[eV]'].to_numpy().flatten()
+
+
 ### plotting colors
 import matplotlib
 import matplotlib.pyplot as plt

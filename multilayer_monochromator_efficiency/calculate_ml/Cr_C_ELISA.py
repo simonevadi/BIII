@@ -6,7 +6,7 @@ from multilayer import MultilayerBragg
 ml = MultilayerBragg(('Cr', 7.19), 23, 
                      ('C', 2.3), 27, 
                      40, 
-                     save_recap="ELISA - CrC - 40 layers - test")
+                     save_recap="ELISA - CrC - 40 layers")
 
 energies = np.arange(500, 8001, 500)  # 30 to 70 keV
 
