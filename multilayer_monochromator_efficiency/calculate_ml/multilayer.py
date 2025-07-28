@@ -134,7 +134,7 @@ class MultilayerBragg:
                 continue  # Skip if this order doesn't exist at this energy
 
             # Find indices within the window around the Bragg angle
-            mask = (theta >= bragg_deg - window_deg) & (theta <= bragg_deg + window_deg)
+            mask = (theta >= bragg_deg - window_deg) & (theta <= bragg_deg + window_deg*2.5)
             if not np.any(mask):
                 continue
 
