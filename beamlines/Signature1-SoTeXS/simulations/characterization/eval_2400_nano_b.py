@@ -32,10 +32,11 @@ ax1 = axs[0, 0]
 # Coatings:
 de = 38.9579-30.0000
 table = 'Henke'
-theta = 0.7
+theta = 0.4
 E = np.arange(500, 8001, de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
+Rh = rm.Material('Rh',  rho=12.41, kind='mirror',table=table)
 Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
 Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
 B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
@@ -45,6 +46,7 @@ IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40,
 
 Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
+Rh, _ = get_reflectivity(Rh, E=E, theta=theta)
 Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
 Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
 B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
@@ -53,6 +55,7 @@ IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
 ax1.plot(E, Au, 'gold', label='Au', alpha=0.5)
 ax1.plot(E, Pt, 'dimgrey', label='Pt', alpha=0.5)
 ax1.plot(E, Ir, 'darkgrey', label='Ir', alpha=0.5)
+ax1.plot(E, Rh, 'red', label='Rh', alpha=0.5)
 # ax1.plot(E, Cr, 'c', label='Cr')
 # ax1.plot(E, B4C, 'm', label='B4C')
 ax1.plot(E, IrCrB4C, 'darkmagenta', label='IrCrB4C')
