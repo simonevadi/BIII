@@ -13,6 +13,18 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 class MultilayerBragg:
     def __init__(self, mat1: tuple, t1: float, mat2: tuple, t2: float, N: int, save_recap: str =None, individuals: bool=True):
+        """
+        Initialize the MultilayerBragg object.
+
+        Args:
+            mat1 (tuple): Material 1 name and density (name, density).
+            t1 (float): Thickness of material 1 in Ångströms.
+            mat2 (tuple): Material 2 name and density (name, density).
+            t2 (float): Thickness of material 2 in Ångströms.
+            N (int): Number of layers.
+            save_recap (str, optional): Directory to save recap files.
+            individuals (bool, optional): If True, save individual reflectivity plots for each energy.
+        """
         self.mat1_name, self.rho1 = mat1
         self.mat2_name, self.rho2 = mat2
         self.t1 = t1  # Å
@@ -34,9 +46,12 @@ class MultilayerBragg:
         Build multilayer and compute Bragg angles up to max_order.
 
         Args:
-            energy_eV: Photon energy in eV.
-            max_order: Highest Bragg order to compute.
-            angle_range: Angle scan range (deg).
+            energy_eV (float): Photon energy in eV.
+            max_order (int, optional): Highest Bragg order to compute.
+            angle_range (tuple, optional): Angle scan range (deg).
+        
+        Returns:
+            tuple: Angles (theta), s-polarized reflectivity (rs), p-polarized reflectivity (rp), and Bragg angles (bragg_degs).
         """
         m1 = rm.Material(self.mat1_name, rho=self.rho1)
         m2 = rm.Material(self.mat2_name, rho=self.rho2)
@@ -54,6 +69,19 @@ class MultilayerBragg:
         return theta, rs, rp, self.bragg_degs
 
     def plot_reflectivity_vs_theta(self, energy_eV: float, theta, rs=None, rp=None, show_plot=True):
+        """
+        Plot the reflectivity as a function of incident angle.
+
+        Args:
+            energy_eV (float): Photon energy in eV.
+            theta (array-like): Array of incident angles.
+            rs (array-like, optional): s-polarized reflectivity.
+            rp (array-like, optional): p-polarized reflectivity.
+            show_plot (bool, optional): If True, display the plot.
+        
+        Raises:
+            ValueError: If neither rs nor rp is provided.
+        """
         if rs is None and rp is None:
             raise ValueError("At least one of rs or rp must be provided.")
 
@@ -82,14 +110,12 @@ class MultilayerBragg:
         Compute peak reflectivity near the Bragg angle as a function of energy.
 
         Args:
-            energies: Iterable of photon energies in eV.
-            order: Bragg reflection order to analyze.
-            window_deg: Angular window around Bragg angle to find peak reflectivity.
+            energies (array-like): Iterable of photon energies in eV.
+            order (int, optional): Bragg reflection order to analyze.
+            window_deg (float, optional): Angular window around Bragg angle to find peak reflectivity.
 
         Returns:
-            energy_list: list of energies
-            peak_rs_list: list of max |rs|^2 near Bragg peak
-            peak_rp_list: list of max |rp|^2 near Bragg peak
+            pandas.DataFrame: DataFrame with energy, peak reflectivity, and angle information.
         """
         energy_list = []
         peak_rs_list = []
@@ -108,7 +134,7 @@ class MultilayerBragg:
                 continue  # Skip if this order doesn't exist at this energy
 
             # Find indices within the window around the Bragg angle
-            mask = (theta >= bragg_deg - window_deg) & (theta <= bragg_deg + window_deg)
+            mask = (theta >= bragg_deg - window_deg) & (theta <= bragg_deg + window_deg*2.5)
             if not np.any(mask):
                 continue
 
@@ -161,16 +187,79 @@ class MultilayerBragg:
                 self.results_df.to_csv(fname, index=False)
             
         return self.results_df
+
+    def calculate_beta_from_theta(self, theta_deg, energy, grating_density, order=2):
+        """
+        Calculate the diffraction angle (beta) from the incident angle (theta) using the grating equation.
+
+        Args:
+            theta_deg (float or array-like): Incident angle(s) in degrees.
+            energy (float or array-like): Photon energy in eV.
+            grating_density (float): Grating density in lines per mm.
+            order (int, optional): Diffraction order to calculate (default is 2).
+
+        Returns:
+            float or array-like: Diffraction angle(s) in degrees.
+        """
+        # Convert theta from degrees to radians
+        energy = np.array(energy, dtype=float)
+        theta = np.deg2rad(theta_deg)
+        lambdas = 1239.84193 / energy * 1e-9  # Convert eV to meters
+        spacing = 1 / (grating_density * 1000)  # Convert lines/mm to lines/m
+        beta = np.arcsin(order*lambdas/spacing-np.sin(theta))
+        beta_norm_deg = np.rad2deg(beta)
+        return beta_norm_deg        
     
-    def prepare_raypyng_efficiency_table(self, filename):
-            raypyng_df = self.results_df[['Energy[eV]', 'peak_rs']].copy()
-            # we take arbitrarly 85% efficiency for the grating
-            raypyng_df['peak_rs'] *= raypyng_df['peak_rs']*0.85
-            fname = os.path.join(self.save_recap, f"{filename}.csv")
-            raypyng_df.to_csv(fname)
-            return raypyng_df
+    def calculate_c_value(self, alpha_deg, beta_deg):
+        """
+        Calculate the coupling factor based on the incident and diffraction angles.
+
+        Args:
+            alpha_deg (float): Incident angle in degrees.
+            beta_deg (float): Diffraction angle in degrees.
+
+        Returns:
+            float: Coupling factor (c-value).
+        """
+        alpha = np.deg2rad(90-alpha_deg)
+        beta = np.deg2rad(90+beta_deg)
+        c_values = np.sin(beta)/np.sin(alpha)
+        return c_values
+
+    def prepare_raypyng_efficiency_table(self, filename, line_density=2400, grating_efficiency_scale=0.85):
+        """
+        Prepare the RayPyng efficiency table by calculating efficiency values for each energy and angle.
+
+        Args:
+            filename (str): Name of the output file to save the table.
+            line_density (int, optional): Grating line density in lines/mm.
+            grating_efficiency_scale (float, optional): Efficiency scaling factor (default is 0.85).
+
+        Returns:
+            pandas.DataFrame: DataFrame containing the efficiency values.
+        """
+        raypyng_df = self.results_df[['Energy[eV]']].copy()
+        alpha_norm_deg = 90-self.results_df['Angle'].values
+        energies = self.results_df['Energy[eV]'].values
+        beta_norm_deg = self.calculate_beta_from_theta(alpha_norm_deg, energies, line_density, order=2)
+        c_values = self.calculate_c_value(alpha_norm_deg, beta_norm_deg)
+        raypyng_df['alpha_norm_deg'] = alpha_norm_deg
+        raypyng_df['alpha_deg'] = self.results_df['Angle'].values
+        raypyng_df['beta_norm_deg'] = beta_norm_deg
+        raypyng_df['beta_deg'] = 90 + beta_norm_deg
+        raypyng_df['cff'] = c_values
+        raypyng_df['Efficiency'] = self.results_df['peak_rs']*self.results_df['peak_rs']*grating_efficiency_scale
+        fname = os.path.join(self.save_recap, f"{filename}.csv")
+        raypyng_df.to_csv(fname)
+        return raypyng_df
 
     def plot_reflectivity_vs_energy(self, show_plot=True):
+        """
+        Plot the reflectivity as a function of photon energy.
+
+        Args:
+            show_plot (bool, optional): If True, display the plot.
+        """
         # Plot s-polarized peak reflectivity
         plt.plot(self.results_df['Energy[eV]'], self.results_df['peak_rs'], label='s-polarized')
         plt.plot(self.results_df['Energy[eV]'], self.results_df['peak_rp'], label='p-polarized')
