@@ -6,24 +6,15 @@ import xrt.backends.raycing.materials as rm
  
 from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
-from parameter import SlitSize
+
+from parameter import B3_hor_SlitSize as SlitSize
+from parameter import B3_undulator as undulator_df
 
 ##############################################################
 # LOAD IN DATA
 
-this_file_dir=os.path.dirname(os.path.abspath(__file__))
-
-# Read Undulator CSV-File BESSY III
-undulator_file_path = os.path.abspath(
-    os.path.join(this_file_dir, '..', '..', '..', '..', 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'undulator_flux_curves_SPECTRA',
-                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
-)
-undulator_df = pd.read_csv(undulator_file_path)
-
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_hor_PGM_M1M3Paraboloid_FLUX', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_bessy3_56m_PGM_2Perc_coupl_0p75deg_1200l_hor_PGM_M1M3Paraboloid', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
 
