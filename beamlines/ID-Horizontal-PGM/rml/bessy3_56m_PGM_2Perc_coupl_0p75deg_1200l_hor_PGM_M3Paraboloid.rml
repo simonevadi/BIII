@@ -173,13 +173,13 @@
    <param id="gradientC1B6" enabled="F">0</param>
    <param id="gradientC1B7" enabled="F">0</param>
    <param id="gradientC1B8" enabled="F">0</param>
-   <param id="alignmentError" comment="Yes" enabled="T">0</param>
-   <param id="translationXerror" enabled="T">0</param>
-   <param id="translationYerror" enabled="T">0</param>
-   <param id="translationZerror" enabled="T">0</param>
-   <param id="rotationXerror" enabled="T">0</param>
-   <param id="rotationYerror" enabled="T">0</param>
-   <param id="rotationZerror" enabled="T">0</param>
+   <param id="alignmentError" comment="No" enabled="T">1</param>
+   <param id="translationXerror" enabled="F">0</param>
+   <param id="translationYerror" enabled="F">0</param>
+   <param id="translationZerror" enabled="F">0</param>
+   <param id="rotationXerror" enabled="F">0</param>
+   <param id="rotationYerror" enabled="F">0</param>
+   <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
     <x>-97.0208536515388147</x>
     <y>0.0000000000000000</y>
@@ -303,8 +303,8 @@
   </object>
   <object name="M3" type="Paraboloid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">50</param>
-   <param id="totalLength" enabled="T">400</param>
+   <param id="totalWidth" enabled="T">20</param>
+   <param id="totalLength" enabled="T">800</param>
    <param id="secondSurface" comment="off" enabled="T">0</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="armLength" enabled="T">20520</param>
@@ -545,7 +545,7 @@
   <object name="M5" type="Ellipsoid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">20</param>
-   <param id="totalLength" enabled="T">550</param>
+   <param id="totalLength" enabled="T">580</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">5600</param>
    <param id="exitArmLength" enabled="T">1400</param>
@@ -653,7 +653,7 @@
   <axes>true</axes>
   <names>true</names>
   <angles>true</angles>
-  <scaling>1</scaling>
+  <scaling>0</scaling>
   <scaleLinear>1.168</scaleLinear>
   <scaleExponent>0.658</scaleExponent>
   <scaleLinearOffset>4400</scaleLinearOffset>

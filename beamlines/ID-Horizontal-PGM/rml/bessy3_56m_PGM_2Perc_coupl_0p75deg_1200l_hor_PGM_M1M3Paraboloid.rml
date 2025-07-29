@@ -304,8 +304,8 @@
   </object>
   <object name="M3" type="Paraboloid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">50</param>
-   <param id="totalLength" enabled="T">400</param>
+   <param id="totalWidth" enabled="T">20</param>
+   <param id="totalLength" enabled="T">800</param>
    <param id="secondSurface" comment="off" enabled="T">0</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="armLength" enabled="T">20500</param>
@@ -465,7 +465,7 @@
   <object name="M4" type="Ellipsoid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">20</param>
-   <param id="totalLength" enabled="T">200</param>
+   <param id="totalLength" enabled="T">450</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">53500</param>
    <param id="exitArmLength" enabled="T">2000</param>

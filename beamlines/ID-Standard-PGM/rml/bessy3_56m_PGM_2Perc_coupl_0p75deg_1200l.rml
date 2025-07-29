@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">20000</param>
+   <param id="numberRays" enabled="T">100000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -460,7 +460,7 @@
   </object>
   <object name="M4" type="Ellipsoid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">20</param>
+   <param id="totalWidth" enabled="T">10</param>
    <param id="totalLength" enabled="T">200</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">5000</param>
@@ -541,7 +541,7 @@
   </object>
   <object name="M5" type="Ellipsoid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">20</param>
+   <param id="totalWidth" enabled="T">10</param>
    <param id="totalLength" enabled="T">550</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
    <param id="entranceArmLength" enabled="T">5700</param>

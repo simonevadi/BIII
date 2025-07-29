@@ -6,8 +6,8 @@ from pathlib import Path
 # Standard Simulation Parameters
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 12
-nrays   = 1e5
-rounds  = 10
+nrays   = 1e4
+rounds  = 1
 
 B3_hor_energy= np.arange(100, 2101,5)
 B3_hor_SlitSize= np.array([.020]) # mm
