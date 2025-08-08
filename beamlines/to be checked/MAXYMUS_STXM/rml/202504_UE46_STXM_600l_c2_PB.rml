@@ -43,7 +43,7 @@
    <param id="photonEnergy" enabled="T">700</param>
    <param id="energySpreadType" comment="white band" enabled="T">0</param>
    <param id="energySpreadUnit" comment="%" enabled="T">1</param>
-   <param id="energySpread" enabled="T">0</param>
+   <param id="energySpread" enabled="T">0.1</param>
    <param id="linearPol_0" enabled="T">1</param>
    <param id="linearPol_45" enabled="T">0</param>
    <param id="circularPol" enabled="T">0</param>
@@ -134,7 +134,7 @@
    <param id="totalWidth" enabled="T">20</param>
    <param id="totalLength" enabled="T">300</param>
    <param id="grazingIncAngle" enabled="F">2.287386538711985</param>
-   <param id="distancePreceding" enabled="F">7125.0233804122</param>
+   <param id="distancePreceding" enabled="F">7125.023380412199</param>
    <param id="azimuthalAngle" enabled="F">0</param>
    <param id="systemMount" comment="SX700 (as premirror of a grating)" enabled="T">1</param>
    <param id="premirrorShiftZ" enabled="T">-40</param>
@@ -181,8 +181,8 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-377.3648197070025390</x>
-    <y>3.4115060506853649</y>
+    <x>-377.3648197070024821</x>
+    <y>3.4115060506853863</y>
     <z>24200.5497059692279436</z>
    </param>
    <param id="worldXdirection" enabled="F">
@@ -228,7 +228,7 @@
    <param id="cFactor" enabled="T">2</param>
    <param id="alpha" auto="T" enabled="T">88.47543589515209</param>
    <param id="beta" auto="T" enabled="T">-86.94979102742393</param>
-   <param id="distancePreceding" enabled="F">125.376056101609</param>
+   <param id="distancePreceding" enabled="F">125.3760561016096</param>
    <param id="azimuthalAngle" enabled="T">180</param>
    <param id="entranceArmLength" enabled="T">1e+19</param>
    <param id="lineSpacing" comment="constant" enabled="T">0</param>
@@ -272,7 +272,7 @@
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
     <x>-379.4356827634624096</x>
-    <y>9.9999994938340606</y>
+    <y>9.9999994938341068</y>
     <z>24240.0641270111045742</z>
    </param>
    <param id="worldXdirection" enabled="F">
@@ -351,7 +351,7 @@
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
     <x>-471.0236061886141101</x>
-    <y>9.9999994938336236</y>
+    <y>9.9999994938336698</y>
     <z>25987.6658128316084913</z>
    </param>
    <param id="worldXdirection" enabled="F">
@@ -401,7 +401,7 @@
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
     <x>-868.2317666056972030</x>
-    <y>9.9999994938326751</y>
+    <y>9.9999994938327212</y>
     <z>29766.8490152310478152</z>
    </param>
    <param id="worldXdirection" enabled="F">
@@ -424,7 +424,7 @@
    <param id="distanceImagePlane" enabled="T">3000</param>
    <param id="worldPosition" enabled="F">
     <x>-1181.8171564086574108</x>
-    <y>9.9999994938319272</y>
+    <y>9.9999994938319734</y>
     <z>32750.4147013358669938</z>
    </param>
    <param id="worldXdirection" enabled="F">
@@ -461,14 +461,14 @@
    <param id="alignmentError" comment="Yes" enabled="T">0</param>
    <param id="translationXerror" enabled="T">0</param>
    <param id="translationYerror" enabled="T">0</param>
-   <param id="translationZerror" enabled="T">0</param>
+   <param id="translationZerror" enabled="T">0.051</param>
    <param id="rotationXerror" enabled="T">0</param>
    <param id="rotationYerror" enabled="T">0</param>
    <param id="rotationZerror" enabled="T">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-1181.8171564086574108</x>
-    <y>9.9999994938319272</y>
-    <z>32750.4147013358669938</z>
+    <x>-1181.8224873602839580</x>
+    <y>9.9999994938319734</y>
+    <z>32750.4654219525291410</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9945218953682734</x>
@@ -490,7 +490,7 @@
    <param id="distanceImagePlane" enabled="T">6</param>
    <param id="worldPosition" enabled="F">
     <x>-1182.4443271882632871</x>
-    <y>9.9999994938319254</y>
+    <y>9.9999994938319716</y>
     <z>32756.3818327080771269</z>
    </param>
    <param id="worldXdirection" enabled="F">

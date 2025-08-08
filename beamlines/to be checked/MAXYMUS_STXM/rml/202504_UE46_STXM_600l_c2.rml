@@ -43,7 +43,7 @@
    <param id="photonEnergy" enabled="T">700</param>
    <param id="energySpreadType" comment="white band" enabled="T">0</param>
    <param id="energySpreadUnit" comment="%" enabled="T">1</param>
-   <param id="energySpread" enabled="T">0.1</param>
+   <param id="energySpread" enabled="T">0.114</param>
    <param id="linearPol_0" enabled="T">1</param>
    <param id="linearPol_45" enabled="T">0</param>
    <param id="circularPol" enabled="T">0</param>
@@ -445,13 +445,13 @@
   </object>
   <object name="TZP" type="Zoneplate">
    <param id="zoneplateType" comment="circular" enabled="T">1</param>
-   <param id="totalWidth" enabled="T">0.2</param>
+   <param id="totalWidth" enabled="T">2</param>
    <param id="totalHeight" enabled="F">5</param>
-   <param id="designEnergy" auto="F" enabled="T">700</param>
+   <param id="designEnergy" auto="T" enabled="T">700</param>
    <param id="focalLength" enabled="T">6</param>
    <param id="centralBeamstop" comment="elliptical" enabled="T">2</param>
-   <param id="totalWidthStop" enabled="T">0.07000000000000001</param>
-   <param id="totalHeightStop" enabled="T">0.07000000000000001</param>
+   <param id="totalWidthStop" enabled="T">0.5</param>
+   <param id="totalHeightStop" enabled="T">0.5</param>
    <param id="distancePreceding" enabled="T">3000</param>
    <param id="transmissionType" comment="Derived by Material" enabled="T">1</param>
    <param id="materialSubstrate" enabled="T">Si3N4</param>
@@ -487,11 +487,11 @@
    </param>
   </object>
   <object name="DetectorAtFocus" type="ImagePlane">
-   <param id="distanceImagePlane" enabled="T">3</param>
+   <param id="distanceImagePlane" enabled="T">6</param>
    <param id="worldPosition" enabled="F">
-    <x>-1182.1307417984603489</x>
-    <y>9.9999994938319734</y>
-    <z>32753.3982670219702413</z>
+    <x>-1182.4443271882632871</x>
+    <y>9.9999994938319716</y>
+    <z>32756.3818327080771269</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9945218953682734</x>

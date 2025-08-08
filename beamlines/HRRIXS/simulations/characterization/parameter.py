@@ -6,12 +6,12 @@ from pathlib import Path
 # Standard Simulation Parameters
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 12
-nrays   = 1e5
-rounds  = 5
+nrays   = 1e6
+rounds  = 4
 HRRIXS_energy = np.arange(150, 2101, 5)  # eV
 HRRIXS_order   = 2  # diffraction order
 HRRIXS_cff     = 25
-HRRIXS_SlitSize = np.array([.0012])  # mm
+HRRIXS_SlitSize = np.array([.0012])  # mm   #NOTE: each BL has its own slit size, where the RP is max without reducing FLUX
 HRRIXS_grating  = np.array([3000])  # lines/mm
 
 
@@ -29,13 +29,35 @@ HRRIXS_V2_file_path                          = os.path.join(Path(__file__).resol
                                                      'rml',
                                                      HRRIXS_V2_rml_file_name+'.rml')
 
-#   PARAMS HRRIXS 91 m Version #1 SIMULATIONS
+#   PARAMS HRRIXS 91 m Version #3 SIMULATIONS
 HRRIXS_V3_rml_file_name     = 'HRRIXS_91m_3'
 HRRIXS_V3_sim_name                           = HRRIXS_V3_rml_file_name
 HRRIXS_V3_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
                                                      HRRIXS_V3_rml_file_name+'.rml')
 
+#   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
+HRRIXS_V3_1_rml_file_name     = 'HRRIXS_91m_3_1'
+HRRIXS_V3_1_sim_name                           = HRRIXS_V3_1_rml_file_name
+HRRIXS_V3_1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_V3_1_rml_file_name+'.rml')
+
+
+#   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
+HRRIXS_100m_1_rml_file_name     = 'HRRIXS_100m_1'
+HRRIXS_100m_1_sim_name                           = HRRIXS_100m_1_rml_file_name
+HRRIXS_100m_1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_1_rml_file_name+'.rml')
+
+
+#   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
+HRRIXS_108m_1hor_rml_file_name     = 'HRRIXS_108m_1hor'
+HRRIXS_108m_1hor_sim_name                           = HRRIXS_108m_1hor_rml_file_name
+HRRIXS_108m_1hor_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_108m_1hor_rml_file_name+'.rml')
 
 
 

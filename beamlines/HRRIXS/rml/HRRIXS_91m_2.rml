@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">200000</param>
+   <param id="numberRays" enabled="T">1000000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -43,7 +43,7 @@
    <param id="photonEnergy" enabled="T">1000</param>
    <param id="energySpreadType" comment="white band" enabled="T">0</param>
    <param id="energySpreadUnit" comment="%" enabled="T">1</param>
-   <param id="energySpread" enabled="T">0.0004</param>
+   <param id="energySpread" enabled="T">0.0005</param>
    <param id="linearPol_0" enabled="T">1</param>
    <param id="linearPol_45" enabled="T">0</param>
    <param id="circularPol" enabled="T">0</param>
@@ -58,8 +58,8 @@
    <param id="entranceArmLengthSag" enabled="T">23000</param>
    <param id="exitArmLengthSag" enabled="T">1e+19</param>
    <param id="entranceArmLengthMer" enabled="T">23000</param>
-   <param id="exitArmLengthMer" enabled="T">56000</param>
-   <param id="longRadius" auto="T" enabled="T">2491107.900086153</param>
+   <param id="exitArmLengthMer" enabled="T">63000</param>
+   <param id="longRadius" auto="T" enabled="T">2574386.216513452</param>
    <param id="shortRadius" auto="T" enabled="T">602.1213962818427</param>
    <param id="distancePreceding" enabled="T">23000</param>
    <param id="azimuthalAngle" enabled="T">90</param>
@@ -214,7 +214,7 @@
   <object name="PG" type="Plane Grating">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">10</param>
-   <param id="totalLength" enabled="T">400</param>
+   <param id="totalLength" enabled="T">500</param>
    <param id="gratingMount" comment="constant c-Factor mount" enabled="T">3</param>
    <param id="systemMount" comment="SX700 (external premirror)" enabled="T">1</param>
    <param id="deviationAngle" enabled="F">10</param>
@@ -380,7 +380,7 @@
   </object>
   <object name="HorSlit" type="Slit">
    <param id="openingShape" comment="rectangle" enabled="T">0</param>
-   <param id="openingWidth" enabled="T">0.12</param>
+   <param id="openingWidth" enabled="T">10.12</param>
    <param id="openingHeight" enabled="T">20</param>
    <param id="centralBeamstop" comment="none" enabled="T">0</param>
    <param id="stopWidth" enabled="F">20</param>
@@ -421,7 +421,7 @@
   <object name="ExitSlit" type="Slit">
    <param id="openingShape" comment="rectangle" enabled="T">0</param>
    <param id="openingWidth" enabled="T">20</param>
-   <param id="openingHeight" enabled="T">0.0012</param>
+   <param id="openingHeight" enabled="T">0.004</param>
    <param id="centralBeamstop" comment="none" enabled="T">0</param>
    <param id="stopWidth" enabled="F">20</param>
    <param id="stopHeight" enabled="F">1</param>
@@ -460,17 +460,17 @@
   </object>
   <object name="M4_hor" type="Ellipsoid">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">20</param>
+   <param id="totalWidth" enabled="T">40</param>
    <param id="totalLength" enabled="T">400</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
-   <param id="entranceArmLength" enabled="T">10000</param>
-   <param id="exitArmLength" enabled="T">1850</param>
+   <param id="entranceArmLength" enabled="T">10500</param>
+   <param id="exitArmLength" enabled="T">1560</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">5925</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">56.30047935937277</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">6030</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">52.97648959855564</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
-   <param id="distancePreceding" enabled="T">10000</param>
+   <param id="distancePreceding" enabled="T">10500</param>
    <param id="azimuthalAngle" enabled="T">270</param>
    <param id="reflectivityType" comment="Derived by Material" enabled="T">1</param>
    <param id="materialSubstrate" enabled="T">Si</param>
@@ -509,9 +509,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-3297.2190652893232254</x>
-    <y>13.9997411223405610</y>
-    <z>88915.7160681781824678</z>
+    <x>-3323.3870434107948313</x>
+    <y>13.9997411223405255</y>
+    <z>89415.0308355554589070</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.0000000000000000</x>
@@ -544,11 +544,11 @@
    <param id="totalWidth" enabled="T">10</param>
    <param id="totalLength" enabled="T">700</param>
    <param id="grazingIncAngle" enabled="T">0.75</param>
-   <param id="entranceArmLength" enabled="T">10600</param>
-   <param id="exitArmLength" enabled="T">1200</param>
+   <param id="entranceArmLength" enabled="T">11100</param>
+   <param id="exitArmLength" enabled="T">800</param>
    <param id="designGrazingIncAngle" auto="T" enabled="T">0.75</param>
-   <param id="longHalfAxisA" auto="T" enabled="T">5900</param>
-   <param id="shortHalfAxisB" auto="T" enabled="T">46.68418528212416</param>
+   <param id="longHalfAxisA" auto="T" enabled="T">5950</param>
+   <param id="shortHalfAxisB" auto="T" enabled="T">39.0061162963666</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>
    <param id="parameter_a11" enabled="F">1</param>
    <param id="distancePreceding" enabled="T">600</param>
@@ -590,9 +590,9 @@
    <param id="rotationYerror" enabled="F">0</param>
    <param id="rotationZerror" enabled="F">0</param>
    <param id="worldPosition" enabled="F">
-    <x>-3312.9252342740469430</x>
-    <y>13.9997411223405201</y>
-    <z>89515.5104631635185797</z>
+    <x>-3339.0932123955185489</x>
+    <y>13.9997411223404846</y>
+    <z>90014.8252305407950189</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9996573249755573</x>
@@ -621,11 +621,11 @@
    <param id="cylindricalBowingRadius" enabled="F">0</param>
   </object>
   <object name="DetectorAtFocus" type="ImagePlane">
-   <param id="distanceImagePlane" enabled="T">1200</param>
+   <param id="distanceImagePlane" enabled="T">800</param>
    <param id="worldPosition" enabled="F">
-    <x>-3344.3268080198131429</x>
-    <y>45.4120790917882289</y>
-    <z>90714.6881840162677690</z>
+    <x>-3360.0275948926960154</x>
+    <y>34.9412997686389559</y>
+    <z>90814.2770444426278118</z>
    </param>
    <param id="worldXdirection" enabled="F">
     <x>0.9996573249755573</x>

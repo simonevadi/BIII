@@ -7,8 +7,10 @@ import xrt.backends.raycing.materials as rm
 from raypyng.postprocessing import PostProcessAnalyzed
 from helper_lib import get_reflectivity
 
-from parameter import HRRIXS_SlitSize as SlitSize
 from parameter import HRRIXS_undulator as undulator_df
+
+SlitSize = np.array([0.004])
+
 
 ##############################################################
 # LOAD IN DATA
@@ -24,6 +26,12 @@ BL_df = pd.read_csv(BL_file_path)
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('UE42.5 BESSY III HR-RIXs Beamline (91 m)', size=16)
 x_range = [50, 2150]
+
+# Smoothing the data
+window = 10
+step = 1
+
+BL_df  = BL_df.rolling(window=window, step=step).mean()   
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
@@ -84,7 +92,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}')
 
-ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth (TBW) @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
 ax3.legend(loc='best', fontsize=12)
@@ -100,11 +108,11 @@ for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/250, label=f'Harm. {harm}')
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/200, label=f'Harm. {harm}')
 
-ax4.set_title('Flux curve 91 m HR-RIXS Beamline')
+ax4.set_title('Transmitted flux 91 m HR-RIXS Beamline')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
@@ -136,7 +144,7 @@ for harm in harms:
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/250)/foc_area, label=f'Harm. {harm}')
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/200)/foc_area, label=f'Harm. {harm}')
 
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
@@ -180,5 +188,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-# plt.savefig('plot/Flux_curves UE42 @ BESSY III_err_on.pdf')
+plt.savefig('plot/HRRIXS_91m_2.pdf')
 plt.show()

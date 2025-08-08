@@ -15,7 +15,7 @@ from BESSY_III_machine_params import emittance_standard
 # Define the values of the parameters to scan 
 from parameter import ncpu, nrays, rounds
 from parameter import HRRIXS_energy       as energy
-from parameter import HRRIXS_SlitSize     as SlitSize
+# from parameter import HRRIXS_SlitSize     as SlitSize
 from parameter import HRRIXS_cff          as cff
 from parameter import HRRIXS_grating      as grating
 from parameter import HRRIXS_order        as order
@@ -33,7 +33,7 @@ params = [
             {beamline.PG.orderDiffraction:order},
             {beamline.PG.cFactor:cff},
             {beamline.PG.lineDensity:grating},
-            {beamline.ExitSlit.openingHeight:SlitSize},
+            # {beamline.ExitSlit.openingHeight:SlitSize},
             {beamline.SU.numberRays:nrays},
             {beamline.SU.photonEnergy:energy}
         ]

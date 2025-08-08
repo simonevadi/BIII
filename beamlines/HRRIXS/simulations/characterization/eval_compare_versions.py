@@ -18,14 +18,17 @@ from parameter import HRRIXS_undulator as undulator_df
 BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_1', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
-
 # HR-RIXS V2:
 BL1_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_2', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL1_df = pd.read_csv(BL1_file_path)
 
-# HR-RIXS V2:
+# HR-RIXS V3:
 BL2_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_3', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL2_df = pd.read_csv(BL2_file_path)
+
+# HR-RIXS V3_1:
+BL3_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_3_1', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL3_df = pd.read_csv(BL3_file_path)
 
 
 ##############################################################
@@ -42,7 +45,7 @@ step = 1
 BL_df_smoothed  = BL_df.rolling(window=window, step=step).mean()   
 BL1_df_smoothed = BL1_df.rolling(window=window, step=step).mean()
 BL2_df_smoothed = BL2_df.rolling(window=window, step=step).mean()
-# BL3_df_smoothed = BL3_df.rolling(window=window, step=step).mean()
+BL3_df_smoothed = BL3_df.rolling(window=window, step=step).mean()
 
 
 # Define color for harms
@@ -145,13 +148,13 @@ for harm in harms:
     filtered_df = BL2_df_smoothed[(BL2_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL2_df_smoothed['PhotonEnergy'] <= Emax_harm)]
     ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
 
-# for harm in harms:
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-#     ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
 
-ax3.set_title(f'Transmitted Bandwidth @ {int(SlitSize[0]*1000)} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth (TBW) @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
 # ax3.legend(loc='best', fontsize=12)
@@ -167,29 +170,29 @@ for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df_smoothed[(BL_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/250, label=f'Harm. {harm}', color=colors[harm], linestyle=vert)
+    ax4.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonFlux{harm}']/250), label=f'Harm. {harm}', color=colors[harm], linestyle=vert)
 
 for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL1_df_smoothed[(BL1_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL1_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/250, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1_Para)
+    ax4.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonFlux{harm}']/200), label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1_Para)
 
 for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL2_df_smoothed[(BL2_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL2_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/250, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
+    ax4.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonFlux{harm}']/200), label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
 
-# for harm in harms:
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonFlux{harm}']/250), label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
 
-ax4.set_title('Flux curve')
+ax4.set_title('Flux on Sample')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
 # ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
@@ -217,11 +220,11 @@ for harm in harms:
     filtered_df = BL2_df_smoothed[(BL2_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL2_df_smoothed['PhotonEnergy'] <= Emax_harm)]
     ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
 
-# for harm in harms:
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-#     ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
 
 ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
@@ -246,23 +249,23 @@ for harm in harms:
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL1_df_smoothed[(BL1_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL1_df_smoothed['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/250)/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1_Para)
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/200)/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1_Para)
 
 for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL2_df_smoothed[(BL2_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL2_df_smoothed['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/250)/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/200)/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle=hor_M1M3_Para)
 
-# for harm in harms:
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
-#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-#     ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/250)/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
 
-ax6.set_title('Flux Density')
+ax6.set_title('Flux Density on Sample')
 ax6.set_xlabel('Energy [eV]')
 ax6.set_ylabel('Photons flux per µm²')
 # ax6.legend(loc='best', fontsize=12)
@@ -277,7 +280,7 @@ ax7 = axs[3, 0]
 ax7.plot(BL_df_smoothed['PhotonEnergy'], BL_df_smoothed['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='red', linestyle=vert)
 ax7.plot(BL1_df_smoothed['PhotonEnergy'], BL1_df_smoothed['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='orangered', linestyle=hor_M1_Para)
 ax7.plot(BL2_df_smoothed['PhotonEnergy'], BL2_df_smoothed['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='darkred', linestyle=hor_M1M3_Para)
-# ax7.plot(BL3_df_smoothed['PhotonEnergy'], BL3_df_smoothed['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='firebrick', linestyle='dashdot')
+ax7.plot(BL3_df_smoothed['PhotonEnergy'], BL3_df_smoothed['HorizontalFocusFWHM']*1000, label='Horizontal Focus Size', color='firebrick', linestyle='dashdot')
 
 ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
@@ -292,7 +295,7 @@ ax8 = axs[3, 1]
 ax8.plot(BL_df_smoothed['PhotonEnergy'], BL_df_smoothed['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='green', linestyle=vert)
 ax8.plot(BL1_df_smoothed['PhotonEnergy'], BL1_df_smoothed['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='lightgreen', linestyle=hor_M1_Para)
 ax8.plot(BL2_df_smoothed['PhotonEnergy'], BL2_df_smoothed['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='darkgreen', linestyle=hor_M1M3_Para)
-# ax8.plot(BL3_df_smoothed['PhotonEnergy'], BL3_df_smoothed['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='limegreen', linestyle='dashdot')
+ax8.plot(BL3_df_smoothed['PhotonEnergy'], BL3_df_smoothed['VerticalFocusFWHM']*1000, label='Vertical Focus Size', color='limegreen', linestyle='dashdot')
 
 ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
@@ -306,7 +309,8 @@ fig.text(
     0.19, 0.7,
     'HR-RIXS V1 (solid lines)\n'
     'HR-RIXS V2 (dotted lines)\n'
-    'HR-RIXS V3 (dashed lines)',
+    'HR-RIXS V3 (dashed lines)\n'
+    'HR-RIXS V3_1 (dashdot lines; smaller hor. foc.)',
     fontsize=9, ha='right', va='top',
     bbox=dict(facecolor='white', alpha=0.8, edgecolor='grey')
 )
@@ -320,5 +324,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-# plt.savefig('plot/Comparison HR-RIXS versions with UE42p5.pdf')
+plt.savefig('plot/Comparison HR-RIXS versions with UE42p5.pdf')
 plt.show()

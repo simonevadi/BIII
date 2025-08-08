@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">50000</param>
+   <param id="numberRays" enabled="T">500000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -42,8 +42,8 @@
    <param id="photonEnergyDistributionFile" absolute="" enabled="F"></param>
    <param id="photonEnergy" enabled="T">1000</param>
    <param id="energySpreadType" comment="white band" enabled="T">0</param>
-   <param id="energySpreadUnit" comment="eV" enabled="T">0</param>
-   <param id="energySpread" enabled="T">0.004</param>
+   <param id="energySpreadUnit" comment="%" enabled="T">1</param>
+   <param id="energySpread" enabled="T">0.0003</param>
    <param id="linearPol_0" enabled="T">1</param>
    <param id="linearPol_45" enabled="T">0</param>
    <param id="circularPol" enabled="T">0</param>
@@ -421,7 +421,7 @@
   <object name="ExitSlit" type="Slit">
    <param id="openingShape" comment="rectangle" enabled="T">0</param>
    <param id="openingWidth" enabled="T">20</param>
-   <param id="openingHeight" enabled="T">0.0012</param>
+   <param id="openingHeight" enabled="T">0.0013</param>
    <param id="centralBeamstop" comment="none" enabled="T">0</param>
    <param id="stopWidth" enabled="F">20</param>
    <param id="stopHeight" enabled="F">1</param>
