@@ -60,7 +60,6 @@ HRRIXS_108m_1hor_file_path                          = os.path.join(Path(__file__
                                                      HRRIXS_108m_1hor_rml_file_name+'.rml')
 
 
-
 ###################################################################################
 #   PARAMS FOR Undulator BESSY III UE42.5 by smalerz
 HRRIXS_undulator_file_path         = os.path.join(Path(__file__).resolve().parents[4],
