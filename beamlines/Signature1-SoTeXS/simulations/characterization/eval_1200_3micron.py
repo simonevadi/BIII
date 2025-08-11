@@ -37,7 +37,7 @@ ax1 = axs[0, 0]
 de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.7
-E = np.arange(500, 2501, de)
+E = np.arange(x_range[0], x_range[1], de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 # Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
