@@ -23,7 +23,7 @@ BL_df = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('UE42.5 BESSY III HR-RIXs Beamline (91 m)', size=16)
+fig.suptitle('UE42.5 BESSY III HR-RIXS Beamline (91 m)', size=16)
 x_range = [50, 2150]
 
 # Smoothing the data
