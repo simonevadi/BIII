@@ -316,5 +316,53 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
+<<<<<<< Updated upstream:beamlines/ID-Horizontal-PGM/simulations/characterization/eval_standardBL_B3_UE42_56m_compare_v_h_PGM.py
 # plt.savefig('plot/Comparison hor vs vert PGM at BESSY III.pdf')
+=======
+plt.savefig('plot/Comparison hor vs vert PGM at BESSY III.pdf')
+
+
+
+fig, (axs) = plt.subplots(1, 1, figsize=(20, 15))
+
+# Flux Density
+ax6 = axs
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_smoothed[(BL_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],foc_area, label=f'Harm. {harm}', color=colors[harm])
+
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL1_df_smoothed[(BL1_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL1_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle='dotted')
+
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL2_df_smoothed[(BL2_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL2_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle='dashed')
+
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL3_df_smoothed[(BL3_df_smoothed['PhotonEnergy'] >= Emin_harm) & (BL3_df_smoothed['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}', color=colors[harm], linestyle='dashdot')
+
+ax6.set_title('Flux Density')
+ax6.set_xlabel('Energy [eV]')
+ax6.set_ylabel('Photons flux per µm²')
+# ax6.legend(loc='best', fontsize=12)
+ax6.set_xlim(x_range)
+ax6.set_yscale('log')
+ax6.minorticks_on()
+ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+>>>>>>> Stashed changes:ID-Standard-PGM/laying_PGM_hor/eval_standardBL_B3_UE42_56m_compare_v_h_PGM.py
 plt.show()

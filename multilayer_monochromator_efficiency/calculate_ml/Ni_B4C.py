@@ -3,7 +3,7 @@ from multilayer import MultilayerBragg
 
 
 
-energies = np.arange(500, 8001, 10)  # 30 to 70 keV
+energies = np.arange(500, 11001, 10)  # 30 to 70 keV
 
 ml = MultilayerBragg(('Ni', 8.9), 21, 
                           ('C', 2.52), 24, 
