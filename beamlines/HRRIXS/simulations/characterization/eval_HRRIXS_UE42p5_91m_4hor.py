@@ -9,14 +9,20 @@ from helper_lib import get_reflectivity
 
 from parameter import HRRIXS_undulator as undulator_df
 
-SlitSize = np.array([0.004])
+SlitSize = np.array([0.003])
 
 ##############################################################
 # LOAD IN DATA
 
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_3', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_4hor', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
+
+# Normalize the data Bandwidth to 0.1 %
+norm_BW = 0.1   # in %
+sim_BW = 0.0003  # in %
+
+Flux_corr = norm_BW / sim_BW  #Factor to normalize the Flux regarding the Bandwidth which used to accelaret the simulation
 
 
 ##############################################################
@@ -108,11 +114,11 @@ for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/200, label=f'Harm. {harm}')
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/250, label=f'Harm. {harm}')
 
-ax4.set_title('Transmitted flux 91 m HR-RIXS Beamline')
+ax4.set_title('Transmitted flux (Flux on sample)')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mAv in TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
@@ -144,7 +150,7 @@ for harm in harms:
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/200)/foc_area, label=f'Harm. {harm}')
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/250)/foc_area, label=f'Harm. {harm}')
 
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
@@ -188,5 +194,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/HRRIXS_91m_3.pdf')
+plt.savefig('plot/HRRIXS_91m_3_1.pdf')
 plt.show()

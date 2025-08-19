@@ -7,7 +7,7 @@ from pathlib import Path
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 12
 nrays   = 1e6
-rounds  = 4
+rounds  = 2
 HRRIXS_energy = np.arange(150, 2101, 5)  # eV
 HRRIXS_order   = 2  # diffraction order
 HRRIXS_cff     = 25
@@ -30,18 +30,18 @@ HRRIXS_V2_file_path                          = os.path.join(Path(__file__).resol
                                                      HRRIXS_V2_rml_file_name+'.rml')
 
 #   PARAMS HRRIXS 91 m Version #3 SIMULATIONS
-HRRIXS_V3_rml_file_name     = 'HRRIXS_91m_3'
-HRRIXS_V3_sim_name                           = HRRIXS_V3_rml_file_name
-HRRIXS_V3_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+HRRIXS_V3_hor_rml_file_name     = 'HRRIXS_91m_3hor'
+HRRIXS_V3_hor_sim_name                           = HRRIXS_V3_hor_rml_file_name
+HRRIXS_V3_hor_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
-                                                     HRRIXS_V3_rml_file_name+'.rml')
+                                                     HRRIXS_V3_hor_rml_file_name+'.rml')
 
 #   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
-HRRIXS_V3_1_rml_file_name     = 'HRRIXS_91m_3_1'
-HRRIXS_V3_1_sim_name                           = HRRIXS_V3_1_rml_file_name
-HRRIXS_V3_1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+HRRIXS_V4_hor_rml_file_name     = 'HRRIXS_91m_4hor'
+HRRIXS_V4_hor_sim_name                           = HRRIXS_V4_hor_rml_file_name
+HRRIXS_V4_hor_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
-                                                     HRRIXS_V3_1_rml_file_name+'.rml')
+                                                     HRRIXS_V4_hor_rml_file_name+'.rml')
 
 
 #   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS

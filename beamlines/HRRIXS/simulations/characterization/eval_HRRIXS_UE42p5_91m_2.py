@@ -19,6 +19,11 @@ SlitSize = np.array([0.004])
 BL_file_path = os.path.join('RAYPy_Simulation_HRRIXS_91m_2', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
+# Normalize the data Bandwidth to 0.1 %
+norm_BW = 0.1   # in %
+sim_BW = 0.0003  # in %
+
+Flux_corr = norm_BW / sim_BW  #Factor to normalize the Flux regarding the Bandwidth which used to accelaret the simulation
 
 ##############################################################
 # PLOTTING AND ANALYSIS
@@ -110,7 +115,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/200, label=f'Harm. {harm}')
 
-ax4.set_title('Transmitted flux 91 m HR-RIXS Beamline')
+ax4.set_title('Transmitted flux (Flux on sample)')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
 ax4.legend(loc='best', fontsize=12)

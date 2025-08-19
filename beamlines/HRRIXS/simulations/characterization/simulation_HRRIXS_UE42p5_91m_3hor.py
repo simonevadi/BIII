@@ -20,8 +20,8 @@ from parameter import HRRIXS_cff          as cff
 from parameter import HRRIXS_grating      as grating
 from parameter import HRRIXS_order        as order
 from parameter import HRRIXS_undulator    as undulator
-from parameter import HRRIXS_V3_1_file_path as rml_file
-from parameter import HRRIXS_V3_1_sim_name  as sim_name
+from parameter import HRRIXS_V3_hor_file_path as rml_file
+from parameter import HRRIXS_V3_hor_sim_name  as sim_name
 
 sim = Simulate(rml_file, hide=True)
 
