@@ -110,9 +110,9 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux curve 56 m PGM-Beamline')
+ax4.set_title('Flux with CPMU21')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
@@ -195,4 +195,4 @@ if not os.path.exists(plot_folder):
 # Save the the figure
 plt.tight_layout()
 plt.savefig('plot/SoTeXS_1200_3micron.png')
-plt.show()
+# plt.show()

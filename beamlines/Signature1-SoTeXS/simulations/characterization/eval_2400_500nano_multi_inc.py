@@ -43,8 +43,9 @@ colors = [
     '#9467bd'   # purple
 ]
 # Create the Main figure
+plt.rcParams.update({'font.size': 25})  # Change 14 to any size you prefer
 fig, (axs) = plt.subplots(2, 2, figsize=(30, 15))
-fig.suptitle('SoTeXS, 2400 l/mm, nano focus - M1: 600mm, M3: 500mm, KB_ver: 600mm, KB_hor:400, KB2_ver:500, KB2_hor:400', size=16)
+fig.suptitle('SoTeXS, 2400 l/mm, nano focus - M1: 600mm, M3: 500mm, KB_ver: 600mm, KB_hor:400, KB2_ver:500, KB2_hor:400')
 x_range = [500, 8000]
 
 # MIRROR REFLECTIVITY
@@ -88,7 +89,7 @@ for ind, harm in enumerate(harms):
 ax2.set_title('CPMU21 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
-ax2.legend(fontsize=12, loc='best')
+ax2.legend(loc='best')
 ax2.set_xlim(x_range)
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -126,10 +127,10 @@ for ind, inc_angle in enumerate(inc_angles):
                  color=colors[ind], linestyle=linestyle_list[ind2],
                  label=f'Inc. Angle {inc_angle}' if harm==1 else None)
 
-ax4.set_title('Flux curve 56 m PGM-Beamline with ML')
+ax4.set_title('Flux with CPMU21')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
-ax4.legend(loc='best', fontsize=12)
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
+ax4.legend(loc='best')
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -172,7 +173,7 @@ for ind, inc_angle in enumerate(inc_angles):
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
 ax6.set_ylabel('Photons flux per µm²')
-ax6.legend(loc='best', fontsize=12)
+# ax6.legend(loc='best')
 ax6.set_xlim(x_range)
 ax6.minorticks_on()
 ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')

@@ -28,7 +28,7 @@ BL_df = pd.read_csv(BL_file_path)
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('SoTeXS, 1200 l/mm, nano focus', size=16)
-# x_range = [490,2150]
+x_range = [490,2150]
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
@@ -39,12 +39,6 @@ theta = 0.75
 E = np.arange(500, 2501, de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
-# Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
-# Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
-# B4C = rm.Material('C', rho=2.52,  kind='mirror',  table=table)
-# IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40, 
-#                         bLayer=Cr, bThickness=60, 
-#                         nPairs=1, substrate=Ir)
 
 Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
@@ -109,9 +103,9 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux curve 56 m PGM-Beamline')
+ax4.set_title('Flux with CPMU21')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()

@@ -26,9 +26,11 @@ BL_df = pd.read_csv(BL_file_path)
 
 ##############################################################
 # PLOTTING AND ANALYSIS
+plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
+
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('SoTeXS, 2400 l/mm', size=16)
+fig.suptitle('SoTeXS, 2400 l/mm')
 x_range = [500, 6000]
 
 # MIRROR REFLECTIVITY
@@ -82,7 +84,7 @@ for harm in harms:
 ax2.set_title('CPMU21 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
-ax2.legend(fontsize=12, loc='best')
+ax2.legend(loc='best')
 ax2.set_xlim(x_range)
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -103,7 +105,7 @@ for harm in harms:
 ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
-ax3.legend(loc='best', fontsize=12)
+ax3.legend(loc='best')
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -118,10 +120,10 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux curve 56 m PGM-Beamline with ML')
+ax4.set_title('Flux with CPMU21')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
-ax4.legend(loc='best', fontsize=12)
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
+ax4.legend(loc='best')
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -141,7 +143,7 @@ for harm in harms:
 ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
-ax5.legend(loc='best', fontsize=12)
+ax5.legend(loc='best')
 ax5.set_xlim(x_range)
 ax5.minorticks_on()
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -159,7 +161,7 @@ for harm in harms:
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
 ax6.set_ylabel('Photons flux per µm²')
-ax6.legend(loc='best', fontsize=12)
+ax6.legend(loc='best')
 ax6.set_xlim(x_range)
 ax6.minorticks_on()
 ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
