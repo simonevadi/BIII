@@ -68,6 +68,7 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax2 = axs[0, 1]
 
 harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
+harms = [1] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
@@ -112,7 +113,7 @@ for harm in harms:
 
 ax4.set_title('Flux curve 56 m PGM-Beamline')
 ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
@@ -194,5 +195,10 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
+<<<<<<< HEAD:beamlines/Signature1-SoTeXS/simulations/characterization/eval_1200_3micron.py
 plt.savefig('plot/SoTeXS_1200_3micron.png')
 plt.show()
+=======
+plt.savefig('plot/SoTeXS_1200.png')
+# plt.show()
+>>>>>>> 24c93ef (fix eval, prepare new sim):beamlines/Signature1-SoTeXS/simulations/characterization/eval_1200.py
