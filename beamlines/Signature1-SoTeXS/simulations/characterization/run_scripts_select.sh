@@ -5,8 +5,8 @@
 
 
 
-python simulation_1200_3micron.py
-python simulation_1200_500nano.py
+python simulation_2400.py
+python simulation_1200.py
 
 
 # git add .
