@@ -97,7 +97,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}')
 
-ax3.set_title(f'Transmitted Bandwidth (TBW) {SlitSize[0]*1000:.1f} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth (TBW) @ {SlitSize[0]*1000:.1f} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
 ax3.legend(loc='best', fontsize=12)

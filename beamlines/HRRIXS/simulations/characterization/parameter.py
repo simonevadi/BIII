@@ -44,7 +44,7 @@ HRRIXS_V4_hor_file_path                          = os.path.join(Path(__file__).r
                                                      HRRIXS_V4_hor_rml_file_name+'.rml')
 
 
-#   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
+#   PARAMS HRRIXS 100 m Version SIMULATIONS
 HRRIXS_100m_1_rml_file_name     = 'HRRIXS_100m_1'
 HRRIXS_100m_1_sim_name                           = HRRIXS_100m_1_rml_file_name
 HRRIXS_100m_1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
@@ -52,12 +52,43 @@ HRRIXS_100m_1_file_path                          = os.path.join(Path(__file__).r
                                                      HRRIXS_100m_1_rml_file_name+'.rml')
 
 
-#   PARAMS HRRIXS 91 m Version #3_1 SIMULATIONS
+#   PARAMS HRRIXS 100 m with short grating (250 mm) Version SIMULATIONS
+HRRIXS_100m_1_SG_rml_file_name     = 'HRRIXS_100m_1_shortgrating'
+HRRIXS_100m_1_SG_sim_name                           = HRRIXS_100m_1_SG_rml_file_name
+HRRIXS_100m_1_SG_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_1_SG_rml_file_name+'.rml')
+
+
+#   PARAMS HRRIXS 100 m with blaze grating (250 mm) Version SIMULATIONS
+HRRIXS_100m_1_blaze_rml_file_name     = 'HRRIXS_100m_blaze'
+HRRIXS_100m_1_blaze_sim_name                           = HRRIXS_100m_1_blaze_rml_file_name
+HRRIXS_100m_1_blaze_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_1_blaze_rml_file_name+'.rml')
+
+#   PARAMS HRRIXS 100 m with blaze grating (250 mm) Version SIMULATIONS
+HRRIXS_100m_Wolter1_rml_file_name     = 'HRRIXS_100m_Wolter_1'
+HRRIXS_100m_Wolter1_sim_name                           = HRRIXS_100m_Wolter1_rml_file_name
+HRRIXS_100m_Wolter1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_Wolter1_rml_file_name+'.rml')
+
+#   PARAMS HRRIXS 100 m with blaze grating (250 mm) Version SIMULATIONS
+HRRIXS_100m_Wolter1wovKP_rml_file_name     = 'HRRIXS_100m_Wolter_1_wo_vKB'
+HRRIXS_100m_Wolter1wovKP_sim_name                           = HRRIXS_100m_Wolter1wovKP_rml_file_name
+HRRIXS_100m_Wolter1wovKP_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_Wolter1wovKP_rml_file_name+'.rml')
+
+
+#   PARAMS HRRIXS 108 m KB swaped (hor) SIMULATIONS
 HRRIXS_108m_1hor_rml_file_name     = 'HRRIXS_108m_1hor'
 HRRIXS_108m_1hor_sim_name                           = HRRIXS_108m_1hor_rml_file_name
 HRRIXS_108m_1hor_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
                                                      HRRIXS_108m_1hor_rml_file_name+'.rml')
+
 
 
 ###################################################################################
