@@ -3,7 +3,7 @@
  <version>1.15</version>
  <beamline>
   <object name="SU" type="Simple Undulator">
-   <param id="numberRays" enabled="T">100000</param>
+   <param id="numberRays" enabled="T">10000</param>
    <param id="sigmaType" comment="standard" enabled="T">0</param>
    <param id="undulatorLength" enabled="T">4</param>
    <param id="electronDistributionType" comment="manual" enabled="T">0</param>
@@ -121,7 +121,7 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.5</param>
+   <param id="slopeErrorSag" enabled="T">0.1</param>
    <param id="slopeErrorMer" enabled="T">0.2</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
@@ -203,8 +203,8 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.2</param>
-   <param id="slopeErrorMer" enabled="T">0.05</param>
+   <param id="slopeErrorSag" enabled="T">0.02</param>
+   <param id="slopeErrorMer" enabled="T">0.1</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
@@ -293,8 +293,8 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.1</param>
-   <param id="slopeErrorMer" enabled="T">0.02</param>
+   <param id="slopeErrorSag" enabled="T">0.01</param>
+   <param id="slopeErrorMer" enabled="T">0.05</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
@@ -370,8 +370,8 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.5</param>
-   <param id="slopeErrorMer" enabled="T">0.2</param>
+   <param id="slopeErrorSag" enabled="T">0.05</param>
+   <param id="slopeErrorMer" enabled="T">0.1</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
@@ -491,8 +491,8 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.05</param>
-   <param id="slopeErrorMer" enabled="T">0.01</param>
+   <param id="slopeErrorSag" enabled="T">0.2</param>
+   <param id="slopeErrorMer" enabled="T">0.1</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
@@ -572,8 +572,8 @@
    <param id="slopeError" comment="Yes" enabled="T">0</param>
    <param id="profileKind" comment="no Profile" enabled="T">2</param>
    <param id="profileFile" absolute="" enabled="F"></param>
-   <param id="slopeErrorSag" enabled="T">0.05</param>
-   <param id="slopeErrorMer" enabled="T">0.01</param>
+   <param id="slopeErrorSag" enabled="T">0.2</param>
+   <param id="slopeErrorMer" enabled="T">0.1</param>
    <param id="thermalDistortionAmp" enabled="T">0</param>
    <param id="thermalDistortionSigmaX" enabled="T">0</param>
    <param id="thermalDistortionSigmaZ" enabled="T">0</param>
