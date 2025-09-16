@@ -22,7 +22,7 @@ mov_av = p.moving_average
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_elisa_1200', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
-
+BL_df = BL_df[BL_df['PG.cFactor']>=3]  # Limit to 2150 eV for better plotting
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
@@ -187,5 +187,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/elisa_1200.png')
+plt.savefig('plot/elisa_1200_10.png')
 # plt.show()
