@@ -22,12 +22,13 @@ mov_av = p.moving_average
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_elisa_1200', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
-BL_df = BL_df[BL_df['PG.cFactor']>=3]  # Limit to 2150 eV for better plotting
+cff = 5
+BL_df = BL_df[BL_df['PG.cFactor']==cff]  # Limit to 2150 eV for better plotting
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('Signature2 - Liquid Interface, 1200 l/mm', size=16)
+fig.suptitle(f'Signature2 - Liquid Interface, 1200 l/mm, cff={cff}', size=16)
 x_range = [490,2150]
 
 # MIRROR REFLECTIVITY
@@ -187,5 +188,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/elisa_1200_10.png')
+plt.savefig(f'plot/elisa_1200_{cff}.png')
 # plt.show()
