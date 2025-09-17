@@ -27,7 +27,7 @@ BL_df = BL_df[BL_df['PG.cFactor']>=3]  # Limit to 2150 eV for better plotting
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('elisa, 1200 l/mm, nano focus', size=16)
+fig.suptitle('Signature2 - Liquid Interface, 1200 l/mm', size=16)
 x_range = [490,2150]
 
 # MIRROR REFLECTIVITY
