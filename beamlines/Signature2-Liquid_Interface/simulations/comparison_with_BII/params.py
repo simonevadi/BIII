@@ -1,39 +1,51 @@
 import numpy as np
 import os
 import pandas as pd
-from pathlib import Path
-
-rounds_1200 = 1
-rounds_ml   = 1
-ncpu        = 30
-nrays       = 1e5
 
 
-# UNDULATOR
-undulator_file_path = os.path.join(
-                 'undulator',
-                 'CPMU20-6mm-harmonics.csv')
+this_file_dir   = os.path.dirname(os.path.realpath(__file__))
+ncpu   = 30
+nrays  = 5e5
+rounds = 10
 
-undulator = pd.read_csv(undulator_file_path)
-
-
-
-#   PARAMS FOR 1200l/mm GRATING SIMULATIONS
-hb_1200_order       = 1
-hb_1200_energy = np.concatenate([
-    np.arange(500, 570, 1),       # Step of 1 from 500 to 570 (exclusive)
-    np.arange(570, 590.2, 0.2),  # Step of 0.2 from 570 to 590 (inclusive)
-    np.arange(590, 2550.1, 1)    # Step of 1 from 590 to 2550 (inclusive)
-])  # .2 to see chromium dip
-hb_1200_SlitSize    = np.array([0.02])
-hb_1200_cff         = np.array([2.25])
+big_step = 1
+fine_step = 0.1
 
 
-#   PARAMS FOR ML 2400l/mm GRATING SIMULATIONS
-ml_order        = 2
-ml_SlitSize     = np.array([0.02])
-ml_grating      = np.array([2400])
-ml_nrays        = nrays
+e1 = np.arange(100, 185, big_step)
+e1_b = np.arange(50, 185, big_step)
+e2 = np.arange(185, 195.1, fine_step)
+e3 = np.arange(195, 570, big_step)
+e4 = np.arange(570, 580.1, fine_step)
+e5 = np.arange(580, 2035, big_step)
+e5_b = np.arange(580, 1550, big_step)
+e6 = np.arange(2038, 2042, fine_step)
+e7 = np.arange(2045, 2501, big_step)
+
+
+
+#   PARAMS FOR HB 1200l/mm GRATING SIMULATIONS
+hb_1200_energy        = np.unique(np.concatenate([e1, e2, e3,
+                                           e4, e5, e6,
+                                           e7]))
+hb_1200_SlitSize      = np.array([0.02])
+hb_1200_cff           = np.array([2.25])
+hb_1200_nrays         = nrays
+hb_1200_rounds        = rounds
+hb_1200_ncpu          = ncpu
+hb_1200_sim_name      = '1200'
+hb_1200_rml_file_name = 'HB_1200'
+hb_1200_file_path     = os.path.join('rml/'+hb_1200_rml_file_name+'.rml')
+
+#   PARAMS FOR HB 2400l/mm GRATING SIMULATIONS
+ml_SlitSize        = np.array([0.02])
+ml_nrays           = nrays
+ml_rounds          = rounds
+ml_ncpu            = ncpu
+ml_sim_name        = '2400'
+ml_rml_file_name   = 'HB_2400'
+ml_rml_file_path   = os.path.join('rml/'+ml_rml_file_name+'.rml')
+
 
 # ml_rml_file_path   = os.path.join('rml/'+ml_rml_file_name+'.rml')
 
@@ -44,10 +56,6 @@ mirror = pd.read_csv('ML_eff/ELISA_GR2400_2ord_ML-Cr-C_N60_d4.8nm_MLPM-max.dat',
 
 ml_cff = grating['Cff'].to_numpy().flatten()#[::10]
 ml_energy = grating['Energy'].to_numpy().flatten()#[::10]
-
-# Extract efficiency from Andrey's data 
-common_energy = None
-
 if grating['Energy'].equals(mirror['Energy']):
     # If energy columns match, directly multiply
     efficiency = pd.DataFrame({
@@ -68,9 +76,3 @@ else:
         'Energy[eV]': common_energy,
         'Efficiency': grating_eff * mirror_eff
     })
-# params only for evaluation
-beamline_name = 'SoTeXS'
-# define undulator file
-undulator_file_path = os.path.join('undulator', 'CPMU20_B2l_k_dep_simp_all_harm_300mA.dbr')
-# Undulator SPECTRA
-undulator_spectra = np.loadtxt(undulator_file_path, skiprows=8)
