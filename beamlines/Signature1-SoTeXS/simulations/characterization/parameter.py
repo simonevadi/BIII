@@ -10,11 +10,18 @@ nrays=5e5
 rounds = 10
 
 # UNDULATOR
-undulator_file_path = os.path.abspath(
+undulator_file_path_cpmu21 = os.path.abspath(
     os.path.join(Path(__file__).resolve().parents[4], 
                  'undulators',
                  'UndulatorFiles_BESSY_III',
                  'CPMU21_300mA_100pmrad_x_100pmrad.csv')
+)
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'undulator_flux_curves_SPECTRA',
+                 'UE42p5_b3_2PercCoupl_2025_smalerz_ver_300mA.csv')
 )
 
 undulator = pd.read_csv(undulator_file_path)
