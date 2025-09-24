@@ -55,7 +55,8 @@ sim.analyze = False # let RAY-UI analyze the results
 sim.raypyng_analysis = True # let RAY-UI analyze the results
 
 ## This must be a list of dictionaries
-sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
+sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing'],
+                  beamline.IntermediateFocus:['RawRaysIncoming'],}]
 
 sim.undulator_table=undulator
 
