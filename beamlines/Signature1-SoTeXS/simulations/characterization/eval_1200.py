@@ -28,7 +28,7 @@ BL_df = pd.read_csv(BL_file_path)
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('SoTeXS, 1200 l/mm, nano focus', size=16)
-# x_range = [490,2150]
+x_range = [490,2150]
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
