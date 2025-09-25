@@ -56,7 +56,7 @@ sim.raypyng_analysis=True # let raypyng analyze the results
 sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
-sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
+sim.exports  =  [{beamline.IntermediateFocus:['RawRaysIncoming']},
                  {beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 
 
