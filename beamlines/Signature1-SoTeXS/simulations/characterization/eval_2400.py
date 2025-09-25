@@ -23,6 +23,10 @@ mov_av = p.moving_average
 BL_file_path = os.path.join('RAYPy_Simulation_sotexs_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
+# Read CSV-File of the Beamline Simulation
+BL_file_path_intermediate = os.path.join('RAYPy_Simulation_sotexs_2400', 'IntermediateFocus_RawRaysIncoming.csv')
+BL_df_intermediate = pd.read_csv(BL_file_path_intermediate)
+
 
 ##############################################################
 # PLOTTING AND ANALYSIS
@@ -104,6 +108,15 @@ for harm in harms:
              mov_av(filtered_df['Bandwidth']*1000, window),
              label=f'Harm. {harm}')
 
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_intermediate[(BL_df_intermediate['PhotonEnergy'] >= Emin_harm) & (BL_df_intermediate['PhotonEnergy'] <= Emax_harm)]
+    ax3.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df['Bandwidth']*1000, window),
+             label=f'Intermediate Harm. {harm}', 
+             linestyle='--')
+    
 ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
@@ -122,6 +135,12 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()    
+    filtered_df = BL_df_intermediate[(BL_df_intermediate['PhotonEnergy'] >= Emin_harm) & (BL_df_intermediate['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Intermediate Harm. {harm}', linestyle='--')
+        
 ax4.set_title('Flux with CPMU21')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
@@ -142,6 +161,14 @@ for harm in harms:
              mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
              label=f'Harm. {harm}')
 
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()    
+    filtered_df = BL_df_intermediate[(BL_df_intermediate['PhotonEnergy'] >= Emin_harm) & (BL_df_intermediate['PhotonEnergy'] <= Emax_harm)]
+    ax5.plot(mov_av(filtered_df['PhotonEnergy'], window),
+             mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
+             label=f' Intermediate Harm. {harm}', linestyle='--')
+
 ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
@@ -160,6 +187,13 @@ for harm in harms:
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
     ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}')
 
+for harm in harms:
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_intermediate[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df_intermediate['PhotonEnergy'] <= Emax_harm)]
+    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+    ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Intermediate Harm. {harm}', linestyle='--')
+
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
 ax6.set_ylabel('Photons flux per µm²')
@@ -172,27 +206,49 @@ ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax7 = axs[3, 0]
 ax7.plot(mov_av(BL_df['PhotonEnergy'], window),
          mov_av(BL_df['HorizontalFocusFWHM']*1000, window),
-         label='Horizontal Focus Size', color='red')
+         label=f"Final Focus {int((BL_df['HorizontalFocusFWHM'] * 1e6).mean())} nm",
+         color='red')
+
+ax7.plot(mov_av(BL_df_intermediate['PhotonEnergy'], window),
+         mov_av(BL_df_intermediate['HorizontalFocusFWHM']*1000, window),
+         label=f"Intermediate Focus {int((BL_df_intermediate['HorizontalFocusFWHM'] * 1e3).mean())} µm",
+         color='red', linestyle='--')
 
 ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
 ax7.set_ylabel('[µm]')
 ax7.set_xlim(x_range)
 ax7.minorticks_on()
+ax7.legend()
 ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 # Vertical Focus Size
 ax8 = axs[3, 1]
 
-ax8.plot(mov_av(BL_df['PhotonEnergy'], window),
-         mov_av(BL_df['VerticalFocusFWHM']*1000, window),
-         label='Vertical Focus Size', color='limegreen')
+mean_val_vert = int((BL_df['VerticalFocusFWHM'] * 1e6).mean())
+mean_val_vert_inter = int((BL_df_intermediate['VerticalFocusFWHM'] * 1e3).mean())
+
+ax8.plot(
+    mov_av(BL_df['PhotonEnergy'], window),
+    mov_av(BL_df['VerticalFocusFWHM'] * 1000, window),
+    label=f"Vertical Focus Size {mean_val_vert} nm",
+    color='limegreen'
+)
+
+ax8.plot(
+    mov_av(BL_df_intermediate['PhotonEnergy'], window),
+    mov_av(BL_df_intermediate['VerticalFocusFWHM'] * 1000, window),
+    label=f"Vertical Focus Size {mean_val_vert_inter} µm",
+    color='limegreen',
+    linestyle='--'
+)
 
 ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('[µm]')
 ax8.set_xlim(x_range)
 ax8.minorticks_on()
+ax8.legend()
 ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
@@ -273,4 +329,4 @@ ax.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey
 plt.tight_layout()
 plt.savefig('plot/Ni-B4C-multilayer.png')
 
-plt.show()
+# plt.show()
