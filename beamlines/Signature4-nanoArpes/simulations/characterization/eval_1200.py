@@ -29,15 +29,15 @@ BL_df = BL_df[BL_df['PG.cFactor']==cff]
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle(f'Signature4 - nanoARPES, 300 l/mm, cff={cff}', size=16)
-x_range = [490,2150]
+x_range = [100,1000]
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
 # Coatings:
-de = 38.9579-30.0000
+de = 0.01
 table = 'Henke'
 theta = 0.75
-E = np.arange(500, 2501, de)
+E = np.arange(100, 1000, de)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
@@ -107,6 +107,7 @@ ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
+ax4.set_yscale('log')
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
@@ -151,12 +152,12 @@ ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax7 = axs[3, 0]
 
 ax7.plot(mov_av(BL_df['PhotonEnergy'], window),
-         mov_av(BL_df['HorizontalFocusFWHM']*1000, window),
+         mov_av(BL_df['HorizontalFocusFWHM']*1e6, window),
          label='Horizontal Focus Size', color='red')
 
 ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
-ax7.set_ylabel('[µm]')
+ax7.set_ylabel('[nm]')
 ax7.set_xlim(x_range)
 ax7.minorticks_on()
 ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -165,12 +166,12 @@ ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax8 = axs[3, 1]
 
 ax8.plot(mov_av(BL_df['PhotonEnergy'], window),
-         mov_av(BL_df['VerticalFocusFWHM']*1000, window),
+         mov_av(BL_df['VerticalFocusFWHM']*1e6, window),
          label='Vertical Focus Size', color='limegreen')
 
 ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
-ax8.set_ylabel('[µm]')
+ax8.set_ylabel('[nm]')
 ax8.set_xlim(x_range)
 ax8.minorticks_on()
 ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
