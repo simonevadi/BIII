@@ -43,7 +43,7 @@
    <param id="photonEnergy" enabled="T">100</param>
    <param id="energySpreadType" comment="white band" enabled="T">0</param>
    <param id="energySpreadUnit" comment="%" enabled="T">1</param>
-   <param id="energySpread" enabled="T">0.05</param>
+   <param id="energySpread" enabled="T">0.1</param>
    <param id="linearPol_0" enabled="T">1</param>
    <param id="linearPol_45" enabled="T">0</param>
    <param id="circularPol" enabled="T">0</param>
@@ -728,7 +728,7 @@
    <param id="cylindricalBowingAmp" enabled="F">0</param>
    <param id="cylindricalBowingRadius" enabled="F">0</param>
   </object>
-  <object name="Focus" type="ImagePlane">
+  <object name="DetectorAtFocus" type="ImagePlane">
    <param id="distanceImagePlane" enabled="T">200</param>
    <param id="worldPosition" enabled="F">
     <x>-399.9085966688801932</x>

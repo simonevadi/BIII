@@ -12,11 +12,11 @@ from BESSY_III_machine_params import emittance_standard
 
 from raypyng import Simulate
 
-from parameter import elisa_1200_file_path as rml_file
-from parameter import elisa_1200_sim_name as sim_name
+from parameter import nanoARPES_300_file_path as rml_file
+from parameter import nanoARPES_300_sim_name as sim_name
 from parameter import undulator
-from parameter import energy_1200, rounds, ncpu   
-from parameter import SlitSize_1200, cff_1200, nrays
+from parameter import energy_300, rounds, ncpu   
+from parameter import SlitSize_300, cff_300, nrays
 
 
 sim = Simulate(rml_file, hide=True)
@@ -27,17 +27,16 @@ beamline = sim.rml.beamline
 
 # define a list of dictionaries with the parameters to scan
 params = [  
-            {beamline.PG.cFactor:cff_1200}, 
-            {beamline.ExitSlit.openingHeight:SlitSize_1200},
-            {beamline.SU.photonEnergy:energy_1200},
-            {beamline.SU.numberRays:nrays}
+            {beamline.PG.cFactor:cff_300}, 
+            {beamline.ExitSlit.openingHeight:SlitSize_300},
+            {beamline.UE65.photonEnergy:energy_300},
+            {beamline.UE65.numberRays:nrays}
         ]
 
 # source parameters (Dips uses sig_x_mm and sig_y_mm, IDs uses sig_x_um and sig_y_um)
-params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_um']},
-               #{beamline.SU.electronSigmaXs:emittance_standard['sig_xp_urad']},        #for the horizontal PGM would be the opposite (sig_yp_urad)
-               {beamline.SU.electronSigmaY:emittance_standard['sig_y_um']},
-               {beamline.SU.electronSigmaYs:emittance_standard['sig_yp_urad']},
+params.extend([{beamline.UE65.electronSigmaX:emittance_standard['sig_x_um']},
+               {beamline.UE65.electronSigmaY:emittance_standard['sig_y_um']},
+               {beamline.UE65.electronSigmaYs:emittance_standard['sig_yp_urad']},
              ])
 
 #and then plug them into the Simulation class
@@ -56,7 +55,7 @@ sim.raypyng_analysis=True # let raypyng analyze the results
 sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
-sim.exports  =  [{beamline.SU:['RawRaysOutgoing']},
+sim.exports  =  [
                  {beamline.DetectorAtFocus:['RawRaysOutgoing']}]
 
 

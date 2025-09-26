@@ -9,7 +9,7 @@ warnings.filterwarnings(
     message="Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning."
 ) 
 from helper_lib import get_reflectivity
-from parameter import SlitSize_1200 as SlitSize
+from parameter import SlitSize_300 as SlitSize
 from parameter import undulator as undulator_df
 
 from raypyng.postprocessing import PostProcessAnalyzed
@@ -20,15 +20,15 @@ mov_av = p.moving_average
 # LOAD IN DATA
 
 # Read CSV-File of the Beamline Simulation
-BL_file_path = os.path.join('RAYPy_Simulation_elisa_1200', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_nanoARPES_300', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
-cff = 2.25
-BL_df = BL_df[BL_df['PG.cFactor']==cff]  # Limit to 2150 eV for better plotting
+cff = 2.5
+BL_df = BL_df[BL_df['PG.cFactor']==cff]  
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle(f'Signature2 - Liquid Interface, 1200 l/mm, cff={cff}', size=16)
+fig.suptitle(f'Signature4 - nanoARPES, 300 l/mm, cff={cff}', size=16)
 x_range = [490,2150]
 
 # MIRROR REFLECTIVITY
@@ -38,13 +38,10 @@ de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.75
 E = np.arange(500, 2501, de)
-Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 
-Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
-ax1.plot(E, Au, 'b', label='Au')
 ax1.plot(E, Pt, 'r', label='Pt')
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
@@ -188,5 +185,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig(f'plot/elisa_1200_{cff}.png')
+plt.savefig(f'plot/nanoARPES_300_{cff}.png')
 # plt.show()
