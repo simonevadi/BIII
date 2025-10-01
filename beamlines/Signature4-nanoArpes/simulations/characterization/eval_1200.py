@@ -63,7 +63,7 @@ harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Dep
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('CPMU21 Flux curve')
+ax2.set_title('UE65 HL Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.01% BW]')
 ax2.legend(fontsize=12, loc='best')
@@ -101,7 +101,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux with CPMU21')
+ax4.set_title('Flux with UE65 HL')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
