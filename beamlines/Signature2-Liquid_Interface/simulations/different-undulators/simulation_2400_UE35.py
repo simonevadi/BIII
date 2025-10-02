@@ -16,10 +16,11 @@ from raypyng import Simulate
 from parameter import energy_2400 as energy, cff_2400 as cff
 from parameter import SlitSize_2400 as SlitSize
 from parameter import nrays, rounds, ncpu
-from parameter import undulator
+from parameter import undulator_UE35_HL as undulator
 from parameter import efficiency_2400 as efficiency
 from parameter import elisa_2400_file_path as rml_file
 from parameter import elisa_2400_sim_name as sim_name
+
 sim = Simulate(rml_file, hide=True)
 
 rml=sim.rml
@@ -40,24 +41,15 @@ params.extend([{beamline.SU.electronSigmaX:emittance_standard['sig_x_um']},
                {beamline.SU.electronSigmaYs:emittance_standard['sig_yp_urad']},
              ])
 
-incidence_angles = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]  
-params.extend([{beamline.M1.grazingIncAngle:incidence_angles, 
-                beamline.M3.grazingIncAngle:incidence_angles,
-                beamline.KB_ver.grazingIncAngle:incidence_angles,
-                beamline.KB_hor.grazingIncAngle:incidence_angles,
-                beamline.KB2_ver.grazingIncAngle:incidence_angles,
-                beamline.KB2_hor.grazingIncAngle:incidence_angles,}
-               ])
-
 
 #and then plug them into the Simulation class
 sim.params=params
 
 # sim.simulation_folder = '/home/simone/Documents/RAYPYNG/raypyng/test'
-sim.simulation_name = sim_name+'_vary_incidence_angle_mirrors'
+sim.simulation_name = sim_name+'_UE35'
 
 # repeat the simulations as many time as needed
-sim.repeat = 10
+sim.repeat = rounds
 
 sim.analyze = False # let RAY-UI analyze the results
 sim.raypyng_analysis = True # let RAY-UI analyze the results
