@@ -5,25 +5,24 @@ from pathlib import Path
 
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
-ncpu = 30
-nrays=5e5
-rounds = 10
+ncpu = 29
+nrays=2e5
+rounds = 5
 
 # UNDULATOR
 undulator_file_path = os.path.abspath(
     os.path.join(Path(__file__).resolve().parents[4], 
                  'undulators',
                  'UndulatorFiles_BESSY_III',
-                 'CPMU21_300mA_100pmrad_x_100pmrad.csv')
+                 'Signature2-ELISA',
+                 'Elisa-IVUE42-HL-1.csv')
 )
 
 undulator = pd.read_csv(undulator_file_path)
 
 
 # PARAMS FOR elisa 1200l/mm GRATING SIMULATIONS 3 micron
-e1   = np.arange(500, 2101,1)
-e2   = np.arange(2100, 6001,25)
-energy_1200 = np.concatenate((e1, e2))
+energy_1200 = np.arange(200, 2101,10)
 SlitSize_1200 = np.array([.020]) # mm
 cff_1200      = np.array([2.25, 5])
 elisa_1200_sim_name = 'elisa_1200'
@@ -51,8 +50,8 @@ elisa_2400_file_path  = os.path.join(Path(__file__).resolve().parents[2],
 efficiency_path = os.path.join(Path(__file__).resolve().parents[4],
                                 'multilayer_monochromator_efficiency',
                                 'calculate_ml',
-                                'Ni_B4C - 40 layers', 
-                                'Ni_B4C_2400lmm_2order.csv')
+                                'ELISA - CrC - 40 layers', 
+                                'CrC_efficiency.csv')
 
 
 efficiency_2400 = pd.read_csv(efficiency_path)

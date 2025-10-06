@@ -8,7 +8,7 @@ ml = MultilayerBragg(('Cr', 7.19), 23,
                      40, 
                      save_recap="ELISA - CrC - 40 layers")
 
-energies = np.arange(500, 8001, 500)  # 30 to 70 keV
+energies = np.arange(500, 8001, 10)  # 30 to 70 keV
 
 
 results_df_mosi = ml.calculate_reflectivity_vs_energy(energies, 

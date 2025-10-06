@@ -30,7 +30,7 @@ plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm', size=16)
-x_range = [500, 8000]
+x_range = [0, 6000]
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
@@ -38,10 +38,7 @@ ax1 = axs[0, 0]
 de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.4
-E = np.arange(500, 8001, de)
-Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
-Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
-Rh = rm.Material('Rh',  rho=12.41, kind='mirror',table=table)
+E = np.arange(500, 6001, de)
 Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
 Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
 B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
@@ -49,21 +46,15 @@ IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40,
                         bLayer=Cr, bThickness=60, 
                         nPairs=1, substrate=Ir)
 
-Au, _ = get_reflectivity(Au, E=E, theta=theta)
-Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
-Rh, _ = get_reflectivity(Rh, E=E, theta=theta)
 Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
 Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
 B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
 IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
 
-ax1.plot(E, Au, 'gold', label='Au', alpha=0.5)
-ax1.plot(E, Pt, 'dimgrey', label='Pt', alpha=0.5)
-ax1.plot(E, Ir, 'darkgrey', label='Ir', alpha=0.5)
-ax1.plot(E, Rh, 'red', label='Rh', alpha=0.5)
-# ax1.plot(E, Cr, 'c', label='Cr')
-# ax1.plot(E, B4C, 'm', label='B4C')
-ax1.plot(E, IrCrB4C, 'darkmagenta', label='IrCrB4C')
+ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
+ax1.plot(E, Cr, 'blue', label='Cr', alpha=0.5)
+ax1.plot(E, B4C, 'red', label='B4C', alpha=0.5)
+ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=2)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
@@ -83,11 +74,12 @@ harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Dep
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('CPMU21 Flux curve')
+ax2.set_title('IVU42 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax2.legend(loc='best')
 ax2.set_xlim(x_range)
+ax2.set_yscale('log')
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -95,7 +87,7 @@ ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # TRANSMITTED BANDWIDTH
 ax3 = axs[1, 0]
 
-window = 20
+window = 1
 for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
@@ -122,7 +114,7 @@ for harm in harms:
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
-ax4.set_title('Flux with CPMU21')
+ax4.set_title('Flux with IVU42')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best')
@@ -178,6 +170,7 @@ ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
 ax7.set_ylabel('[µm]')
 ax7.set_xlim(x_range)
+ax7.set_ylim(2,22)
 ax7.minorticks_on()
 ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -192,6 +185,7 @@ ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('[µm]')
 ax8.set_xlim(x_range)
+ax8.set_ylim(2,22)
 ax8.minorticks_on()
 ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -214,7 +208,7 @@ plt.close()
 from parameter import efficiency_2400
 
 fig, (axs) = plt.subplots(2, 2, figsize=(20, 15))
-fig.suptitle('Ni/B4C - 40 bilayers')
+fig.suptitle('Cr/C - 40 bilayers')
 
 # Efficiency
 ax = axs[0, 0]
@@ -271,6 +265,6 @@ ax.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/Ni-B4C-multilayer.png')
+plt.savefig('plot/Cr-C-multilayer.png')
 
 # plt.show()

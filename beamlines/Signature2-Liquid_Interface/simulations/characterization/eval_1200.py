@@ -21,37 +21,46 @@ mov_av = p.moving_average
 
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_elisa_1200', 'DetectorAtFocus_RawRaysOutgoing.csv')
-BL_df = pd.read_csv(BL_file_path)
-cff = 2.25
-BL_df = BL_df[BL_df['PG.cFactor']==cff]  # Limit to 2150 eV for better plotting
+BL_df_all = pd.read_csv(BL_file_path)
+cff_list = [2.25, 5]
+color_list = ['lightblue', 'blue', 'orange', 'red']
+ls_list = ['solid', 'dashed']
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle(f'Signature2 - Liquid Interface, 1200 l/mm, cff={cff}', size=16)
-x_range = [490,2150]
+fig.suptitle(f'Signature2 - Liquid Interface, 1200 l/mm, cff={cff_list}', size=16)
+x_range = [0,2150]
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
 # Coatings:
 de = 38.9579-30.0000
 table = 'Henke'
-theta = 0.75
-E = np.arange(500, 2501, de)
-Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
-Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
+theta = 0.4
+E = np.arange(100, 2100, de)
+Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
+Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
+B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
+IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40, 
+                        bLayer=Cr, bThickness=60, 
+                        nPairs=1, substrate=Ir)
 
-Au, _ = get_reflectivity(Au, E=E, theta=theta)
-Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
+Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
+Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
+B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
+IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
 
-ax1.plot(E, Au, 'b', label='Au')
-ax1.plot(E, Pt, 'r', label='Pt')
+ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
+ax1.plot(E, Cr, 'blue', label='Cr', alpha=0.5)
+ax1.plot(E, B4C, 'red', label='B4C', alpha=0.5)
+ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=2)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
 ax1.set_ylabel('Reflectivity [a.u.]')
 ax1.legend()
-# ax1.set_xlim(x_range)
+ax1.set_xlim(x_range)
 ax1.minorticks_on()
 ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -61,12 +70,12 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 #Choose the harmonic to plot
 ax2 = axs[0, 1]
 
-harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
+harms = [1,3] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for harm in harms:
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'], label=f'Harm. {harm}')
     
-ax2.set_title('CPMU21 Flux curve')
+ax2.set_title('IVU42 Flux curve')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.01% BW]')
 ax2.legend(fontsize=12, loc='best')
@@ -77,14 +86,23 @@ ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # TRANSMITTED BANDWIDTH
 ax3 = axs[1, 0]
-window = 20
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax3.plot(mov_av(filtered_df['PhotonEnergy'], window),
-             mov_av(filtered_df['Bandwidth']*1000, window),
-             label=f'Harm. {harm}')
+window = 1
+color_index = 0
+line_index = 0
+for cff in cff_list:
+    BL_df = BL_df_all[BL_df_all['PG.cFactor']==cff]  
+
+    for harm in harms:
+        Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+        Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+        filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
+        ax3.plot(mov_av(filtered_df['PhotonEnergy'], window),
+                mov_av(filtered_df['Bandwidth']*1000, window),
+                label=f'Harm. {harm} - cff={cff}',
+                color=color_list[color_index], 
+                linestyle = ls_list[line_index])
+        color_index += 1
+    line_index += 1
 
 ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
@@ -98,13 +116,23 @@ ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # BEAMLINE FLUX CURVE
 ax4 = axs[1, 1]
 
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
+color_index = 0
+line_index = 0
+for cff in cff_list:
+    BL_df = BL_df_all[BL_df_all['PG.cFactor']==cff]  
+    for harm in harms:
+        Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+        Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+        filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
+        ax4.plot(filtered_df['PhotonEnergy'],
+                 filtered_df[f'PhotonFlux{harm}'],
+                 label=f'Harm. {harm}, cff={cff}',
+                 color=color_list[color_index], 
+                 linestyle = ls_list[line_index])
+        color_index += 1
+    line_index += 1
 
-ax4.set_title('Flux with CPMU21')
+ax4.set_title('Flux with IVU42')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.legend(loc='best', fontsize=12)
@@ -115,14 +143,22 @@ ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # RESOLVING POWER
 ax5 = axs[2, 0]
+color_index = 0
+line_index = 0
 
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax5.plot(mov_av(filtered_df['PhotonEnergy'],window),
-             mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'],window),
-             label=f'Harm. {harm}')
+for cff in cff_list:
+    BL_df = BL_df_all[BL_df_all['PG.cFactor']==cff]  
+    for harm in harms:
+        Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+        Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+        filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
+        ax5.plot(mov_av(filtered_df['PhotonEnergy'],window),
+                mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'],window),
+                label=f'Harm. {harm}, cff={cff}',
+                color=color_list[color_index], 
+                linestyle = ls_list[line_index])
+        color_index += 1
+    line_index += 1
 
 ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
@@ -135,12 +171,22 @@ ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # Flux Density
 ax6 = axs[2, 1]
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],filtered_df[f'PhotonFlux{harm}']/foc_area, label=f'Harm. {harm}')
+color_index = 0
+line_index = 0
+for cff in cff_list:
+    BL_df = BL_df_all[BL_df_all['PG.cFactor']==cff]  
+    for harm in harms:
+        Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+        Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+        filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
+        foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+        ax6.plot(filtered_df['PhotonEnergy'],
+                 filtered_df[f'PhotonFlux{harm}']/foc_area,
+                 label=f'Harm. {harm}, cff={cff}',
+                 color=color_list[color_index], 
+                 linestyle = ls_list[line_index])
+        color_index += 1
+    line_index += 1
 
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
@@ -161,6 +207,7 @@ ax7.set_title('Horizontal Focus Size')
 ax7.set_xlabel('Energy [eV]')
 ax7.set_ylabel('[µm]')
 ax7.set_xlim(x_range)
+ax7.set_ylim(2,22)
 ax7.minorticks_on()
 ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -175,6 +222,7 @@ ax8.set_title('Vertical Focus Size')
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('[µm]')
 ax8.set_xlim(x_range)
+ax8.set_ylim(2,22)
 ax8.minorticks_on()
 ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -188,5 +236,5 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig(f'plot/elisa_1200_{cff}.png')
+plt.savefig(f'plot/elisa_1200_{cff_list}.png')
 # plt.show()

@@ -132,7 +132,7 @@
   <object name="M2" type="Plane Mirror">
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">10</param>
-   <param id="totalLength" enabled="T">450</param>
+   <param id="totalLength" enabled="T">650</param>
    <param id="grazingIncAngle" enabled="F">15.43548210738825</param>
    <param id="distancePreceding" enabled="F">3958.218138459908</param>
    <param id="azimuthalAngle" enabled="F">0</param>
