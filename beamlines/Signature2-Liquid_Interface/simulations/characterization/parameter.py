@@ -6,8 +6,8 @@ from pathlib import Path
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 29
-nrays=2e5
-rounds = 5
+nrays=5e5
+rounds = 10
 
 # UNDULATOR
 undulator_file_path = os.path.abspath(
