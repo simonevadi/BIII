@@ -63,4 +63,4 @@ sim.undulator_table=undulator
 sim.efficiency = efficiency
 
 #uncomment to run the simulations
-sim.run(multiprocessing=ncpu, force=False, remove_round_folders=True, remove_rawrays=True)
+sim.run(multiprocessing=ncpu, force=False, remove_round_folders=False, remove_rawrays=False)

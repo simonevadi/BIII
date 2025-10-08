@@ -61,4 +61,4 @@ sim.exports  =  [{beamline.IntermediateFocus:['RawRaysIncoming']},
 
 
 #uncomment to run the simulations
-sim.run(multiprocessing=ncpu, force=False, remove_rawrays=True, remove_round_folders=True)
+sim.run(multiprocessing=ncpu, force=False, remove_rawrays=False, remove_round_folders=False)

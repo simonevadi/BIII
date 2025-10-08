@@ -25,7 +25,7 @@ mov_av = p.moving_average
 BL_file_path = os.path.join('RAYPy_Simulation_sotexs_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
 
-BL_file_path = os.path.join('RAYPy_Simulation_sotexs_1200_old', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_file_path = os.path.join('RAYPy_Simulation_sotexs_1200', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_1200 = pd.read_csv(BL_file_path)
 # BL_df_1200 = BL_df_1200_all[BL_df_1200_all['PG.cFactor']==2.25]  
 
