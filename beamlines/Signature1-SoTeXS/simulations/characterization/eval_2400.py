@@ -39,10 +39,9 @@ x_range = [500, 8000]
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
 # Coatings:
-de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.4
-E = np.arange(500, 8001, de)
+E = np.arange(500, 8001, 0.01)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 Rh = rm.Material('Rh',  rho=12.41, kind='mirror',table=table)

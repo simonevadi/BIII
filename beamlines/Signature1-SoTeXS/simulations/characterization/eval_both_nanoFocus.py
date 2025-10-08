@@ -36,7 +36,7 @@ plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm', size=16)
 x_range = [0, 10000]
-colors = ['blue', 'red', 'green']
+colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0, 0]
@@ -75,7 +75,7 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 #Choose the harmonic to plot
 ax2 = axs[0, 1]
 
-harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
+harms = [1,3,5,7] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for ind, harm in enumerate(harms):
     ax2.plot(undulator_df[f'Energy{harm}[eV]'],
