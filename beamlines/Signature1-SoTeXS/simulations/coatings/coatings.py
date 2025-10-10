@@ -59,13 +59,24 @@ ax1 = axs[1]
 power = 6
 
 # IR B4C
+B4C_t = 4
+Cr_t = 6
+coating = rm.Multilayer(tLayer=B4C, tThickness=B4C_t*10, 
+                        bLayer=Cr, bThickness=Cr_t*10, 
+                        nPairs=1, substrate=Ir)
+coating_r, _ = get_reflectivity(coating, E=E, theta=theta)
+ax1.plot(E, coating_r**power, color='k', label=f'Ir 30nm, Cr {Cr_t}nm,  B4C {B4C_t}nm - SoTeXS @ BII',
+         linewidth=3, linestyle='--' )
+
+
+# IR B4C
 B4C_t = 10
 Cr_t = 0
 coating = rm.Multilayer(tLayer=B4C, tThickness=B4C_t*10, 
                         bLayer=Cr, bThickness=Cr_t*10, 
                         nPairs=1, substrate=Ir)
 coating_r, _ = get_reflectivity(coating, E=E, theta=theta)
-ax1.plot(E, coating_r**power, label=f'Ir 30 nm, B4C {B4C_t}nm', linewidth=5)
+ax1.plot(E, coating_r**power, label=f'Ir 30nm, B4C {B4C_t}nm', linewidth=5)
 
 
 # Ir_Ni B4C
@@ -82,7 +93,7 @@ for B4C_t in np.arange(4, 11, 6):
 ax1.set_title('Different triple coatings, six mirrors')
 ax1.set_xlabel('Energy [eV]')
 ax1.set_ylabel('Reflectivity [a.u.]')
-ax1.legend()
+ax1.legend(loc='center left', bbox_to_anchor=(0.1, 0.2))
 ax1.set_xlim(x_range)
 ax1.minorticks_on()
 ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
