@@ -39,14 +39,19 @@ ax1.plot(E, Cr_r, 'crimson', label='Cr', linewidth=5)
 ax1.plot(E, B4C_r, 'forestgreen', label='B4C', linewidth=5)
 ax1.plot(E, Ni_r, 'violet', label='Ni', linewidth=5)
 
-ax1.set_title('Ir, Cr, B4C single layer reflectivity @ 'f'{theta}° incident angle')
+ax1.set_title('Ir, Cr, B4C single layer')
 ax1.set_xlabel('Energy [eV]')
 ax1.set_ylabel('Reflectivity [a.u.]')
 ax1.legend(loc='center right')
 ax1.set_xlim(x_range)
 ax1.minorticks_on()
 ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
+# Add more ticks and labels
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(500))  # 1 tick per unit
+# ax1.yaxis.set_major_locator(ticker.MultipleLocator(0.1))  # 0.1 tick per unit
+ax1.xaxis.set_minor_locator(ticker.AutoMinorLocator())
+# ax1.yaxis.set_minor_locator(ticker.AutoMinorLocator())
+ax1.grid(True)
 
 # some coatings
 ax1 = axs[1]
@@ -62,6 +67,7 @@ coating = rm.Multilayer(tLayer=B4C, tThickness=B4C_t*10,
 coating_r, _ = get_reflectivity(coating, E=E, theta=theta)
 ax1.plot(E, coating_r**power, label=f'Ir 30 nm, B4C {B4C_t}nm', linewidth=5)
 
+
 # Ir_Ni B4C
 Ni_t = 10
 for B4C_t in np.arange(4, 11, 6):
@@ -73,13 +79,11 @@ for B4C_t in np.arange(4, 11, 6):
              linewidth=5)
 
 
-ax1.set_title('Different triple coatings')
+ax1.set_title('Different triple coatings, six mirrors')
 ax1.set_xlabel('Energy [eV]')
 ax1.set_ylabel('Reflectivity [a.u.]')
 ax1.legend()
 ax1.set_xlim(x_range)
-ax1.minorticks_on()
-ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 ax1.minorticks_on()
 ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
