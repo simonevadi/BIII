@@ -34,7 +34,7 @@ BL_df_1200 = pd.read_csv(BL_file_path)
 plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm', size=16)
+fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm - Nano Focus', size=16)
 x_range = [0, 10000]
 colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
 
