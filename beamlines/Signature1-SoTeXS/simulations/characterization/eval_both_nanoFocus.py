@@ -151,7 +151,7 @@ for ind, harm in enumerate(harms):
              label=f'Harm. {harm}',
              color=colors[ind], linestyle='dashed')
 
-ax4.set_title('Flux with IVU42')
+ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.set_xlim(x_range)
@@ -243,7 +243,7 @@ ax8 = axs[3, 1]
 ax8.plot(efficiency_2400['Energy[eV]'],
          efficiency_2400['Efficiency']*100)
 
-ax8.set_title('Monochromator optics coated with Cr-C multilayer, 40 bilayers')
+ax8.set_title('Monochromator optics coated with Ni-B4C multilayer, 40 bilayers')
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('Monochromator Efficiency [%]')
 ax8.set_xlim(x_range)
