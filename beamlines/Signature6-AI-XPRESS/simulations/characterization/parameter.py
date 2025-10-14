@@ -14,9 +14,9 @@ rounds = 1
 fine_step = 50#0.1
 medium_step = 50#10
 big_step=50
-e1   = np.arange(1950, 2150,fine_step) # iridium edge
-e2   = np.arange(1800, 2000,50)
-e3   = np.arange(23100, 23450,medium_step) # rhodium edge
+e1   = np.arange(1950, 2150,fine_step) # Ir edge
+e2   = np.arange(2150, 23100,big_step)
+e3   = np.arange(23100, 23450,medium_step) # Rh edge
 e4   = np.arange(23450, 40000,big_step)
 energy = np.concatenate((e1, e2, e3, e4))
 
