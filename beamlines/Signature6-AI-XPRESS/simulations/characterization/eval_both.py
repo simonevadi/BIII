@@ -200,18 +200,9 @@ ver_foc = np.mean(BL_df['VerticalFocusFWHM']*1e6)
 ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} nm²')
 
 
-# multilayer efficiency
+# one more space available
 ax8 = axs[3, 1]
 
-ax8.plot(efficiency_2400['Energy[eV]'],
-         efficiency_2400['Efficiency']*100)
-
-ax8.set_title('Monochromator optics coated with Ni-B4C multilayer, 40 bilayers')
-ax8.set_xlabel('Energy [eV]')
-ax8.set_ylabel('Monochromator Efficiency [%]')
-ax8.set_xlim(x_range)
-ax8.minorticks_on()
-ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 ##############################################################
 # SAVING
 # Ensure the "plot" folder exists
@@ -221,7 +212,7 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/sotexs_nanoFocus.png')
+plt.savefig('plot/AI_XPRESS.png')
 # plt.show()
 plt.close()
 
