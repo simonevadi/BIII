@@ -4,7 +4,7 @@ from raypyng import Dipole
 
 # Magnetics fields of the dipole
 # (one could also input the bending_radius_m)
-magnetic_fields = np.array([0.6, 1.3, 2.0, 3.0])  # Tesla
+magnetic_fields = np.array([1.3, 2.0, 2.5, 3.0, 4.0])  # Tesla
 
 energy_min  = 1     # eV
 energy_max  = 40000 # eV
