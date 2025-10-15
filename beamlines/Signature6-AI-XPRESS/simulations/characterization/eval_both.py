@@ -90,17 +90,17 @@ window = 5
 
 # Si111
 ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-            mov_av(BL_df_si111['Bandwidth']*1000, window),
+            mov_av(BL_df_si111['Bandwidth'], window),
             label=f'Si111')    
 # Si311
 ax3.plot(mov_av(BL_df_si311['PhotonEnergy'], window), 
-            mov_av(BL_df_si311['Bandwidth']*1000, window),
+            mov_av(BL_df_si311['Bandwidth'], window),
             label=f'Si311')    
 
 
 ax3.set_title(f'Transmitted Bandwidth')
 ax3.set_xlabel('Energy [eV]')
-ax3.set_ylabel('Transmitted bandwidth [meV]')
+ax3.set_ylabel('Transmitted bandwidth [eV]')
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -147,6 +147,7 @@ ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
 ax5.set_xlim(x_range)
 ax5.legend(loc='best')
 ax5.minorticks_on()
+ax5.set_ylim(0, 50000)
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
