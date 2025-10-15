@@ -200,7 +200,19 @@ ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} µ
 
 # one more space available
 ax8 = axs[3, 1]
-
+df_111 = pd.read_csv(os.path.join('plot','Si111', 'Si111.csv'))
+df_311 = pd.read_csv(os.path.join('plot','Si311', 'Si311.csv'))
+ax8.plot(df_111['Energy[eV]'], df_111['Reflectivity_2'], label='Si111: two crystal (conv)')
+ax8.plot(df_311['Energy[eV]'], df_311['Reflectivity_2'], label='Si333: two crystal (conv)')
+ax8.set_xlabel('Energy [eV]')
+ax8.set_ylabel('Reflectivity [a.u.]')
+ax8.set_title('Si111 and Si333 monochromator efficiency')
+ax8.legend()
+# minor ticks and grid
+ax8 = plt.gca()
+ax8.minorticks_on()
+ax8.grid(which='major', axis='both', linestyle='--', linewidth=0.5, color='lightgrey')
+ax8.grid(which='minor', axis='both', linestyle=':', linewidth=0.5, color='lightgrey')
 ##############################################################
 # SAVING
 # Ensure the "plot" folder exists

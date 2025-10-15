@@ -14,7 +14,7 @@ from raypyng import Simulate
 
 from parameter import si311_file_path as rml_file
 from parameter import si311_sim_name as sim_name
-from parameter import energy, rounds, ncpu, nrays
+from parameter import energy_si311 as energy, rounds, ncpu, nrays
 
 
 sim = Simulate(rml_file, hide=True)
