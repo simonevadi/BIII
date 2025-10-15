@@ -15,7 +15,7 @@ from helper_lib import get_reflectivity
 plt.rcParams.update({'font.size': 20})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(2, 1, figsize=(20, 15))
-theta = 0.1
+theta = 0.11
 power = 2
 x_range = [500, 40000]
 

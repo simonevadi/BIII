@@ -13,16 +13,17 @@ warnings.filterwarnings(
 from crystal_lib import calculate_dcm_efficiency
 from parameter import energy_si111, energy_si311        
 crystal = rm.Si(hkl=(1, 1, 1))
-# calculate_dcm_efficiency(rm.Si(hkl=(1, 1, 1)),
-#                          energy_si111,
-#                          'Si111',
-#                          savepath='plot/Si111',
-#                          save_individuals=False,
-#                          dtheta=np.linspace(-250, 500, 10000))
+
+calculate_dcm_efficiency(rm.Si(hkl=(1, 1, 1)),
+                         energy_si111,
+                         'Si111',
+                         savepath='plot/Si111',
+                         save_individuals=True,
+                         dtheta=np.linspace(-250, 500, 10000))
 
 calculate_dcm_efficiency(rm.Si(hkl=(3, 1, 1)),
-                         np.arange(1500, 10000, 100),
+                         energy_si311,
                          'Si311',
                          savepath='plot/Si311',
                          save_individuals=True,
-                         dtheta=np.linspace(-250, 500, 10000))
+                         dtheta=np.linspace(-250, 800, 10000))
