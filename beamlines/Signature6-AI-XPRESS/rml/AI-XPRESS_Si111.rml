@@ -50,7 +50,7 @@
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">50</param>
    <param id="totalLength" enabled="T">1000</param>
-   <param id="grazingIncAngle" enabled="T">0.3</param>
+   <param id="grazingIncAngle" enabled="T">0.1</param>
    <param id="entranceArmLengthSag" enabled="T">18000</param>
    <param id="exitArmLengthSag" enabled="T">1000000000000</param>
    <param id="entranceArmLengthMer" enabled="T">18000</param>
@@ -259,10 +259,10 @@
    <param id="geometricalShape" comment="rectangle" enabled="T">0</param>
    <param id="totalWidth" enabled="T">50</param>
    <param id="totalLength" enabled="T">400</param>
-   <param id="grazingIncAngle" enabled="T">0.3</param>
+   <param id="grazingIncAngle" enabled="T">0.1</param>
    <param id="entranceArmLength" enabled="T">1000000000000</param>
    <param id="exitArmLength" enabled="T">20700</param>
-   <param id="designGrazingIncAngle" auto="T" enabled="T">0.3</param>
+   <param id="designGrazingIncAngle" auto="T" enabled="T">0.1</param>
    <param id="longHalfAxisA" auto="T" enabled="T">500000010350</param>
    <param id="shortHalfAxisB" auto="T" enabled="T">753324.011355309</param>
    <param id="figureRotation" comment="plane" enabled="T">1</param>

@@ -6,13 +6,13 @@ from pathlib import Path
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 30
-nrays=1e5
+nrays=5e5
 rounds = 1
 
 
 # Si111
-fine_step = 50#0.1
-medium_step = 50#10
+fine_step = 1#0.1
+medium_step = 10#10
 big_step=50
 e1   = np.arange(1950, 2150,fine_step) # Ir edge
 e2   = np.arange(2150, 23100,big_step)

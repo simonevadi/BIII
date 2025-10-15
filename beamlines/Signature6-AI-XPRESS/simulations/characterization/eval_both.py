@@ -10,9 +10,6 @@ warnings.filterwarnings(
     message="Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning."
 )
 from helper_lib import get_reflectivity
-from parameter import SlitSize_2400 as SlitSize
-from parameter import undulator as undulator_df
-from parameter import efficiency_2400
 
 from raypyng.postprocessing import PostProcessAnalyzed
 
@@ -24,9 +21,10 @@ mov_av = p.moving_average
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111 = pd.read_csv(BL_file_path)
-
-BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_df_si111 = BL_df_si111[BL_df_si111['PhotonEnergy']>2500]
+BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si311', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si311 = pd.read_csv(BL_file_path)
+BL_df_si311 = BL_df_si311[BL_df_si311['PhotonEnergy']>2500]
 
 ##############################################################
 # PLOTTING AND ANALYSIS
@@ -34,7 +32,7 @@ plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
 fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm - Nano Focus', size=16)
-x_range = [1800, 40000]
+x_range = [2500, 40000]
 colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
 
 # MIRROR REFLECTIVITY
@@ -54,8 +52,8 @@ Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
 Rh, _ = get_reflectivity(Rh, E=E, theta=theta)
 IrRh, _ = get_reflectivity(IrRh, E=E, theta=theta)
 
-ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
-ax1.plot(E, Rh, 'blue', label='Rh', alpha=0.5)
+ax1.plot(E, Ir, 'grey', label='Ir', alpha=0.5, linewidth=1.5)
+ax1.plot(E, Rh, 'blue', label='Rh', alpha=0.5, linewidth=1.5)
 ax1.plot(E, IrRh, 'black', label='IrRh', linewidth=2)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
@@ -72,8 +70,8 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax2 = axs[0, 1]
 
 
-ax2.plot(BL_df_si111[f'Energy[eV]'],
-            BL_df_si111[f'PhotonSource'])
+ax2.plot(BL_df_si111[f'PhotonEnergy'],
+            BL_df_si111[f'SourcePhotonFlux'])
     
 ax2.set_title('Superbend 4T Flux curve')
 ax2.set_xlabel('Energy [eV]')
@@ -95,9 +93,9 @@ ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window),
             mov_av(BL_df_si111['Bandwidth']*1000, window),
             label=f'Si111')    
 # Si311
-ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-            mov_av(BL_df_si111['Bandwidth']*1000, window),
-            label=f'Si111')    
+ax3.plot(mov_av(BL_df_si311['PhotonEnergy'], window), 
+            mov_av(BL_df_si311['Bandwidth']*1000, window),
+            label=f'Si311')    
 
 
 ax3.set_title(f'Transmitted Bandwidth')
@@ -117,9 +115,9 @@ ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window),
             mov_av(BL_df_si111['PhotonFlux']*1000, window),
             label=f'Si111')    
 # Si311
-ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-            mov_av(BL_df_si111['PhotonFlux']*1000, window),
-            label=f'Si111')   
+ax4.plot(mov_av(BL_df_si311['PhotonEnergy'], window), 
+            mov_av(BL_df_si311['PhotonFlux']*1000, window),
+            label=f'Si311')   
 
 ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
@@ -138,16 +136,16 @@ ax5.plot(mov_av(BL_df_si111['PhotonEnergy'], window),
          mov_av(BL_df_si111[f'PhotonEnergy']/BL_df_si111[f'Bandwidth'], window),
          linestyle='solid', label='Si111')
 
-# Si111
+# Si311
 ax5.plot(mov_av(BL_df_si311['PhotonEnergy'], window),
          mov_av(BL_df_si311[f'PhotonEnergy']/BL_df_si311[f'Bandwidth'], window),
-         linestyle='solid', label='Si111')
+         linestyle='solid', label='Si311')
 
-ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
+ax5.set_title(f'Resolving Power')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
 ax5.set_xlim(x_range)
-ax5.legend(loc='lower right')
+ax5.legend(loc='best')
 ax5.minorticks_on()
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -161,14 +159,14 @@ foc_area = (BL_df_si111['VerticalFocusFWHM']*BL_df_si111['HorizontalFocusFWHM'])
 
 ax6.plot(BL_df_si111['PhotonEnergy'],
              BL_df_si111[f'PhotonFlux']/foc_area,
-             label=f'Si 111')
+             label=f'Si111')
     
 # Si311
 foc_area = (BL_df_si311['VerticalFocusFWHM']*BL_df_si311['HorizontalFocusFWHM'])*1000  # in µm²
 
 ax6.plot(BL_df_si311['PhotonEnergy'],
              BL_df_si311[f'PhotonFlux']/foc_area,
-             label=f'Si 311')
+             label=f'Si311')
 
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
@@ -189,15 +187,15 @@ focus = pd.read_csv(
 )
 
 hb = ax7.hexbin(
-    focus['DetectorAtFocus_OX']*1e6,
-    focus['DetectorAtFocus_OY']*1e6,
+    focus['DetectorAtFocus_OX']*1e3,
+    focus['DetectorAtFocus_OY']*1e3,
     gridsize=60, cmap='viridis'
 )
 ax7.set_xlabel('nm')
 ax7.set_ylabel('nm')
-hor_foc = np.mean(BL_df['HorizontalFocusFWHM']*1e6)
-ver_foc = np.mean(BL_df['VerticalFocusFWHM']*1e6)
-ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} nm²')
+hor_foc = np.mean(BL_df_si111['HorizontalFocusFWHM']*1e3)
+ver_foc = np.mean(BL_df_si111['VerticalFocusFWHM']*1e3)
+ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} µm²')
 
 
 # one more space available
