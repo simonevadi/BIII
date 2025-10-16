@@ -24,7 +24,7 @@ ax1 = axs[0]
 # Coatings:
 table = 'Chantler'
 
-E = np.arange(1000, 40001, 1)
+E = np.arange(2500, 40001, 1)
 Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
 Rh  = rm.Material('Rh',  rho=12.423,  kind='mirror',table=table)
 

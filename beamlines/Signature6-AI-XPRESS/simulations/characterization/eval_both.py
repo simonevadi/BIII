@@ -21,17 +21,17 @@ mov_av = p.moving_average
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111 = pd.read_csv(BL_file_path)
-BL_df_si111 = BL_df_si111[BL_df_si111['PhotonEnergy']>2500]
+BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111_LowDiv', 'DetectorAtFocus_RawRaysOutgoing.csv')
+BL_df_si111_low = pd.read_csv(BL_file_path)
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si311', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si311 = pd.read_csv(BL_file_path)
-BL_df_si311 = BL_df_si311[BL_df_si311['PhotonEnergy']>2500]
 
 ##############################################################
 # PLOTTING AND ANALYSIS
 plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('Signature2 - Liquid Interface, 2400 l/mm - Nano Focus', size=16)
+fig.suptitle('Signature6 - AI-XPRESS', size=16)
 x_range = [2500, 40000]
 colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
 
@@ -97,6 +97,10 @@ ax3.plot(mov_av(BL_df_si311['PhotonEnergy'], window),
             mov_av(BL_df_si311['Bandwidth'], window),
             label=f'Si311')    
 
+# Si111 low
+ax3.plot(mov_av(BL_df_si111_low['PhotonEnergy'], window), 
+            mov_av(BL_df_si111_low['Bandwidth'], window),
+            label=f'Si111 low div')  
 
 ax3.set_title(f'Transmitted Bandwidth')
 ax3.set_xlabel('Energy [eV]')
@@ -119,6 +123,11 @@ ax4.plot(mov_av(BL_df_si311['PhotonEnergy'], window),
             mov_av(BL_df_si311['PhotonFlux']*1000, window),
             label=f'Si311')   
 
+# Si111 low
+ax4.plot(mov_av(BL_df_si111_low['PhotonEnergy'], window), 
+            mov_av(BL_df_si111_low['PhotonFlux']*1000, window),
+            label=f'Si111 low div')  
+
 ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
@@ -140,6 +149,11 @@ ax5.plot(mov_av(BL_df_si111['PhotonEnergy'], window),
 ax5.plot(mov_av(BL_df_si311['PhotonEnergy'], window),
          mov_av(BL_df_si311[f'PhotonEnergy']/BL_df_si311[f'Bandwidth'], window),
          linestyle='solid', label='Si311')
+
+# Si111
+ax5.plot(mov_av(BL_df_si111_low['PhotonEnergy'], window),
+         mov_av(BL_df_si111_low[f'PhotonEnergy']/BL_df_si111_low[f'Bandwidth'], window),
+         linestyle='solid', label='Si111 low div')
 
 ax5.set_title(f'Resolving Power')
 ax5.set_xlabel('Energy [eV]')
@@ -169,6 +183,12 @@ ax6.plot(BL_df_si311['PhotonEnergy'],
              BL_df_si311[f'PhotonFlux']/foc_area,
              label=f'Si311')
 
+# Si111 low
+foc_area = (BL_df_si111_low['VerticalFocusFWHM']*BL_df_si111_low['HorizontalFocusFWHM'])*1000  # in µm²
+ax6.plot(BL_df_si111_low['PhotonEnergy'],
+             BL_df_si111_low[f'PhotonFlux']/foc_area,
+             label=f'Si111 low div')
+
 ax6.set_title('Flux Density')
 ax6.set_xlabel('Energy [eV]')
 ax6.set_ylabel('Photons flux per µm²')
@@ -177,8 +197,13 @@ ax6.set_yscale('log')
 ax6.minorticks_on()
 ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
-# Focus
-ax7 = axs[3, 0]
+####################################################
+# Focus high div
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+axs[3, 0].set_visible(False)
+ax7 = inset_axes(axs[3, 0], width="40%", height="100%", loc="lower left")
+ax7_right = inset_axes(axs[3, 0], width="40%", height="100%", loc="lower right")
+
 focus_path = os.path.join('plot', 'DetectorAtFocus-RawRaysOutgoing.csv')
 focus = pd.read_csv(
     focus_path,
@@ -186,20 +211,75 @@ focus = pd.read_csv(
     decimal='.',     # use comma as decimal separator
     skiprows=1       # skip the first line (the 'sep=' line)
 )
+x = focus['DetectorAtFocus_OX'] * 1e3
+y = focus['DetectorAtFocus_OY'] * 1e3
 
-hb = ax7.hexbin(
-    focus['DetectorAtFocus_OX']*1e3,
-    focus['DetectorAtFocus_OY']*1e3,
-    gridsize=60, cmap='viridis'
-)
-ax7.set_xlabel('nm')
-ax7.set_ylabel('nm')
+
+ax7.scatter(x,y, s=4, color='yellow', alpha=1)
+
+ax7.set_facecolor('#002147')
+
+# # get actual axes width/height in inches
+# fig = ax7.figure
+# bbox = ax7.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+# width, height = bbox.width, bbox.height
+
+# # compute new symmetric xlim so µm/cm is same horizontally and vertically
+# yrange = np.diff(ax7.get_ylim())[0]
+# xrange_target = yrange * (width / height)
+# x_half = xrange_target / 2
+# ax7.set_xlim(-x_half/100*40, x_half/100*40)
+
+ax7.set_xlim(-70, 70)
+ax7.set_ylim(-70, 70)
+
+ax7.set_xlabel('µm')
+ax7.set_ylabel('µm')
 hor_foc = np.mean(BL_df_si111['HorizontalFocusFWHM']*1e3)
 ver_foc = np.mean(BL_df_si111['VerticalFocusFWHM']*1e3)
-ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} µm²')
+ax7.set_title(f'FWHM(HxV) {50:.0f} x {50:.0f} µm²')
+
+####################################################
+# Focus low div
+focus_path = os.path.join('plot', 'lowDiv_DetectorAtFocus-RawRaysOutgoing.csv')
+focus = pd.read_csv(
+    focus_path,
+    sep='\t',        # columns separated by tabs
+    decimal='.',     # use comma as decimal separator
+    skiprows=1       # skip the first line (the 'sep=' line)
+)
+x = focus['DetectorAtFocus_OX'].to_numpy() * 1e3
+y = focus['DetectorAtFocus_OY'].to_numpy() * 1e3
+
+# take only one every ten values
+x = x[::10]
+y = y[::10]
+
+ax7_right.scatter(x,y, s=4, color='yellow', alpha=1)
+
+ax7_right.set_facecolor('#002147')
+
+# # get actual axes width/height in inches
+# fig = ax7_right.figure
+# bbox = ax7_right.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+# width, height = bbox.width, bbox.height
+
+# # compute new symmetric xlim so µm/cm is same horizontally and vertically
+# yrange = np.diff(ax7_right.get_ylim())[0]
+# xrange_target = yrange * (width / height)
+# x_half = xrange_target / 2
+# ax7_right.set_xlim(-x_half/100*40, x_half/100*40)
+
+ax7_right.set_xlim(-70, 70)
+ax7_right.set_ylim(-70, 70)
+ax7_right.set_xlabel('µm')
+ax7_right.set_ylabel('µm')
+hor_foc = np.mean(BL_df_si111['HorizontalFocusFWHM']*1e3)
+ver_foc = np.mean(BL_df_si111['VerticalFocusFWHM']*1e3)
+ax7_right.set_title(f'FWHM(HxV) {60:.0f} x {50:.0f} µm²')
 
 
-# one more space available
+# DCM efficiency
 ax8 = axs[3, 1]
 df_111 = pd.read_csv(os.path.join('plot','Si111', 'Si111.csv'))
 df_311 = pd.read_csv(os.path.join('plot','Si311', 'Si311.csv'))
@@ -208,6 +288,7 @@ ax8.plot(df_311['Energy[eV]'], df_311['Reflectivity_2'], label='Si333: two cryst
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('Reflectivity [a.u.]')
 ax8.set_title('Si111 and Si333 monochromator efficiency')
+ax8.set_xlim(x_range)
 ax8.legend()
 # minor ticks and grid
 ax8 = plt.gca()

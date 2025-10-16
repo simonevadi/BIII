@@ -12,7 +12,6 @@ warnings.filterwarnings(
 
 from crystal_lib import calculate_dcm_efficiency
 from parameter import energy_si111, energy_si311        
-crystal = rm.Si(hkl=(1, 1, 1))
 
 calculate_dcm_efficiency(rm.Si(hkl=(1, 1, 1)),
                          energy_si111,
