@@ -18,15 +18,17 @@ mov_av = p.moving_average
 ##############################################################
 # LOAD IN DATA
 
+current_factor = 3
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('..','characterization','RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111 = pd.read_csv(BL_file_path)
-# BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111_LowDiv', 'DetectorAtFocus_RawRaysOutgoing.csv')
-# BL_df_si111_low = pd.read_csv(BL_file_path)
-# BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si311', 'DetectorAtFocus_RawRaysOutgoing.csv')
-# BL_df_si311 = pd.read_csv(BL_file_path)
+BL_df_si111[f'SourcePhotonFlux'] = BL_df_si111[f'SourcePhotonFlux']*current_factor # for 300 mA
+BL_df_si111[f'PhotonFlux'] = BL_df_si111[f'PhotonFlux']*current_factor # for 300 mA
+
 myspot_Si111_path = os.path.join('RAYPy_Simulation_MySpot_Si111_noM2', 'DetectorAtFocus_RawRaysOutgoing.csv')
 myspot_Si111 = pd.read_csv(myspot_Si111_path)
+myspot_Si111[f'SourcePhotonFlux'] = myspot_Si111[f'SourcePhotonFlux']*current_factor # for 300 mA
+myspot_Si111[f'PhotonFlux'] = myspot_Si111[f'PhotonFlux']*current_factor # for 300 mA
 
 ##############################################################
 # PLOTTING AND ANALYSIS
