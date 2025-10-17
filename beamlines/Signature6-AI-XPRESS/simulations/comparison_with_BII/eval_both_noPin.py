@@ -33,7 +33,7 @@ myspot_Si111 = pd.read_csv(myspot_Si111_path)
 plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
-fig.suptitle('Signature6 - AI-XPRESS', size=16)
+fig.suptitle('Signature6 - AI-XPRESS/MySpot no Pinhole comparison', size=16)
 x_range = [2500, 40000]
 colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
 

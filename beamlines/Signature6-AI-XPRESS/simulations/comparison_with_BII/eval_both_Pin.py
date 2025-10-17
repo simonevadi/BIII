@@ -254,7 +254,7 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/AI_XPRESS_MySpotPin_comparison.png')
+plt.savefig('plot/AI_XPRESS_MySpotPin_comparison_Pinhole.png')
 # plt.show()
 plt.close()
 
