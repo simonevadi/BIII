@@ -287,8 +287,8 @@
    <param id="thirdMillerIndex" enabled="T">1</param>
    <param id="structureFactorReF0" enabled="F">113.6807956531886</param>
    <param id="structureFactorImF0" enabled="F">1.730370664482074</param>
-   <param id="structureFactorReFH" enabled="F">43.84963536529411</param>
-   <param id="structureFactorImFH" enabled="F">-42.11924767716946</param>
+   <param id="structureFactorReFH" enabled="F">43.84963536529412</param>
+   <param id="structureFactorImFH" enabled="F">-42.11924767716947</param>
    <param id="structureFactorReFHC" enabled="F">42.11926492772282</param>
    <param id="structureFactorImFHC" enabled="F">43.84961879547296</param>
    <param id="unitCellVolume" enabled="F">0.160191477991</param>
@@ -352,8 +352,8 @@
    <param id="thirdMillerIndex" enabled="T">1</param>
    <param id="structureFactorReF0" enabled="F">113.6807956531886</param>
    <param id="structureFactorImF0" enabled="F">1.730370664482074</param>
-   <param id="structureFactorReFH" enabled="F">43.84963536529411</param>
-   <param id="structureFactorImFH" enabled="F">-42.11924767716946</param>
+   <param id="structureFactorReFH" enabled="F">43.84963536529412</param>
+   <param id="structureFactorImFH" enabled="F">-42.11924767716947</param>
    <param id="structureFactorReFHC" enabled="F">42.11926492772282</param>
    <param id="structureFactorImFHC" enabled="F">43.84961879547296</param>
    <param id="unitCellVolume" enabled="F">0.160191477991</param>
@@ -607,8 +607,8 @@
   <object name="Pinhole" type="Aperture">
    <param id="geometricalShape" comment="elliptical" enabled="T">1</param>
    <param id="maskType" comment="positiv" enabled="T">0</param>
-   <param id="totalWidth" enabled="T">0.02</param>
-   <param id="totalHeight" enabled="T">0.02</param>
+   <param id="totalWidth" enabled="T">20.02</param>
+   <param id="totalHeight" enabled="T">20.02</param>
    <param id="polygon2D" enabled="F">[[-10.0,-0.5],[10.0,-0.5],[10.0,0.5],[-10.0,0.5]]</param>
    <param id="distancePreceding" enabled="T">1000</param>
    <param id="azimuthalAngle" enabled="T">0</param>
@@ -665,7 +665,7 @@
   </object>
  </beamline>
  <drawing>
-  <mainBeamThickness>6.018807223675088e+175</mainBeamThickness>
+  <mainBeamThickness>99.99</mainBeamThickness>
   <header>true</header>
   <axes>true</axes>
   <names>true</names>
