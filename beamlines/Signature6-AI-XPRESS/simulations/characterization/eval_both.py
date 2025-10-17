@@ -17,14 +17,23 @@ p = PostProcessAnalyzed()
 mov_av = p.moving_average
 ##############################################################
 # LOAD IN DATA
-
+current_factor = 3
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111 = pd.read_csv(BL_file_path)
+BL_df_si111[f'SourcePhotonFlux'] = BL_df_si111[f'SourcePhotonFlux']*current_factor # for 300 mA
+BL_df_si111[f'PhotonFlux'] = BL_df_si111[f'PhotonFlux']*current_factor # for 300 mA
+
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si111_LowDiv', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111_low = pd.read_csv(BL_file_path)
+BL_df_si111_low[f'SourcePhotonFlux'] = BL_df_si111_low[f'SourcePhotonFlux']*current_factor # for 300 mA
+BL_df_si111_low[f'PhotonFlux'] = BL_df_si111_low[f'PhotonFlux']*current_factor # for 300 mA
+
 BL_file_path = os.path.join('RAYPy_Simulation_AI-XPRESS_Si311', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si311 = pd.read_csv(BL_file_path)
+BL_df_si311[f'SourcePhotonFlux'] = BL_df_si311[f'SourcePhotonFlux']*current_factor # for 300 mA
+BL_df_si311[f'PhotonFlux'] = BL_df_si311[f'PhotonFlux']*current_factor # for 300 mA
+
 
 ##############################################################
 # PLOTTING AND ANALYSIS
@@ -107,6 +116,7 @@ ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [eV]')
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
+ax3.set_yscale('log')
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 ax3.legend(loc='lower right', ncol=2)
 
@@ -116,16 +126,16 @@ ax4 = axs[1, 1]
 
 # Si111
 ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-            mov_av(BL_df_si111['PhotonFlux']*1000, window),
+            mov_av(BL_df_si111['PhotonFlux'], window),
             label=f'Si111')    
 # Si311
 ax4.plot(mov_av(BL_df_si311['PhotonEnergy'], window), 
-            mov_av(BL_df_si311['PhotonFlux']*1000, window),
+            mov_av(BL_df_si311['PhotonFlux'], window),
             label=f'Si311')   
 
 # Si111 low
 ax4.plot(mov_av(BL_df_si111_low['PhotonEnergy'], window), 
-            mov_av(BL_df_si111_low['PhotonFlux']*1000, window),
+            mov_av(BL_df_si111_low['PhotonFlux'], window),
             label=f'Si111 low div')  
 
 ax4.set_title('Flux at Focus')
@@ -161,6 +171,7 @@ ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
 ax5.set_xlim(x_range)
 ax5.legend(loc='best')
 ax5.minorticks_on()
+ax5.set_yscale('log')
 ax5.set_ylim(0, 50000)
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -219,17 +230,6 @@ ax7.scatter(x,y, s=4, color='yellow', alpha=1)
 
 ax7.set_facecolor('#002147')
 
-# # get actual axes width/height in inches
-# fig = ax7.figure
-# bbox = ax7.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-# width, height = bbox.width, bbox.height
-
-# # compute new symmetric xlim so µm/cm is same horizontally and vertically
-# yrange = np.diff(ax7.get_ylim())[0]
-# xrange_target = yrange * (width / height)
-# x_half = xrange_target / 2
-# ax7.set_xlim(-x_half/100*40, x_half/100*40)
-
 ax7.set_xlim(-70, 70)
 ax7.set_ylim(-70, 70)
 
@@ -237,7 +237,7 @@ ax7.set_xlabel('µm')
 ax7.set_ylabel('µm')
 hor_foc = np.mean(BL_df_si111['HorizontalFocusFWHM']*1e3)
 ver_foc = np.mean(BL_df_si111['VerticalFocusFWHM']*1e3)
-ax7.set_title(f'FWHM(HxV) {50:.0f} x {50:.0f} µm²')
+ax7.set_title(f'FWHM(HxV) {50:.0f} x {50:.0f} µm²,\ndiv {.3}x{.3}µrad²')
 
 ####################################################
 # Focus low div
@@ -259,24 +259,13 @@ ax7_right.scatter(x,y, s=4, color='yellow', alpha=1)
 
 ax7_right.set_facecolor('#002147')
 
-# # get actual axes width/height in inches
-# fig = ax7_right.figure
-# bbox = ax7_right.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-# width, height = bbox.width, bbox.height
-
-# # compute new symmetric xlim so µm/cm is same horizontally and vertically
-# yrange = np.diff(ax7_right.get_ylim())[0]
-# xrange_target = yrange * (width / height)
-# x_half = xrange_target / 2
-# ax7_right.set_xlim(-x_half/100*40, x_half/100*40)
-
 ax7_right.set_xlim(-70, 70)
 ax7_right.set_ylim(-70, 70)
 ax7_right.set_xlabel('µm')
 ax7_right.set_ylabel('µm')
 hor_foc = np.mean(BL_df_si111['HorizontalFocusFWHM']*1e3)
 ver_foc = np.mean(BL_df_si111['VerticalFocusFWHM']*1e3)
-ax7_right.set_title(f'FWHM(HxV) {60:.0f} x {50:.0f} µm²')
+ax7_right.set_title(f'FWHM(HxV) {60:.0f} x {50:.0f} µm²,\ndiv {.1}x{.3}µrad²')
 
 
 # DCM efficiency
@@ -284,10 +273,10 @@ ax8 = axs[3, 1]
 df_111 = pd.read_csv(os.path.join('plot','Si111', 'Si111.csv'))
 df_311 = pd.read_csv(os.path.join('plot','Si311', 'Si311.csv'))
 ax8.plot(df_111['Energy[eV]'], df_111['Reflectivity_2'], label='Si111: two crystal (conv)')
-ax8.plot(df_311['Energy[eV]'], df_311['Reflectivity_2'], label='Si333: two crystal (conv)')
+ax8.plot(df_311['Energy[eV]'], df_311['Reflectivity_2'], label='Si311: two crystal (conv)')
 ax8.set_xlabel('Energy [eV]')
 ax8.set_ylabel('Reflectivity [a.u.]')
-ax8.set_title('Si111 and Si333 monochromator efficiency')
+ax8.set_title('Si111 and Si311 monochromator efficiency')
 ax8.set_xlim(x_range)
 ax8.legend()
 # minor ticks and grid

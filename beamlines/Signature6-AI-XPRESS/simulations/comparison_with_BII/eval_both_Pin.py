@@ -119,11 +119,11 @@ ax4 = axs[1, 1]
 
 # BIII Si111
 ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-            mov_av(BL_df_si111['PhotonFlux']*1000, window),
+            mov_av(BL_df_si111['PhotonFlux'], window),
             label=f'BIII Si111')    
 # BII Si111
 ax4.plot(mov_av(myspot_Si111['PhotonEnergy'], window), 
-            mov_av(myspot_Si111['PhotonFlux']*1000, window),
+            mov_av(myspot_Si111['PhotonFlux'], window),
             label=f'BII Si111')   
 
 ax4.set_title('Flux at Focus')
