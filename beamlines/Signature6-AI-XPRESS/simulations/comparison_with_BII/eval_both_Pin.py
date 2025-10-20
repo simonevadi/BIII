@@ -77,11 +77,11 @@ ax2 = axs[0, 1]
 
 
 ax2.plot(BL_df_si111[f'PhotonEnergy'],
-            BL_df_si111[f'SourcePhotonFlux']*BL_df_si111['PhotonEnergy'],
+            BL_df_si111[f'SourcePhotonFlux'],
             label='BIII SB 4T')
 
 ax2.plot(myspot_Si111[f'PhotonEnergy'],
-            myspot_Si111[f'SourcePhotonFlux']*myspot_Si111['PhotonEnergy'],
+            myspot_Si111[f'SourcePhotonFlux'],
             label='BII WS 7T')
 
 

@@ -7,7 +7,7 @@ from pathlib import Path
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 30
 nrays=1e6
-rounds = 1
+rounds = 5
 
 
 # Si111
