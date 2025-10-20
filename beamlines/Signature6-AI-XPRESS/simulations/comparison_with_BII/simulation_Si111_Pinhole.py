@@ -29,11 +29,6 @@ params = [
             {beamline.Dipole.numberRays:nrays}
         ]
 
-# source parameters (Dips uses sig_x_mm and sig_y_mm, IDs uses sig_x_um and sig_y_um)
-params.extend([{beamline.Dipole.sourceWidth:emittance_standard['sig_x_mm']},
-               {beamline.Dipole.sourceHeight:emittance_standard['sig_y_mm']},
-               {beamline.Dipole.verEbeamDiv:emittance_standard['sig_yp_urad']},
-             ])
 
 #and then plug them into the Simulation class
 sim.params=params

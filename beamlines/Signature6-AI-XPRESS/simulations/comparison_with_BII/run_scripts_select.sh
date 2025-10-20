@@ -1,19 +1,10 @@
-python crystal.py
+python simulation_Si111_noPinhole.py
 git add .
-git commit -m 'sim crystals'
+git commit -m 'sim simulation_Si111_noPinhole'
 git push
 
-python simulation_Si111.py
+python simulation_Si111_Pinhole.py
 git add .
-git commit -m 'sim SI-XPRESS Si111'
+git commit -m 'sim simulation_Si111_Pinhole'
 git push
 
-python simulation_Si311.py
-git add .
-git commit -m 'sim SI-XPRESS Si311'
-git push
-
-python simulation_Si111_LowDiv.py
-git add .
-git commit -m 'sim SI-XPRESS Si111  low divergence'
-git push
