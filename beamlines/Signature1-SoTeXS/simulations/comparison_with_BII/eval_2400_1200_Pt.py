@@ -89,7 +89,7 @@ ax = axs[1,0]
 ax2 = axs[1,1]
 for ind, es in enumerate(exit_slit_list):
     #2400
-    filtered_flux = flux07[flux07['ExitSlit.openingHeight'] == es]
+    filtered_flux = flux07
     energy = filtered_flux['CPMU20.photonEnergy']
     perc_flux = filtered_flux['PercentageRaysSurvived']
     abs_flux = filtered_flux['PhotonFlux1']
@@ -125,18 +125,18 @@ ax2.set_ylabel('Flux [ph/s/0.3A/tbw]')
 
 # BANDWIDTH
 ax = axs[2,0]
-window = 10
+window = 1
 for ind, es in enumerate(exit_slit_list):
     # 2400
-    filtered_rp = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07
+    energy = filtered_rp['PhotonEnergy']
     bw = filtered_rp['Bandwidth']
     ax.plot(p.moving_average(energy,window),p.moving_average(bw,window))
 
 
     # 1200
-    filtered_rp = flux07_1200[flux07_1200['PG.cFactor'] == cff]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07_1200
+    energy = filtered_rp['PhotonEnergy']
     bw = filtered_rp['Bandwidth']
     ax.plot(p.moving_average(energy,window),p.moving_average(bw, window) )
 
@@ -158,15 +158,15 @@ ax = axs[2,1]
 window=20
 for ind, es in enumerate(exit_slit_list):
     # 2400
-    filtered_rp = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07
+    energy = filtered_rp['PhotonEnergy']
     bw = filtered_rp['Bandwidth']
     ax.plot(p.moving_average(energy,window),p.moving_average(energy/bw,window))
     
     # 1200
     window = 200
-    filtered_rp = flux07_1200[flux07_1200['PG.cFactor'] == cff]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07_1200
+    energy = filtered_rp['PhotonEnergy']
     bw = filtered_rp['Bandwidth']
     ax.plot(p.moving_average(energy, window),p.moving_average(energy/bw, window) )
 
@@ -186,13 +186,13 @@ focx07_1200 = []
 # Loop through each slit size in the 'SlitSize' list
 for ind, es in enumerate(exit_slit_list):
     #2400
-    filtered_rp = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07
+    energy = filtered_rp['PhotonEnergy']
     focx07.append(filtered_rp['HorizontalFocusFWHM'])
 
     # 1200
-    filtered_rp07 = flux07_1200[flux07_1200['PG.cFactor'] == cff]
-    energy07_1200 = filtered_rp07['CPMU20.photonEnergy']
+    filtered_rp07 = flux07_1200
+    energy07_1200 = filtered_rp07['PhotonEnergy']
     focx07_1200.append(filtered_rp07['HorizontalFocusFWHM'])
 
 #2400 
@@ -221,15 +221,15 @@ ax.set_ylim(6, 14)
 ax = axs[3,1]
 for ind, es in enumerate(exit_slit_list):
     window=20
-    filtered_rp = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07
+    energy = filtered_rp['PhotonEnergy']
     focy = filtered_rp['VerticalFocusFWHM']
     ax.plot(p.moving_average(energy,window),p.moving_average(focy*1000,window), label=f'ExitSlit {es} μm' )
 
     # 1200
     window = 100
-    filtered_rp = flux07_1200[flux07_1200['PG.cFactor'] == cff]
-    energy = filtered_rp['CPMU20.photonEnergy']
+    filtered_rp = flux07_1200
+    energy = filtered_rp['PhotonEnergy']
     focy = filtered_rp['VerticalFocusFWHM']
     ax.plot(p.moving_average(energy,window),p.moving_average(focy*1000,window), label=f'ExitSlit {cff}, theta=0.7°' )
 
@@ -250,8 +250,8 @@ fig, (axs) = plt.subplots(2, 1,figsize=(12,12))
 ax = axs[0]
 for ind, es in enumerate(exit_slit_list):
     #2400
-    filtered_flux = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_flux['CPMU20.photonEnergy']
+    filtered_flux = flux07
+    energy = filtered_flux['PhotonEnergy']
     perc_flux = filtered_flux['PercentageRaysSurvived']
     abs_flux = filtered_flux['PhotonFlux1']
     ax.plot(energy,perc_flux, label=f'2400')
@@ -282,8 +282,8 @@ for ind, es in enumerate(exit_slit_list):
     # 2400
     window = 50
 
-    filtered_flux = flux07[flux07['ExitSlit.openingHeight'] == es]
-    energy = filtered_flux['CPMU20.photonEnergy']
+    filtered_flux = flux07#[flux07['ExitSlit.openingHeight'] == es]
+    energy = filtered_flux['PhotonEnergy']
     abs_flux = filtered_flux['PhotonFlux1']
     foc_area = (filtered_flux['VerticalFocusFWHM']*filtered_flux['HorizontalFocusFWHM'])*1000  # in µm²
     flux_density = abs_flux / foc_area
@@ -291,8 +291,8 @@ for ind, es in enumerate(exit_slit_list):
 
 
     # 1200
-    filtered_flux = flux07_1200[flux07_1200['ExitSlit.openingHeight'] == es]
-    energy = filtered_flux['CPMU20.photonEnergy']
+    filtered_flux = flux07_1200#[flux07_1200['ExitSlit.openingHeight'] == es]
+    energy = filtered_flux['PhotonEnergy']
     abs_flux = filtered_flux['PhotonFlux1']
     foc_area = (filtered_flux['VerticalFocusFWHM']*filtered_flux['HorizontalFocusFWHM'])*1000  # in µm²
     flux_density = abs_flux / foc_area
