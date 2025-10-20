@@ -1,5 +1,6 @@
 import os
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import xrt.backends.raycing.materials as rm
 import warnings
@@ -25,6 +26,10 @@ mov_av = p.moving_average
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('../characterization/RAYPy_Simulation_sotexs_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df = pd.read_csv(BL_file_path)
+
+# Read CSV-File of the Beamline Simulation
+BL_file_path = os.path.join('../characterization/RAYPy_Simulation_sotexs_2400', 'IntermediateFocus_RawRaysIncoming.csv')
+BL_df_micro = pd.read_csv(BL_file_path)
 
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
@@ -112,6 +117,100 @@ plt.close()
 
 
 
+
+
+###################################################
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
+
+
+# TRANSMITTED BANDWIDTH
+ax3 = axs[0]
+
+window = 20
+colors = ['red', 'blue', 'green']
+color_B2 = ['salmon', 'skyblue', 'lightgreen']
+
+ax3.plot(mov_av(BL_df['PhotonEnergy'], window), 
+             mov_av(BL_df['Bandwidth']*1000, window),
+             linestyle='solid',
+             label=f'B3 - nano focus',
+             color='blue')
+ax3.plot(mov_av(BL_df_micro['PhotonEnergy'], window), 
+             mov_av(BL_df_micro['Bandwidth']*1000, window),
+             linestyle='solid',
+             label=f'B3 - micro focus', 
+             color='orange')
+
+ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
+             mov_av(BL_df_2['Bandwidth']*1000, window),
+             linestyle='solid',
+             label=f'B2', 
+             color='green')
+
+
+
+ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
+ax3.set_xlabel('Energy [eV]')
+ax3.set_ylabel('Transmitted bandwidth [meV]')
+ax3.legend(loc='best')
+ax3.set_xlim(x_range)
+ax3.minorticks_on()
+ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# BEAMLINE FLUX CURVE
+ax4 = axs[1]
+window = 1
+for ind,harm in enumerate(harms):
+    Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df[f'PhotonFlux{harm}'], window),
+             color='blue', linestyle='solid',
+             label=f'B3-nano')
+
+for ind,harm in enumerate(harms):
+    Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_micro[(BL_df_micro['PhotonEnergy'] >= Emin_harm) & (BL_df_micro['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df[f'PhotonFlux{harm}'], window),
+             color='orange', linestyle='solid',
+             label=f'B3-micro')
+    
+for ind,harm in enumerate(harms):    
+    Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_2[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+                mov_av(filtered_df[f'PhotonFlux{harm}'], window),
+                color='green', linestyle='dashed',
+                label=f'B2-Harm. {harm}')
+    
+
+ax4.set_title('Flux at Focus')
+ax4.set_xlabel('Energy [eV]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
+custom_lines = [
+    Line2D([0], [0], color='blue', linestyle='solid', lw=2),
+    Line2D([0], [0], color='orange', linestyle='solid', lw=2),
+    Line2D([0], [0], color='green', linestyle='solid', lw=2)
+]
+
+ax4.legend(custom_lines, ['B3-nano', 'B3-micro', 'B2'], loc='best')
+ax4.set_xlim(x_range)
+ax4.minorticks_on()
+ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax4.set_ylim((10e9,1e15))
+ax4.set_yscale('log')
+
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/SoTeXS_2400_comparison_2.png')
+# plt.show()
+plt.close()
 
 # # TRANSMITTED BANDWIDTH
 # ax3 = axs[0, 0]
