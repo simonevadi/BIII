@@ -112,7 +112,7 @@ fig.suptitle('Signature6: AI-XPRESS, Comparison at BII: MySpot', size=16)
 # TRANSMITTED BANDWIDTH
 ax3 = axs[0]
 
-window = 1
+window = 2
 
 # Si111 BIII
 ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
@@ -129,6 +129,7 @@ ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [eV]')
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
+# ax3.set_yscale('log')
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 ax3.legend(loc='lower right', ncol=2)
 
