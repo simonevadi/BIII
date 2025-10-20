@@ -35,7 +35,7 @@ myspot_Si111[f'PhotonFlux'] = myspot_Si111[f'PhotonFlux']*current_factor # for 3
 # PLOTTING AND ANALYSIS
 plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
-fig, (axs) = plt.subplots(1, 2, figsize=(20, 5))
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
 fig.suptitle('Signature6 - AI-XPRESS/MySpot no Pinhole comparison', size=16)
 x_range = [2500, 40000]
 colors = ['blue', 'red', 'green', 'orange', 'purple', 'violet']
