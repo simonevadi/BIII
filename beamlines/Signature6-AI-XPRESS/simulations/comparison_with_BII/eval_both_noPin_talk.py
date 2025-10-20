@@ -106,49 +106,61 @@ plt.tight_layout()
 plt.savefig('plot/talk/AI_XPRESS_MySpot_comparison_noPinhole_1.png')
 # plt.show()
 plt.close()
-# # TRANSMITTED BANDWIDTH
-# ax3 = axs[1, 0]
 
-# window = 1
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Signature6: AI-XPRESS, Comparison at BII: MySpot', size=16)
+# TRANSMITTED BANDWIDTH
+ax3 = axs[0]
 
-# # Si111 BIII
-# ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-#             mov_av(BL_df_si111['Bandwidth'], window),
-#             label=f'BIII Si111')    
-# # Si111 BII
-# ax3.plot(mov_av(myspot_Si111['PhotonEnergy'], window), 
-#             mov_av(myspot_Si111['Bandwidth'], window),
-#             label=f'BII Si111')    
+window = 1
+
+# Si111 BIII
+ax3.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
+            mov_av(BL_df_si111['Bandwidth'], window),
+            label=f'BIII Si111')    
+# Si111 BII
+ax3.plot(mov_av(myspot_Si111['PhotonEnergy'], window), 
+            mov_av(myspot_Si111['Bandwidth'], window),
+            label=f'BII Si111')    
  
 
-# ax3.set_title(f'Transmitted Bandwidth')
-# ax3.set_xlabel('Energy [eV]')
-# ax3.set_ylabel('Transmitted bandwidth [eV]')
-# ax3.set_xlim(x_range)
-# ax3.minorticks_on()
-# ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-# ax3.legend(loc='lower right', ncol=2)
+ax3.set_title(f'Transmitted Bandwidth')
+ax3.set_xlabel('Energy [eV]')
+ax3.set_ylabel('Transmitted bandwidth [eV]')
+ax3.set_xlim(x_range)
+ax3.minorticks_on()
+ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax3.legend(loc='lower right', ncol=2)
 
 
-# # BEAMLINE FLUX CURVE
-# ax4 = axs[1, 1]
+# BEAMLINE FLUX CURVE
+ax4 = axs[1]
 
-# # BIII Si111
-# ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
-#             mov_av(BL_df_si111['PhotonFlux'], window),
-#             label=f'BIII Si111')    
-# # BII Si111
-# ax4.plot(mov_av(myspot_Si111['PhotonEnergy'], window), 
-#             mov_av(myspot_Si111['PhotonFlux'], window),
-#             label=f'BII Si111')   
+# BIII Si111
+ax4.plot(mov_av(BL_df_si111['PhotonEnergy'], window), 
+            mov_av(BL_df_si111['PhotonFlux'], window),
+            label=f'BIII Si111')    
+# BII Si111
+ax4.plot(mov_av(myspot_Si111['PhotonEnergy'], window), 
+            mov_av(myspot_Si111['PhotonFlux'], window),
+            label=f'BII Si111')   
 
-# ax4.set_title('Flux at Focus')
-# ax4.set_xlabel('Energy [eV]')
-# ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
-# ax4.set_xlim(x_range)
-# ax4.minorticks_on()
-# ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-# ax4.set_yscale('log')
+ax4.set_title('Flux at Focus')
+ax4.set_xlabel('Energy [eV]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
+ax4.set_xlim(x_range)
+ax4.minorticks_on()
+ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax4.set_yscale('log')
+
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/AI_XPRESS_MySpot_comparison_noPinhole_2.png')
+# plt.show()
+plt.close()
+
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Signature6: AI-XPRESS, Comparison at BII: MySpot', size=16)
 
 # # RESOLVING POWER
 # ax5 = axs[2, 0]
