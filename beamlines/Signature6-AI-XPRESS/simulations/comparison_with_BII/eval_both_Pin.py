@@ -19,6 +19,8 @@ mov_av = p.moving_average
 # LOAD IN DATA
 
 current_factor = 3
+mrad_scale = 200
+
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('..','characterization','RAYPy_Simulation_AI-XPRESS_Si111', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_si111 = pd.read_csv(BL_file_path)
@@ -27,7 +29,7 @@ BL_df_si111[f'PhotonFlux'] = BL_df_si111[f'PhotonFlux']*current_factor # for 300
 
 myspot_Si111_path = os.path.join('RAYPy_Simulation_MySpot_Si111_noM2', 'DetectorAtFocus_RawRaysOutgoing.csv')
 myspot_Si111 = pd.read_csv(myspot_Si111_path)
-myspot_Si111[f'SourcePhotonFlux'] = myspot_Si111[f'SourcePhotonFlux']*current_factor # for 300 mA
+myspot_Si111[f'SourcePhotonFlux'] = myspot_Si111[f'SourcePhotonFlux']*current_factor/mrad_scale # for 300 mA
 myspot_Si111[f'PhotonFlux'] = myspot_Si111[f'PhotonFlux']*current_factor # for 300 mA
 
 ##############################################################
@@ -74,12 +76,14 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax2 = axs[0, 1]
 
 
-ax2.plot(myspot_Si111[f'PhotonEnergy'],
-            myspot_Si111[f'SourcePhotonFlux']*myspot_Si111['PhotonEnergy'],
-            label='BIII SB 4T')
 ax2.plot(BL_df_si111[f'PhotonEnergy'],
             BL_df_si111[f'SourcePhotonFlux']*BL_df_si111['PhotonEnergy'],
+            label='BIII SB 4T')
+
+ax2.plot(myspot_Si111[f'PhotonEnergy'],
+            myspot_Si111[f'SourcePhotonFlux']*myspot_Si111['PhotonEnergy'],
             label='BII WS 7T')
+
 
     
 ax2.set_title('Source, Superbend 4T BIII vs Wavelength Shifter 7T BII')
@@ -168,13 +172,14 @@ ax6 = axs[2, 1]
 
 # BIII Si111
 foc_area = (BL_df_si111['VerticalFocusFWHM']*BL_df_si111['HorizontalFocusFWHM'])*1000  # in µm²
-
+print(f'foc BIII area: {foc_area.mean()} µm²')
 ax6.plot(BL_df_si111['PhotonEnergy'],
              BL_df_si111[f'PhotonFlux']/foc_area,
              label=f'BIII Si111')
     
 # BIII Si111
 foc_area = (myspot_Si111['VerticalFocusFWHM']*myspot_Si111['HorizontalFocusFWHM'])*1000  # in µm²
+print(f'foc BII area: {foc_area.mean()} µm²')
 
 ax6.plot(myspot_Si111['PhotonEnergy'],
              myspot_Si111[f'PhotonFlux']/foc_area,
