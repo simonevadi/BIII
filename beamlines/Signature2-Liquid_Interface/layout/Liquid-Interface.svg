@@ -23,15 +23,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2"
-     inkscape:cx="255"
-     inkscape:cy="188.5"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="263.39728"
+     inkscape:cy="207.18229"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer5"
+     inkscape:current-layer="layer4"
      showgrid="false" />
   <defs
      id="defs1">
@@ -140,7 +140,7 @@
        d="m 177.18025,44.816182 -1.467,-0.626667 -1.34789,0.853212 0.14266,-1.58885 -1.22797,-1.01827 1.55517,-0.355297 0.58897,-1.482537 0.81848,1.369265 1.59198,0.102011 -1.04933,1.201549 z"
        inkscape:transform-center-x="0.029723853"
        inkscape:transform-center-y="-0.085856836"
-       transform="matrix(0.49911815,0,0,0.49911815,51.835189,7.1557725)"
+       transform="matrix(0.49911815,0,0,0.49911815,51.835189,14.564109)"
        inkscape:label="focus" />
     <g
        id="g50"
@@ -165,23 +165,19 @@
        id="rect51"
        width="9.8837872"
        height="0.65024924"
-       x="110.38451"
-       y="42.555008"
+       x="116.0262"
+       y="-21.929874"
        inkscape:label="KB_ver"
-       transform="rotate(-5)" />
+       transform="matrix(0.9961947,0.08715574,0.08715574,-0.9961947,0,0)" />
     <rect
        style="fill:#ff1700;fill-opacity:1;stroke-width:0.131529"
        id="rect52"
        width="9.8837872"
        height="0.65024924"
-       x="119.99543"
-       y="52.999195"
+       x="131.16034"
+       y="-10.581768"
        inkscape:label="KB_ver"
-       transform="rotate(-10.4)" />
-    <path
-       style="fill:#ffd700;fill-opacity:0.722591;stroke:none;stroke-width:0.1;stroke-dasharray:none"
-       d="M 139.56771,28.707291 V 64.624478"
-       id="path53" />
+       transform="matrix(0.98357147,0.18051915,0.18051915,-0.98357147,0,0)" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -226,12 +222,12 @@
        sodipodi:nodetypes="cccc" />
     <path
        style="display:inline;fill:#ffd700;fill-opacity:1;stroke:none;stroke-width:0.0499118;stroke-dasharray:none;stroke-opacity:1"
-       d="m 123.54187,31.897214 -29.358877,0.54601 19.543177,0.315853 z"
+       d="M 123.54187,32.759077 94.182993,32.213067 113.72617,31.897214 Z"
        id="path50"
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:#ffd700;fill-opacity:0.722591;stroke:none;stroke-width:0.1;stroke-dasharray:none"
-       d="m 113.67368,32.756655 9.84539,-0.849559 15.98249,-3.299024 z"
+       d="m 113.67368,31.908 9.84539,0.849559 15.98249,3.299024 z"
        id="path52"
        sodipodi:nodetypes="cccc" />
   </g>
@@ -297,13 +293,13 @@
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:1.94417px;line-height:2;font-family:'times new roman';-inkscape-font-specification:'times new roman,  Bold';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;display:inline;fill:#ffd700;fill-opacity:1;stroke:#000000;stroke-width:0.0275551;stroke-dasharray:none;stroke-opacity:1"
-       x="139.3662"
-       y="25.81506"
+       x="140.12688"
+       y="33.554123"
        id="text22"><tspan
          sodipodi:role="line"
          style="fill:#000000;fill-opacity:1;stroke-width:0.0275551"
-         x="139.3662"
-         y="25.81506"
+         x="140.12688"
+         y="33.554123"
          id="tspan22">Focus</tspan></text>
     <text
        xml:space="preserve"
@@ -330,13 +326,13 @@
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:1.94417px;line-height:2;font-family:'times new roman';-inkscape-font-specification:'times new roman,  Bold';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;display:inline;fill:#ffd700;fill-opacity:1;stroke:#000000;stroke-width:0.0275551;stroke-dasharray:none;stroke-opacity:1"
-       x="131.3597"
-       y="27.90266"
+       x="132.64954"
+       y="32.301357"
        id="text63"><tspan
          sodipodi:role="line"
          style="fill:#000000;fill-opacity:1;stroke-width:0.0275551"
-         x="131.60272"
-         y="27.90266"
+         x="132.89256"
+         y="32.301357"
          id="tspan63">KB hor </tspan></text>
     <text
        xml:space="preserve"
