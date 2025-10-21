@@ -36,7 +36,7 @@ BL_df_1200 = BL_df_1200[BL_df_1200['PG.cFactor'] == 2.25]
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_2400', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_2 = pd.read_csv(BL_file_path)
-
+BL_df_2 = BL_df_2[BL_df_2['PhotonEnergy'] <= 5800]
 # Read CSV-File of the Beamline Simulation
 BL_file_path = os.path.join('RAYPy_Simulation_1200_Pt', 'DetectorAtFocus_RawRaysOutgoing.csv')
 BL_df_2_1200 = pd.read_csv(BL_file_path)
@@ -102,7 +102,7 @@ x_range = [200, 6200]
 # for ind,harm in enumerate(harms):
 #     ax3.plot(undulator_2[f'Energy{harm}[eV]'], 
 #              undulator_2[f'Photons{harm}'],
-#              color=colors[ind], linestyle='dashed',
+#              color=colors[ind], linestyle='solid',
 #              label=f'B2-Harm. {harm}')
     
 # ax3.legend()
@@ -138,14 +138,12 @@ fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
 ax3 = axs[0]
 
 window = 30
-colors = ['red', 'blue', 'green']
-color_B2 = ['salmon', 'skyblue', 'lightgreen']
 
 ax3.plot(mov_av(BL_df['PhotonEnergy'], window), 
              mov_av(BL_df['Bandwidth']*1000, window),
              linestyle='solid',
              label=f'B3 - 2400 l/mm',
-             color='blue')
+             color='royalblue')
 
 ax3.plot(mov_av(BL_df_1200['PhotonEnergy'], window), 
              mov_av(BL_df_1200['Bandwidth']*1000, window),
@@ -184,7 +182,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='blue', linestyle='solid',
+             color='royalblue', linestyle='solid',
              label=f'B3 2400 l/mm')
 
 for ind,harm in enumerate([1]):
@@ -203,7 +201,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='green', linestyle='dashed',
+                color='green', linestyle='solid',
                 label=f'B2-Harm. {harm}')
 
 for ind,harm in enumerate([1]):
@@ -219,7 +217,7 @@ ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 custom_lines = [
-    Line2D([0], [0], color='blue', linestyle='solid', lw=2),
+    Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
     Line2D([0], [0], color='cyan', linestyle='solid', lw=2),
     Line2D([0], [0], color='green', linestyle='solid', lw=2),
     Line2D([0], [0], color='lime', linestyle='solid', lw=2)
@@ -250,20 +248,25 @@ fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
 ax3 = axs[0]
 
 window = 30
-colors = ['red', 'blue', 'green']
-color_B2 = ['salmon', 'skyblue', 'lightgreen']
+
 
 ax3.plot(mov_av(BL_df['PhotonEnergy'], window), 
              mov_av(BL_df['PhotonEnergy']/BL_df['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - 2400 l/mm',
-             color='blue')
+             color='royalblue')
 
 ax3.plot(mov_av(BL_df_1200['PhotonEnergy'], window), 
              mov_av(BL_df_1200['PhotonEnergy']/BL_df_1200['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=2.25',
              color='cyan')
+
+ax3.plot(mov_av(BL_df_1200_5['PhotonEnergy'], window), 
+             mov_av(BL_df_1200_5['PhotonEnergy']/BL_df_1200_5['Bandwidth'], window),
+             linestyle='solid',
+             label=f'B3 - 1200 l/mm - cff=5',
+             color='navy')
 
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['PhotonEnergy']/BL_df_2['Bandwidth'], window),
@@ -296,7 +299,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='blue', linestyle='solid',
+             color='royalblue', linestyle='solid',
              label=f'B3 2400 l/mm')
 
 for ind,harm in enumerate([1]):
@@ -306,7 +309,16 @@ for ind,harm in enumerate([1]):
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
              color='cyan', linestyle='solid',
-             label=f'B3 1200 l/mm')
+             label=f'B3 1200 l/mm cff 2.25')
+    
+for ind,harm in enumerate([1]):
+    Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_1200_5[(BL_df_1200_5['PhotonEnergy'] >= Emin_harm) & (BL_df_1200_5['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df[f'PhotonFlux{harm}'], window),
+             color='navy', linestyle='solid',
+             label=f'B3 1200 l/mm - cff 5')
     
     
 for ind,harm in enumerate(harms):    
@@ -315,7 +327,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='green', linestyle='dashed',
+                color='green', linestyle='solid',
                 label=f'B2-Harm. {harm}')
 
 for ind,harm in enumerate([1]):
@@ -331,7 +343,7 @@ ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 custom_lines = [
-    Line2D([0], [0], color='blue', linestyle='solid', lw=2),
+    Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
     Line2D([0], [0], color='cyan', linestyle='solid', lw=2),
     Line2D([0], [0], color='green', linestyle='solid', lw=2),
     Line2D([0], [0], color='lime', linestyle='solid', lw=2)
@@ -353,9 +365,58 @@ plt.close()
 
 
 
+############# undulator
+from pathlib import Path
 
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
 
+#######
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'IVUE42-C.csv')
+)
+undulator_C = pd.read_csv(undulator_file_path)
 
+#######
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'IVUE42-HL.csv')
+)
+undulator_HL = pd.read_csv(undulator_file_path)
+
+#######
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'IVUE42-IN.csv')
+)
+undulator_IN = pd.read_csv(undulator_file_path)
+
+#######
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'IVUE42-VL.csv')
+)
+undulator_VL = pd.read_csv(undulator_file_path)
+
+for ind,harm in enumerate(harms):
+    ax3.plot(undulator_C[f'Energy{harm}[eV]'], 
+             undulator_C[f'Photons{harm}'],
+             color='red', linestyle='solid')
+
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/LiquidInterface_undulator.png')
+# plt.show()
+plt.close()
 
 
 
@@ -380,7 +441,7 @@ plt.close()
 #     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
 #     ax3.plot(mov_av(filtered_df['PhotonEnergy'], window), 
 #                 mov_av(filtered_df['Bandwidth']*1000, window),
-#                 color=color_B2[ind], linestyle='dashed',
+#                 color=color_B2[ind], linestyle='solid',
 #                 label=f'B2-Harm. {harm}')
 
 
@@ -409,7 +470,7 @@ plt.close()
 #     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
 #     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
 #                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-#                 color=color_B2[ind], linestyle='dashed',
+#                 color=color_B2[ind], linestyle='solid',
 #                 label=f'B2-Harm. {harm}')
     
 
@@ -438,7 +499,7 @@ plt.close()
 #     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
 #     ax5.plot(mov_av(filtered_df['PhotonEnergy'], window),
 #              mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
-#                 color=color_B2[ind], linestyle='dashed',
+#                 color=color_B2[ind], linestyle='solid',
 #                 label=f'B2-Harm. {harm}')
 
 # ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
@@ -468,7 +529,7 @@ plt.close()
 #     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000
 #     ax6.plot(filtered_df['PhotonEnergy'],
 #              filtered_df[f'PhotonFlux{harm}']/foc_area,
-#                 color=color_B2[ind], linestyle='dashed',
+#                 color=color_B2[ind], linestyle='solid',
 #                 label=f'B2-Harm. {harm}')
     
 # ax6.set_title('Flux Density')
@@ -488,7 +549,7 @@ plt.close()
 
 # ax7.plot(mov_av(BL_df_2['PhotonEnergy'], window),
 #          mov_av(BL_df_2['HorizontalFocusFWHM']*1000, window),
-#          label='B2', color='violet', linestyle='dashed')
+#          label='B2', color='violet', linestyle='solid')
 
 # ax7.set_title('Horizontal Focus Size')
 # ax7.set_xlabel('Energy [eV]')
@@ -510,7 +571,7 @@ plt.close()
 
 # ax8.plot(mov_av(BL_df_2['PhotonEnergy'], window),
 #          mov_av(BL_df_2['VerticalFocusFWHM']*1000, window),
-#          label='B2', color='peru', linestyle='dashed')
+#          label='B2', color='peru', linestyle='solid')
 
 # ax8.set_title('Vertical Focus Size')
 # ax8.set_xlabel('Energy [eV]')
