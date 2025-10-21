@@ -489,7 +489,7 @@ ax.set_yscale('log')
 ax.set_xlabel('Energy [eV]')
 ax.set_ylabel('Ph/s/0.3A/0.1%BW')
 # ax.set_xlim(x_range)
-# ax.set_ylim(9e7, 5e15)
+ax.set_ylim(1e10, 1e16)
 ax.set_title('IVUE42')
 # Save the the figure
 plt.tight_layout()
