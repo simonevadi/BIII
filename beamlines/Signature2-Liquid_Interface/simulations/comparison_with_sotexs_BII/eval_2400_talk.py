@@ -134,7 +134,7 @@ plt.close()
 
 ###################################################
 fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
-fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
+fig.suptitle('Comparison Liquid Interface @ BESSY III and SoTeXS @ BESSY II')
 
 
 # TRANSMITTED BANDWIDTH
@@ -153,6 +153,12 @@ ax3.plot(mov_av(BL_df_1200['PhotonEnergy'], window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=2.25',
              color='cyan')
+
+ax3.plot(mov_av(BL_df_1200_5['PhotonEnergy'], window), 
+             mov_av(BL_df_1200_5['Bandwidth']*1000, window),
+             linestyle='solid',
+             label=f'B3 - 1200 l/mm - cff=5',
+             color='navy')
 
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['Bandwidth']*1000, window),
@@ -196,7 +202,15 @@ for ind,harm in enumerate([1]):
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
              color='cyan', linestyle='solid',
              label=f'B3 1200 l/mm')
-    
+
+for ind,harm in enumerate([1]):
+    Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_df_1200_5[(BL_df_1200_5['PhotonEnergy'] >= Emin_harm) & (BL_df_1200_5['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
+             mov_av(filtered_df[f'PhotonFlux{harm}'], window),
+             color='navy', linestyle='solid',
+             label=f'B3 1200 l/mm - cff 5')    
     
 for ind,harm in enumerate(harms):    
     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
@@ -226,7 +240,7 @@ custom_lines = [
     Line2D([0], [0], color='lime', linestyle='solid', lw=2)
 ]
 
-ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
+# ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -244,7 +258,7 @@ plt.close()
 
 ###################################################
 fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
-fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
+fig.suptitle('Comparison Liquid Interface @ BESSY III and SoTeXS @ BESSY II')
 
 
 # TRANSMITTED BANDWIDTH
@@ -352,7 +366,7 @@ custom_lines = [
     Line2D([0], [0], color='lime', linestyle='solid', lw=2)
 ]
 
-ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
+# ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
 ax4.set_xlim(x_range)
 ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
