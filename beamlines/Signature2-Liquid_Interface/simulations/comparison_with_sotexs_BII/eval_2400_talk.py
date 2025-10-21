@@ -45,85 +45,88 @@ BL_df_2_1200 = BL_df_2_1200[BL_df_2_1200['PhotonEnergy'] <= 2000]
 harms=[1,3,5]
 x_range = [200, 6200]
 
-# ##############################################################
-# # PLOTTING AND ANALYSIS
-# plt.rcParams.update({'font.size': 15})  # Change 14 to any size you prefer
-# # Create the Main figure
-# fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
-# fig.suptitle('Comparison Liquid Interface @ BESSY III and SoTeXS @ BESSY II, 2400 l/mm')
+##############################################################
+# PLOTTING AND ANALYSIS
+plt.rcParams.update({'font.size': 15})  # Change 14 to any size you prefer
+# Create the Main figure
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Comparison Liquid Interface @ BESSY III and SoTeXS @ BESSY II')
 
-# # MIRROR REFLECTIVITY
-# ax1 = axs[0]
-# # Coatings:
-# de = 0.01
-# table = 'Henke'
-# theta = 0.4
-# E = np.arange(x_range[0], x_range[-1], de)
-# Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
-# Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
-# B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
-# IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40, 
-#                         bLayer=Cr, bThickness=60, 
-#                         nPairs=1, substrate=Ir)
+# MIRROR REFLECTIVITY
+ax1 = axs[0]
+# Coatings:
+de = 0.01
+table = 'Henke'
+theta = 0.4
+E = np.arange(x_range[0], x_range[-1], de)
+Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
+Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
+B4C = rm.Material('C',   rho=2.52,  kind='mirror',table=table)
+IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40, 
+                        bLayer=Cr, bThickness=60, 
+                        nPairs=1, substrate=Ir)
+Pt = rm.Material('Pt', rho=21.45, kind='mirror',table=table)
 
-# Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
-# Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
-# B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
-# IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
+Ir, _ = get_reflectivity(Ir, E=E, theta=theta)
+Cr, _ = get_reflectivity(Cr, E=E, theta=theta)
+B4C, _ = get_reflectivity(B4C, E=E, theta=theta)
+IrCrB4C, _ = get_reflectivity(IrCrB4C, E=E, theta=theta)
+Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
-# ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
-# ax1.plot(E, Cr, 'blue', label='Cr', alpha=0.5)
-# ax1.plot(E, B4C, 'red', label='B4C', alpha=0.5)
-# ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=2)
+ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
+ax1.plot(E, Cr, 'blue', label='Cr', alpha=0.5)
+ax1.plot(E, B4C, 'red', label='B4C', alpha=0.5)
+ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=2)
+ax1.plot(E, Pt, 'grey', label='Pt', alpha=1, linewidth=2)
 
-# ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
-# ax1.set_xlabel('Energy [eV]')
-# ax1.set_ylabel('Reflectivity [a.u.]')
-# ax1.legend()
-# ax1.set_xlim(x_range)
-# ax1.minorticks_on()
-# ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-
-# ax3 = axs[0]
-
-# window = 20
-# colors = ['red', 'blue', 'green']
-# color_B2 = ['salmon', 'skyblue', 'lightgreen']
+ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
+ax1.set_xlabel('Energy [eV]')
+ax1.set_ylabel('Reflectivity [a.u.]')
+ax1.legend()
+ax1.set_xlim(x_range)
+ax1.minorticks_on()
+ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
-# ax3 = axs[1]
-# for ind,harm in enumerate(harms):
-#     ax3.plot(undulator_3[f'Energy{harm}[eV]'], 
-#              undulator_3[f'Photons{harm}'],
-#              color=colors[ind], linestyle='solid',
-#              label=f'B3-Harm. {harm}')
-# for ind,harm in enumerate(harms):
-#     ax3.plot(undulator_2[f'Energy{harm}[eV]'], 
-#              undulator_2[f'Photons{harm}'],
-#              color=colors[ind], linestyle='solid',
-#              label=f'B2-Harm. {harm}')
+
+ax3 = axs[0]
+
+window = 20
+colors = ['red', 'blue', 'green']
+color_B2 = ['salmon', 'skyblue', 'lightgreen']
+
+
+ax3 = axs[1]
+for ind,harm in enumerate(harms):
+    ax3.plot(undulator_3[f'Energy{harm}[eV]'], 
+             undulator_3[f'Photons{harm}'],
+             color=colors[ind], linestyle='solid',
+             label=f'B3-Harm. {harm}')
+for ind,harm in enumerate(harms):
+    ax3.plot(undulator_2[f'Energy{harm}[eV]'], 
+             undulator_2[f'Photons{harm}'],
+             color=colors[ind], linestyle='solid',
+             label=f'B2-Harm. {harm}')
     
-# ax3.legend()
-# ax3.set_yscale('log')
-# ax3.set_xlabel('Energy [eV]')
-# ax3.set_ylabel('Ph/s/0.3A/0.1%BW')
-# ax3.set_xlim(x_range)
-# ax3.set_ylim(9e7, 5e15)
-# ax3.set_title('IVUE42 @ BESSY III vs CPMU21 @ BESSY II')
+ax3.legend()
+ax3.set_yscale('log')
+ax3.set_xlabel('Energy [eV]')
+ax3.set_ylabel('Ph/s/0.3A/0.1%BW')
+ax3.set_xlim(x_range)
+ax3.set_ylim(9e7, 5e15)
+ax3.set_title('IVUE42 @ BESSY III vs CPMU21 @ BESSY II')
 
-# # SAVING
-# # Ensure the "plot" folder exists
-# plot_folder = 'plot'
-# if not os.path.exists(plot_folder):
-#     os.makedirs(plot_folder)
+# SAVING
+# Ensure the "plot" folder exists
+plot_folder = 'plot'
+if not os.path.exists(plot_folder):
+    os.makedirs(plot_folder)
 
-# # Save the the figure
-# plt.tight_layout()
-# plt.savefig('plot/talk/LiquidInterface_2400_comparison_1.png')
-# # plt.show()
-# plt.close()
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/LiquidInterface_2400_comparison_1.png')
+# plt.show()
+plt.close()
 
 
 
