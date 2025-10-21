@@ -14,30 +14,33 @@ undulator_file_path = os.path.abspath(
     os.path.join(Path(__file__).resolve().parents[4], 
                  'undulators',
                  'UndulatorFiles_BESSY_III',
-                 'Signature2-ELISA',
-                 'Elisa-IVUE42-HL-1.csv')
+                 'IVUE31',
+                 'CohIm-Cryo-IVUE31-HL-1.csv')
 )
 
 undulator = pd.read_csv(undulator_file_path)
 
 
-# PARAMS FOR elisa 1200l/mm GRATING SIMULATIONS 3 micron
-energy_1200 = np.arange(200, 2101,10)
-SlitSize_1200 = np.array([.020]) # mm
-cff_1200      = np.array([2.25, 5])
-elisa_1200_sim_name = 'elisa_1200'
-elisa_1200_file_name  = 'elisa_1200'
-elisa_1200_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+energy = np.arange(200, 2101,200)
+SlitSize = [0.03]
+# PARAMS Vertical
+energy_vertical = energy
+SlitSize_vertical = SlitSize # mm
+elisa_vertical_sim_name = 'coherence_vertical'
+elisa_vertical_file_name  = 'coherence_vertical'
+elisa_vertical_file_path  = os.path.join(Path(__file__).resolve().parents[2],
                                      'rml',
-                                     elisa_1200_file_name+'.rml')
+                                     elisa_vertical_file_name+'.rml')
 
-# PARAMS FOR elisa 2400l/mm GRATING SIMULATIONS 3 micron
-SlitSize_2400 = np.array([.020]) # mm
-elisa_2400_sim_name = 'elisa_2400'
-elisa_2400_file_name  = 'elisa_2400'
-elisa_2400_file_path  = os.path.join(Path(__file__).resolve().parents[2],
+
+# PARAMS Vertical
+energy_horizontal = energy
+SlitSize_horizontal = SlitSize # mm
+elisa_horizontal_sim_name = 'coherence_horizontal'
+elisa_horizontal_file_name  = 'coherence_horizontal'
+elisa_horizontal_file_path  = os.path.join(Path(__file__).resolve().parents[2],
                                      'rml',
-                                     elisa_2400_file_name+'.rml')
+                                     elisa_horizontal_file_name+'.rml')
 
 
 

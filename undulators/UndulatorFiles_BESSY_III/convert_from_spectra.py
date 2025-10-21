@@ -100,8 +100,12 @@ def batch_extract_energy_flux(folder: str) -> Dict[str, pd.DataFrame]:
 
     return results
 
-
 ####################################
-# assuming extract_energy_flux is defined as in your message
+# UE65
 all_dfs = batch_extract_energy_flux("Elisa-UE65-HL-1-1")
 ########################################
+
+####################################
+# IVUE36
+all_dfs = batch_extract_energy_flux("IVUE31")
+#########################################
