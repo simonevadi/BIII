@@ -368,8 +368,7 @@ plt.close()
 ############# undulator
 from pathlib import Path
 
-fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
-fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
+fig, (ax) = plt.subplots(1, 1, figsize=(10, 7))
 
 #######
 undulator_file_path = os.path.abspath(
@@ -408,183 +407,94 @@ undulator_file_path = os.path.abspath(
 undulator_VL = pd.read_csv(undulator_file_path)
 
 for ind,harm in enumerate(harms):
-    ax3.plot(undulator_C[f'Energy{harm}[eV]'], 
+    ax.plot(undulator_C[f'Energy{harm}[eV]'], 
              undulator_C[f'Photons{harm}'],
-             color='red', linestyle='solid')
+             color='red', linestyle='solid',
+             linewidth=5)
+    ax.plot(undulator_HL[f'Energy{harm}[eV]'], 
+             undulator_HL[f'Photons{harm}']*1,
+             color='royalblue', linestyle='dashed',
+             linewidth=4)
+    ax.plot(undulator_IN[f'Energy{harm}[eV]'], 
+             undulator_IN[f'Photons{harm}']*1,
+             color='forestgreen', linestyle='dotted',
+             linewidth=3)
+    ax.plot(undulator_VL[f'Energy{harm}[eV]'], 
+             undulator_VL[f'Photons{harm}']*1,
+             color='orange', linestyle='dotted',
+             linewidth=2)
 
+def get_energy_range(df, harm):
+    col = f'Energy{harm}[eV]'
+    photon_col = f'Photons{harm}'
+    if col in df.columns and df[photon_col].max() > 0:
+        return f"{int(np.min(df[col]))} – {int(np.max(df[col]))}"
+    else:
+        return ""
+
+# Create table data dynamically with safety for missing harmonics
+table_data = [
+    ['Circular',
+     get_energy_range(undulator_C, 1),
+     get_energy_range(undulator_C, 3),
+     get_energy_range(undulator_C, 5),
+     get_energy_range(undulator_C, 7)],
+
+    ['Horizontal Linear',
+     get_energy_range(undulator_HL, 1),
+     get_energy_range(undulator_HL, 3),
+     get_energy_range(undulator_HL, 5),
+     get_energy_range(undulator_HL, 7)],
+
+    ['Inclined',
+     get_energy_range(undulator_IN, 1),
+     get_energy_range(undulator_IN, 3),
+     get_energy_range(undulator_IN, 5),
+     get_energy_range(undulator_IN, 7)],
+
+    ['Vertical Linear',
+     get_energy_range(undulator_VL, 1),
+     get_energy_range(undulator_VL, 3),
+     get_energy_range(undulator_VL, 5),
+     get_energy_range(undulator_VL, 7)]
+]
+
+# Add the table to the plot
+table = ax.table(
+    cellText=table_data,
+    colLabels=['Polarization', 'Harm.1 [eV]', 'Harm.3 [eV]', 'Harm.5 [eV]', 'Harm.7 [eV]'],
+    loc='lower left',
+    cellLoc='center',
+    colLoc='center'
+)
+
+# Optional styling
+table.scale(0.8, 1.2)
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+
+
+
+custom_lines = [
+    Line2D([0], [0], color='red', linestyle='solid', lw=2),
+    Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
+    Line2D([0], [0], color='forestgreen', linestyle='solid', lw=2),
+    Line2D([0], [0], color='orange', linestyle='solid', lw=2)
+]
+
+ax.legend(custom_lines, ['Circular', 'Hor-Lin', 'Inclined', 'Ver Lin'], loc='best')
+
+ax.set_yscale('log')
+# ax.set_xscale('log')
+ax.set_xlabel('Energy [eV]')
+ax.set_ylabel('Ph/s/0.3A/0.1%BW')
+# ax.set_xlim(x_range)
+# ax.set_ylim(9e7, 5e15)
+ax.set_title('IVUE42')
 # Save the the figure
 plt.tight_layout()
 plt.savefig('plot/talk/LiquidInterface_undulator.png')
 # plt.show()
 plt.close()
-
-
-
-
-
-# # TRANSMITTED BANDWIDTH
-# ax3 = axs[0, 0]
-
-# window = 20
-# colors = ['red', 'blue', 'green']
-# color_B2 = ['salmon', 'skyblue', 'lightgreen']
-# for ind,harm in enumerate(harms):
-#     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-#     ax3.plot(mov_av(filtered_df['PhotonEnergy'], window), 
-#              mov_av(filtered_df['Bandwidth']*1000, window),
-#              color=colors[ind], linestyle='solid',
-#              label=f'B3-Harm. {harm}')
-#     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_2[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
-#     ax3.plot(mov_av(filtered_df['PhotonEnergy'], window), 
-#                 mov_av(filtered_df['Bandwidth']*1000, window),
-#                 color=color_B2[ind], linestyle='solid',
-#                 label=f'B2-Harm. {harm}')
-
-
-# ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
-# ax3.set_xlabel('Energy [eV]')
-# ax3.set_ylabel('Transmitted bandwidth [meV]')
-# ax3.legend(loc='best')
-# ax3.set_xlim(x_range)
-# ax3.minorticks_on()
-# ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# # BEAMLINE FLUX CURVE
-# ax4 = axs[0, 1]
-# window = 1
-# for ind,harm in enumerate(harms):
-#     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
-#              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-#              color=colors[ind], linestyle='solid',
-#              label=f'B3-Harm. {harm}')
-#     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_2[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
-#                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-#                 color=color_B2[ind], linestyle='solid',
-#                 label=f'B2-Harm. {harm}')
-    
-
-# ax4.set_title('Flux with CPMU21')
-# ax4.set_xlabel('Energy [eV]')
-# ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
-# ax4.legend(loc='best')
-# ax4.set_xlim(x_range)
-# ax4.minorticks_on()
-# ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-# ax4.set_yscale('log')
-
-# # RESOLVING POWER
-# ax5 = axs[1, 0]
-# window = 20
-# for ind,harm in enumerate(harms):
-#     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-#     ax5.plot(mov_av(filtered_df['PhotonEnergy'], window),
-#              mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
-#              color=colors[ind], linestyle='solid',
-#              label=f'B3-Harm. {harm}')
-#     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_2[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
-#     ax5.plot(mov_av(filtered_df['PhotonEnergy'], window),
-#              mov_av(filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth'], window),
-#                 color=color_B2[ind], linestyle='solid',
-#                 label=f'B2-Harm. {harm}')
-
-# ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
-# ax5.set_xlabel('Energy [eV]')
-# ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
-# ax5.legend(loc='best')
-# ax5.set_xlim(x_range)
-# ax5.minorticks_on()
-# ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# # Flux Density
-# ax6 = axs[1, 1]
-
-# for ind,harm in enumerate(harms):
-#     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000
-#     ax6.plot(filtered_df['PhotonEnergy'],
-#              filtered_df[f'PhotonFlux{harm}']/foc_area,
-#              color=colors[ind], linestyle='solid',
-#              label=f'B3-Harm. {harm}')
-#     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_2[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
-#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000
-#     ax6.plot(filtered_df['PhotonEnergy'],
-#              filtered_df[f'PhotonFlux{harm}']/foc_area,
-#                 color=color_B2[ind], linestyle='solid',
-#                 label=f'B2-Harm. {harm}')
-    
-# ax6.set_title('Flux Density')
-# ax6.set_xlabel('Energy [eV]')
-# ax6.set_ylabel('Photons flux per µm²')
-# ax6.legend(loc='best')
-# ax6.set_xlim(x_range)
-# ax6.minorticks_on()
-# ax6.set_yscale('log')
-# ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-# # Horizontal Focus Size
-# ax7 = axs[2, 0]
-# ax7.plot(mov_av(BL_df['PhotonEnergy'], window),
-#          mov_av(BL_df['HorizontalFocusFWHM']*1000, window),
-#          label='B3', color='purple', linestyle='solid')
-
-# ax7.plot(mov_av(BL_df_2['PhotonEnergy'], window),
-#          mov_av(BL_df_2['HorizontalFocusFWHM']*1000, window),
-#          label='B2', color='violet', linestyle='solid')
-
-# ax7.set_title('Horizontal Focus Size')
-# ax7.set_xlabel('Energy [eV]')
-# ax7.set_ylabel('[µm]')
-# ax7.set_ylim(0.01, 10.5)
-# ax7.set_yscale('log')
-# ax7.set_xlim(x_range)
-# ax7.minorticks_on()
-# ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-# ax7.yaxis.set_major_formatter(ScalarFormatter())
-# ax7.ticklabel_format(style='plain', axis='y')
-# ax7.legend(loc='best')
-# # Vertical Focus Size
-# ax8 = axs[2, 1]
-
-# ax8.plot(mov_av(BL_df['PhotonEnergy'], window),
-#          mov_av(BL_df['VerticalFocusFWHM']*1000, window),
-#          label='B3', color='brown', linestyle='solid')
-
-# ax8.plot(mov_av(BL_df_2['PhotonEnergy'], window),
-#          mov_av(BL_df_2['VerticalFocusFWHM']*1000, window),
-#          label='B2', color='peru', linestyle='solid')
-
-# ax8.set_title('Vertical Focus Size')
-# ax8.set_xlabel('Energy [eV]')
-# ax8.set_ylabel('[µm]')
-# ax8.set_xlim(x_range)
-# ax8.set_ylim(0.01, 10.5)
-# ax8.set_yscale('log')
-# ax8.minorticks_on()
-# ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-# ax8.yaxis.set_major_formatter(ScalarFormatter())
-# ax8.ticklabel_format(style='plain', axis='y')
-# ax8.legend(loc='best')
-
-
 
 
