@@ -32,13 +32,13 @@ BL_df_ver = pd.read_csv(BL_file_path)
 # PLOTTING AND ANALYSIS
 plt.rcParams.update({'font.size': 13})  # Change 14 to any size you prefer
 # Create the Main figure
-fig, (axs) = plt.subplots(4, 2, figsize=(20, 15))
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
 fig.suptitle('Signature5 - Coherence Imaging, 500 l/mm', size=16)
 x_range = [energy[0], energy[-1]]
 colors = ['royalblue', 'red', 'green']
 
 # MIRROR REFLECTIVITY
-ax1 = axs[0, 0]
+ax1 = axs[0]
 # Coatings:
 de = 0.01
 table = 'Henke'
@@ -62,7 +62,7 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # FLUX CURVE UNDULATOR
 #Choose the harmonic to plot
-ax2 = axs[0, 1]
+ax2 = axs[1]
 
 harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
@@ -83,9 +83,24 @@ ax2.set_yscale('log')
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
+# SAVING
+# Ensure the "plot" folder exists
+plot_folder = 'plot'
+if not os.path.exists(plot_folder):
+    os.makedirs(plot_folder)
 
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/coherence_1.png')
+plt.savefig('plot/talk/coherence_1.pdf')
+# plt.show()
+plt.close()
+
+# Create the Main figure
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Signature5 - Coherence Imaging, 500 l/mm', size=16)
 # TRANSMITTED BANDWIDTH
-ax3 = axs[1, 0]
+ax3 = axs[0]
 
 window = 1
 
@@ -112,7 +127,7 @@ ax3.legend(loc='lower right', ncol=2)
 
 
 # BEAMLINE FLUX CURVE
-ax4 = axs[1, 1]
+ax4 = axs[1]
 
 # 2400
 for ind, harm in enumerate(harms):
@@ -149,43 +164,55 @@ custom_lines = [
 ]
 
 ax4.legend(custom_lines, ['Vertical - solid lines', 'Horizontal - dashed lines'], loc='best')
-# RESOLVING POWER
-ax5 = axs[2, 0]
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/coherence_2.png')
+plt.savefig('plot/talk/coherence_2.pdf')
+# plt.show()
+plt.close()
+
+######################################################################
+# Create the Main figure
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('Signature5 - Coherence Imaging, 500 l/mm', size=16)
+# TRANSMITTED BANDWIDTH
+ax3 = axs[0]
+
 window = 1
 
-# Vertical
-ax5.plot(mov_av(BL_df_ver['PhotonEnergy'], window),
-         mov_av(BL_df_ver[f'PhotonEnergy']/BL_df_ver[f'Bandwidth'], window),
-         color = 'royalblue', linestyle='solid',
-         label='Vertical')
-
-# Horizontal
-ax5.plot(mov_av(BL_df_hor['PhotonEnergy'], window),
-         mov_av(BL_df_hor[f'PhotonEnergy']/BL_df_hor[f'Bandwidth'], window),
-         color = 'green', linestyle='dashed',
-         label='Horizontal')
-
-ax5.set_title(f'Resolving Power @ {int(SlitSize[0]*1000)} µm ExitSlit')
-ax5.set_xlabel('Energy [eV]')
-ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
-ax5.set_xlim(x_range)
-ax5.legend(loc='lower right')
-ax5.minorticks_on()
-ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+# vertical
+ax3.plot(mov_av(BL_df_ver['PhotonEnergy'], window), 
+             mov_av(BL_df_ver['PhotonEnergy']/BL_df_ver['Bandwidth'], window),
+             label=f'Vertical',
+             color='royalblue', linestyle='solid')
+    
+# horizontal
+ax3.plot(mov_av(BL_df_hor['PhotonEnergy'], window),
+             mov_av(BL_df_hor['PhotonEnergy']/BL_df_hor['Bandwidth'], window),
+             label=f'Horizontal',
+             color=colors[ind], linestyle='dashed')
 
 
-# Flux Density
-ax6 = axs[2, 1]
+ax3.set_title(f'Resolving Power @{int(SlitSize[0]*1000)} µm ExitSlit')
+ax3.set_xlabel('Energy [eV]')
+ax3.set_ylabel('Resolving Power [a.u.]')
+ax3.set_xlim(x_range)
+ax3.minorticks_on()
+ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax3.legend(loc='upper right', ncol=2)
 
-# 1200
+
+# BEAMLINE FLUX CURVE
+ax4 = axs[1]
+
+# 2400
 for ind, harm in enumerate(harms):
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df_ver[(BL_df_ver['PhotonEnergy'] >= Emin_harm) & (BL_df_ver['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],
-             filtered_df[f'PhotonFlux{harm}']/foc_area,
-             label=f'Harm. {harm}', 
+    ax4.plot(filtered_df['PhotonEnergy'],
+             filtered_df[f'PhotonFlux{harm}'],
+             label=f'Harm. {harm}',
              color=colors[ind], linestyle='solid')
     
 # 2400
@@ -193,94 +220,29 @@ for ind, harm in enumerate(harms):
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df_hor[(BL_df_hor['PhotonEnergy'] >= Emin_harm) & (BL_df_hor['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],
-             filtered_df[f'PhotonFlux{harm}']/foc_area,
-             label=f'Harm. {harm}', 
+    ax4.plot(filtered_df['PhotonEnergy'],
+             filtered_df[f'PhotonFlux{harm}'],
+             label=f'Harm. {harm}',
              color=colors[ind], linestyle='dashed')
 
-ax6.set_title('Flux Density')
-ax6.set_xlabel('Energy [eV]')
-ax6.set_ylabel('Photons flux per µm²')
-ax6.set_xlim(x_range)
-ax6.set_yscale('log')
-ax6.minorticks_on()
-ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax4.set_title('Flux at Focus')
+ax4.set_xlabel('Energy [eV]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
+ax4.set_xlim(x_range)
+ax4.minorticks_on()
+ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax4.set_yscale('log')
+
 
 custom_lines = [
     Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
     Line2D([0], [0], color='royalblue', linestyle='dashed', lw=2),
 ]
 
-ax6.legend(custom_lines, ['Vertical - solid lines', 'Horizontal - dashed lines'], loc='best')
-
-# Focus Horizontal
-ax7 = axs[3, 0]
-focus_path = os.path.join('plot', 'horizontal_focus.csv')
-focus = pd.read_csv(
-    focus_path,
-    sep='\t',        # columns separated by tabs
-    decimal='.',     # use comma as decimal separator
-    skiprows=1       # skip the first line (the 'sep=' line)
-)
-x = focus['DetectorAtFocus_OX'] * 1e3
-y = focus['DetectorAtFocus_OY'] * 1e3
-
-x_lim=(-5,5)#
-y_lim=(-5,5)
-size = 0.05
-
-ax7.scatter(x,y, s=size, color='yellow', alpha=1)
-
-ax7.set_facecolor('#002147')
-
-ax7.set_xlim(x_lim)
-ax7.set_ylim(y_lim)
-
-ax7.set_xlabel('µm')
-ax7.set_ylabel('µm')
-# hor_foc = np.mean(BL_df_hor['HorizontalFocusFWHM']*1e3)
-# ver_foc = np.mean(BL_df_hor['VerticalFocusFWHM']*1e3)
-ax7.set_title(f'Horizontal Monochromator, Focus FWHM(HxV) {2.0:.1f} x {1.5:.1f} µm²')
-
-# Focus Vertical
-ax7 = axs[3, 1]
-focus_path = os.path.join('plot', 'vertical_focus.csv')
-focus = pd.read_csv(
-    focus_path,
-    sep='\t',        # columns separated by tabs
-    decimal='.',     # use comma as decimal separator
-    skiprows=1       # skip the first line (the 'sep=' line)
-)
-x = focus['DetectorAtFocus_OX'] * 1e3
-y = focus['DetectorAtFocus_OY'] * 1e3
-
-
-ax7.scatter(x,y, s=size, color='yellow', alpha=1)
-
-ax7.set_facecolor('#002147')
-
-ax7.set_xlim(x_lim)
-ax7.set_ylim(y_lim)
-
-ax7.set_xlabel('µm')
-ax7.set_ylabel('µm')
-hor_foc = np.mean(BL_df_hor['HorizontalFocusFWHM']*1e3)
-ver_foc = np.mean(BL_df_hor['VerticalFocusFWHM']*1e3)
-ax7.set_title(f'Vertical Monochromator, Focus FWHM(HxV) {2.2:.1f} x {2.0:.1f} µm²')
-
-##############################################################
-# SAVING
-# Ensure the "plot" folder exists
-plot_folder = 'plot'
-if not os.path.exists(plot_folder):
-    os.makedirs(plot_folder)
-
+ax4.legend(custom_lines, ['Vertical - solid lines', 'Horizontal - dashed lines'], loc='best')
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/coherence.png')
-plt.savefig('plot/coherence.pdf')
+plt.savefig('plot/talk/coherence_3.png')
+plt.savefig('plot/talk/coherence_3.pdf')
 # plt.show()
 plt.close()
-
-
