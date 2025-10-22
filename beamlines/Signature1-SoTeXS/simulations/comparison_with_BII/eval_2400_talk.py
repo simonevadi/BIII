@@ -44,7 +44,7 @@ fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
 fig.suptitle('Comparison SoTeXS @ BESSY II and BESSY III, 2400 l/mm')
 x_range = [500, 8000]
 colors = ['red', 'blue', 'green']
-color_B2 = ['salmon', 'royalblue', 'lime']
+color_B2 = ['salmon', 'royalblue', '#9DC183']
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0]
@@ -158,7 +158,7 @@ ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window),
              mov_av(BL_df_2['Bandwidth']*1000, window),
              linestyle='solid',
              label=f'B2', 
-             color='lime')
+             color='#9DC183')
 
 
 
@@ -199,7 +199,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='lime', linestyle=ls[ind],
+                color='#9DC183', linestyle=ls[ind],
                 label=f'B2-Harm. {harm}')
     
 
@@ -250,7 +250,7 @@ ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window),
              mov_av(BL_df_2['PhotonEnergy']/BL_df_2['Bandwidth'], window),
              linestyle='solid',
              label=f'B2', 
-             color='lime')
+             color='#9DC183')
 
 
 
@@ -292,7 +292,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='lime', linestyle=ls[ind],
+                color='#9DC183', linestyle=ls[ind],
                 label=f'B2-Harm. {harm}')
     
 
