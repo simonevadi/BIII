@@ -10,9 +10,13 @@ nrays       = 1e5
 
 
 # UNDULATOR
-undulator_file_path = os.path.join(
-                 'undulator',
-                 'CPMU20-6mm-harmonics.csv')
+undulator_file_path = os.path.abspath(
+                os.path.join(Path(__file__).resolve().parents[4],
+                 'undulators',
+                 'UndulatorFiles_BESSY_II',
+                 'BII-CPMU20-SoTeXs',
+                 'BII-CPMU20-SoTeXs-1.csv')
+)
 
 undulator = pd.read_csv(undulator_file_path)
 
@@ -70,7 +74,7 @@ else:
     })
 # params only for evaluation
 beamline_name = 'SoTeXS'
-# define undulator file
-undulator_file_path = os.path.join('undulator', 'CPMU20_B2l_k_dep_simp_all_harm_300mA.dbr')
-# Undulator SPECTRA
-undulator_spectra = np.loadtxt(undulator_file_path, skiprows=8)
+# # define undulator file
+# undulator_file_path = os.path.join('undulator', 'CPMU20_B2l_k_dep_simp_all_harm_300mA.dbr')
+# # Undulator SPECTRA
+# undulator_spectra = np.loadtxt(undulator_file_path, skiprows=8)

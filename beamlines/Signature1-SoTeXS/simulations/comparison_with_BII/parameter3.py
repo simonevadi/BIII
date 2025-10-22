@@ -14,7 +14,8 @@ undulator_file_path = os.path.abspath(
     os.path.join(Path(__file__).resolve().parents[4], 
                  'undulators',
                  'UndulatorFiles_BESSY_III',
-                 'CPMU21_300mA_100pmrad_x_100pmrad.csv')
+                 'IVU28',
+                 'IVU28-.csv')
 )
 
 undulator = pd.read_csv(undulator_file_path)
