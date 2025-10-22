@@ -90,15 +90,17 @@ for ind,harm in enumerate(harms):
     ax3.plot(undulator_3[f'Energy{harm}[eV]'], 
              undulator_3[f'Photons{harm}'],
              color=colors[ind], linestyle='solid',
+             linewidth=3,
              label=f'B3-Harm. {harm}')
 for ind,harm in enumerate(harms):
     ax3.plot(undulator_2[f'Energy{harm}[eV]'], 
              undulator_2[f'Photons{harm}'],
-             color=colors[ind], linestyle='dashed',
+             color=color_B2[ind], linestyle='dashed',
              label=f'B2-Harm. {harm}')
     
 ax3.legend()
 ax3.set_yscale('log')
+ax3.set_ylim((1e11,2e15))
 ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Ph/s/0.3A/0.1%BW')
 ax3.set_title('IVU28 @ BESSY III vs CPMU21 @ BESSY II')
