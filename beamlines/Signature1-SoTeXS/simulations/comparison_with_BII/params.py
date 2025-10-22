@@ -3,10 +3,10 @@ import os
 import pandas as pd
 from pathlib import Path
 
-rounds_1200 = 5
-rounds_ml   = 5
+rounds_1200 = 1
+rounds_ml   = 1
 ncpu        = 30
-nrays       = 1e5
+nrays       = 2e5
 
 
 # UNDULATOR

@@ -236,16 +236,16 @@ ax3.plot(mov_av(BL_df['PhotonEnergy'], window),
              linestyle='solid',
              label=f'B3 - nano focus',
              color='blue',
-             linewidth=3,)
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_micro['PhotonEnergy'], window), 
              mov_av(BL_df_micro['PhotonEnergy']/BL_df_micro['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - micro focus', 
              color='orange',
-             linewidth=3,)
+             linewidth=5,)
 
-window=50
+window=10
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['PhotonEnergy']/BL_df_2['Bandwidth'], window),
              linestyle='solid',
