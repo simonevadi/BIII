@@ -27,7 +27,7 @@ beamline = sim.rml.beamline
 
 # define a list of dictionaries with the parameters to scan
 params = [  
-            {beamline.ExitSlit.openingWidth:SlitSize_vertical},
+            {beamline.ExitSlit.openingHeight:SlitSize_vertical},
             {beamline.SU.photonEnergy:energy},
             {beamline.SU.numberRays:nrays}
         ]

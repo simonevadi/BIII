@@ -7,7 +7,7 @@ from pathlib import Path
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 29
 nrays=5e5
-rounds = 10
+rounds = 20
 
 # UNDULATOR
 undulator_file_path = os.path.abspath(
@@ -21,7 +21,7 @@ undulator_file_path = os.path.abspath(
 undulator = pd.read_csv(undulator_file_path)
 
 
-energy = np.arange(200, 2101,200)
+energy = np.arange(300, 2201,10)
 SlitSize = [0.03]
 # PARAMS Vertical
 energy_vertical = energy

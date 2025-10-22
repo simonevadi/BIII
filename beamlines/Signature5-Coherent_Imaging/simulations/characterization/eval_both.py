@@ -74,7 +74,7 @@ for ind, harm in enumerate(harms):
     
 ax2.set_title('Cryo IVUE31 Flux curve, Hor Lin polarization')
 ax2.set_xlabel('Energy [eV]')
-ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
+ax2.set_ylabel('Photon flux [ph/s/0.3A/0.1% BW]')
 ax2.legend(loc='best')
 ax2.set_xlim(x_range)
 ax2.set_ylim((1e15, 4e15))
@@ -134,7 +134,7 @@ for ind, harm in enumerate(harms):
              label=f'Harm. {harm}',
              color=colors[ind], linestyle='dashed')
 
-ax4.set_title('Flux with IVU42')
+ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 ax4.set_xlim(x_range)
@@ -142,7 +142,6 @@ ax4.minorticks_on()
 ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 ax4.set_yscale('log')
 
-from matplotlib.lines import Line2D
 
 custom_lines = [
     Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
@@ -214,27 +213,61 @@ custom_lines = [
 ]
 
 ax6.legend(custom_lines, ['Vertical - solid lines', 'Horizontal - dashed lines'], loc='best')
-# Focus
-# ax7 = axs[3, 0]
-# focus_path = os.path.join('plot', 'footprint.csv')
-# focus = pd.read_csv(
-#     focus_path,
-#     sep='\t',        # columns separated by tabs
-#     decimal=',',     # use comma as decimal separator
-#     skiprows=1       # skip the first line (the 'sep=' line)
-# )
 
-# hb = ax7.hexbin(
-#     focus['DetectorAtFocus_OX']*1000,
-#     focus['DetectorAtFocus_OY']*1000,
-#     gridsize=60, cmap='viridis'
-# )
-# ax7.set_xlabel('µm')
-# ax7.set_ylabel('µm')
-# hor_foc = np.mean(BL_df_hor['HorizontalFocusFWHM']*1000)
-# ver_foc = np.mean(BL_df_hor['VerticalFocusFWHM']*1000)
-# ax7.set_title(f'Focus at Sample Position: (HxV) {hor_foc:.0f} x {ver_foc:.0f} µm²')
+# Focus Horizontal
+ax7 = axs[3, 0]
+focus_path = os.path.join('plot', 'horizontal_focus.csv')
+focus = pd.read_csv(
+    focus_path,
+    sep='\t',        # columns separated by tabs
+    decimal='.',     # use comma as decimal separator
+    skiprows=1       # skip the first line (the 'sep=' line)
+)
+x = focus['DetectorAtFocus_OX'] * 1e3
+y = focus['DetectorAtFocus_OY'] * 1e3
 
+x_lim=(-5,5)#
+y_lim=(-5,5)
+size = 0.05
+
+ax7.scatter(x,y, s=size, color='yellow', alpha=1)
+
+ax7.set_facecolor('#002147')
+
+ax7.set_xlim(x_lim)
+ax7.set_ylim(y_lim)
+
+ax7.set_xlabel('µm')
+ax7.set_ylabel('µm')
+# hor_foc = np.mean(BL_df_hor['HorizontalFocusFWHM']*1e3)
+# ver_foc = np.mean(BL_df_hor['VerticalFocusFWHM']*1e3)
+ax7.set_title(f'Horizontal Monochromator, Focus FWHM(HxV) {2.0:.1f} x {1.5:.1f} µm²')
+
+# Focus Vertical
+ax7 = axs[3, 1]
+focus_path = os.path.join('plot', 'vertical_focus.csv')
+focus = pd.read_csv(
+    focus_path,
+    sep='\t',        # columns separated by tabs
+    decimal='.',     # use comma as decimal separator
+    skiprows=1       # skip the first line (the 'sep=' line)
+)
+x = focus['DetectorAtFocus_OX'] * 1e3
+y = focus['DetectorAtFocus_OY'] * 1e3
+
+
+ax7.scatter(x,y, s=size, color='yellow', alpha=1)
+
+ax7.set_facecolor('#002147')
+
+ax7.set_xlim(x_lim)
+ax7.set_ylim(y_lim)
+
+ax7.set_xlabel('µm')
+ax7.set_ylabel('µm')
+hor_foc = np.mean(BL_df_hor['HorizontalFocusFWHM']*1e3)
+ver_foc = np.mean(BL_df_hor['VerticalFocusFWHM']*1e3)
+ax7.set_title(f'Vertical Monochromator, Focus FWHM(HxV) {2.2:.1f} x {2.0:.1f} µm²')
 
 ##############################################################
 # SAVING
