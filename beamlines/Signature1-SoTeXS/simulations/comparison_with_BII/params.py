@@ -22,7 +22,7 @@ undulator = pd.read_csv(undulator_file_path)
 
 
 
-#   PARAMS FOR 1200l/mm GRATING SIMULATIONS
+# PARAMS FOR 1200l/mm GRATING SIMULATIONS
 hb_1200_order       = 1
 hb_1200_energy = np.concatenate([
     np.arange(500, 570, 1),       # Step of 1 from 500 to 570 (exclusive)
