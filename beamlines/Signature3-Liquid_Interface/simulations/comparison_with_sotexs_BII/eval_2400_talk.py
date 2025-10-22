@@ -76,13 +76,13 @@ Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 ax1.plot(E, Ir, 'gold', label='Ir', alpha=0.5)
 ax1.plot(E, Cr, 'blue', label='Cr', alpha=0.5)
 ax1.plot(E, B4C, 'red', label='B4C', alpha=0.5)
-ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=2)
-ax1.plot(E, Pt, 'grey', label='Pt', alpha=1, linewidth=2)
+ax1.plot(E, IrCrB4C, 'black', label='IrCrB4C', linewidth=5)
+ax1.plot(E, Pt, 'grey', label='Pt', alpha=1, linewidth=5)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
 ax1.set_ylabel('Reflectivity [a.u.]')
-ax1.legend()
+ax1.legend(loc='lower left')
 ax1.set_xlim(x_range)
 ax1.minorticks_on()
 ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
@@ -93,7 +93,7 @@ ax3 = axs[0]
 
 window = 20
 colors = ['red', 'blue', 'green']
-color_B2 = ['salmon', 'skyblue', 'lightgreen']
+color_B2 = ['salmon', 'royalblue', 'lightgreen']
 
 
 ax3 = axs[1]
@@ -101,11 +101,12 @@ for ind,harm in enumerate(harms):
     ax3.plot(undulator_3[f'Energy{harm}[eV]'], 
              undulator_3[f'Photons{harm}'],
              color=colors[ind], linestyle='solid',
+             linewidth=3,
              label=f'B3-Harm. {harm}')
 for ind,harm in enumerate(harms):
     ax3.plot(undulator_2[f'Energy{harm}[eV]'], 
              undulator_2[f'Photons{harm}'],
-             color=colors[ind], linestyle='solid',
+             color=color_B2[ind], linestyle='dashed',
              label=f'B2-Harm. {harm}')
     
 ax3.legend()
@@ -114,7 +115,14 @@ ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Ph/s/0.3A/0.1%BW')
 ax3.set_xlim(x_range)
 ax3.set_ylim(9e7, 5e15)
-ax3.set_title('IVUE42 @ BESSY III vs CPMU21 @ BESSY II')
+ax3.set_title('IVUE42 @ BESSY III vs CPMU20 @ BESSY II')
+custom_lines = [
+    Line2D([0], [0], color=colors[0], linestyle='solid', lw=2),
+    Line2D([0], [0], color=color_B2[0], linestyle='dashed', lw=2),
+]
+
+ax3.legend(custom_lines, ['B3 - solid lines', 'B2 - dashed lines'], loc='best')
+
 
 # SAVING
 # Ensure the "plot" folder exists
@@ -146,31 +154,34 @@ ax3.plot(mov_av(BL_df['PhotonEnergy'], window),
              mov_av(BL_df['Bandwidth']*1000, window),
              linestyle='solid',
              label=f'B3 - 2400 l/mm',
-             color='royalblue')
+             color='red',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_1200['PhotonEnergy'], window), 
              mov_av(BL_df_1200['Bandwidth']*1000, window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=2.25',
-             color='cyan')
+             color='cyan',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_1200_5['PhotonEnergy'], window), 
              mov_av(BL_df_1200_5['Bandwidth']*1000, window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=5',
-             color='navy')
+             color='blue',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['Bandwidth']*1000, window),
-             linestyle='solid',
              label=f'B2 - 2400l/mm', 
-             color='green')
+             color='#6B8E23',
+             linestyle='dashed')
 
 ax3.plot(mov_av(BL_df_2_1200['PhotonEnergy'], window), 
              mov_av(BL_df_2_1200['Bandwidth']*1000, window),
-             linestyle='solid',
              label=f'B2 - 1200l/mm - cff=2.25', 
-             color='lime')
+             color='#9DC183',
+             linestyle='dashed')
 
 
 ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
@@ -185,13 +196,15 @@ ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # BEAMLINE FLUX CURVE
 ax4 = axs[1]
 window = 1
+ls = ['solid', 'dashed', 'dotted']
 for ind,harm in enumerate(harms):
     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='royalblue', linestyle='solid',
+             color='red', linestyle=ls[ind],
+             linewidth=5,
              label=f'B3 2400 l/mm')
 
 for ind,harm in enumerate([1]):
@@ -200,7 +213,8 @@ for ind,harm in enumerate([1]):
     filtered_df = BL_df_1200[(BL_df_1200['PhotonEnergy'] >= Emin_harm) & (BL_df_1200['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='cyan', linestyle='solid',
+             color='cyan', linestyle=ls[ind],
+             linewidth=5,
              label=f'B3 1200 l/mm')
 
 for ind,harm in enumerate([1]):
@@ -209,7 +223,8 @@ for ind,harm in enumerate([1]):
     filtered_df = BL_df_1200_5[(BL_df_1200_5['PhotonEnergy'] >= Emin_harm) & (BL_df_1200_5['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='navy', linestyle='solid',
+             color='blue', linestyle=ls[ind],
+             linewidth=5,
              label=f'B3 1200 l/mm - cff 5')    
     
 for ind,harm in enumerate(harms):    
@@ -218,7 +233,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='green', linestyle='solid',
+                color='#6B8E23', linestyle=ls[ind],
                 label=f'B2-Harm. {harm}')
 
 for ind,harm in enumerate([1]):
@@ -227,18 +242,20 @@ for ind,harm in enumerate([1]):
     filtered_df = BL_df_2_1200[(BL_df_2_1200['PhotonEnergy'] >= Emin_harm) & (BL_df_2_1200['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='lime', linestyle='solid',
+             color='#9DC183', linestyle=ls[ind],
              label=f'B2 1200 l/mm')    
 
 ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 custom_lines = [
-    Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
-    Line2D([0], [0], color='cyan', linestyle='solid', lw=2),
-    Line2D([0], [0], color='green', linestyle='solid', lw=2),
-    Line2D([0], [0], color='lime', linestyle='solid', lw=2)
+    Line2D([0], [0], color='grey', linestyle='solid', lw=2),
+    Line2D([0], [0], color='grey', linestyle='dashed', lw=2),
+    Line2D([0], [0], color='grey', linestyle='dotted', lw=2),
 ]
+
+ax4.legend(custom_lines, ['1st Harmonic - solid lines', '2nd Harmonic - dashed lines', '3rd Harmonic - dotted lines'], loc='best')
+
 
 # ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
 ax4.set_xlim(x_range)
@@ -271,36 +288,39 @@ ax3.plot(mov_av(BL_df['PhotonEnergy'], window),
              mov_av(BL_df['PhotonEnergy']/BL_df['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - 2400 l/mm',
-             color='royalblue')
+             color='red',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_1200['PhotonEnergy'], window), 
              mov_av(BL_df_1200['PhotonEnergy']/BL_df_1200['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=2.25',
-             color='cyan')
+             color='cyan',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_1200_5['PhotonEnergy'], window), 
              mov_av(BL_df_1200_5['PhotonEnergy']/BL_df_1200_5['Bandwidth'], window),
              linestyle='solid',
              label=f'B3 - 1200 l/mm - cff=5',
-             color='navy')
+             color='blue',
+             linewidth=5,)
 
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['PhotonEnergy']/BL_df_2['Bandwidth'], window),
-             linestyle='solid',
              label=f'B2 - 2400l/mm', 
-             color='green')
+             color='#6B8E23',
+             linestyle='dashed')
 
 ax3.plot(mov_av(BL_df_2_1200['PhotonEnergy'], window), 
              mov_av(BL_df_2_1200['PhotonEnergy']/BL_df_2_1200['Bandwidth'], window),
-             linestyle='solid',
              label=f'B2 - 1200l/mm - cff=2.25', 
-             color='lime')
+             color='#9DC183',
+             linestyle='dashed')
 
 
-ax3.set_title(f'Resolving Power @{int(SlitSize[0]*1000)} µm ExitSlit')
+ax3.set_title(f'Transmitted Bandwidth @{int(SlitSize[0]*1000)} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
-ax3.set_ylabel('Resolving Power [a.u.]')
+ax3.set_ylabel('Transmitted bandwidth [meV]')
 ax3.legend(loc='best')
 ax3.set_xlim(x_range)
 ax3.minorticks_on()
@@ -310,13 +330,15 @@ ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # BEAMLINE FLUX CURVE
 ax4 = axs[1]
 window = 1
+ls = ['solid', 'dashed', 'dotted']
 for ind,harm in enumerate(harms):
     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='royalblue', linestyle='solid',
+             color='red', linestyle=ls[ind],
+             linewidth=5,
              label=f'B3 2400 l/mm')
 
 for ind,harm in enumerate([1]):
@@ -325,18 +347,19 @@ for ind,harm in enumerate([1]):
     filtered_df = BL_df_1200[(BL_df_1200['PhotonEnergy'] >= Emin_harm) & (BL_df_1200['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='cyan', linestyle='solid',
-             label=f'B3 1200 l/mm cff 2.25')
-    
+             color='cyan', linestyle=ls[ind],
+             linewidth=5,
+             label=f'B3 1200 l/mm')
+
 for ind,harm in enumerate([1]):
     Emin_harm = undulator_3[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_3[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df_1200_5[(BL_df_1200_5['PhotonEnergy'] >= Emin_harm) & (BL_df_1200_5['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='navy', linestyle='solid',
-             label=f'B3 1200 l/mm - cff 5')
-    
+             color='blue', linestyle=ls[ind],
+             linewidth=5,
+             label=f'B3 1200 l/mm - cff 5')    
     
 for ind,harm in enumerate(harms):    
     Emin_harm = undulator_2[f'Energy{harm}[eV]'].min()
@@ -344,7 +367,7 @@ for ind,harm in enumerate(harms):
     filtered_df = BL_df_2[(BL_df_2['PhotonEnergy'] >= Emin_harm) & (BL_df_2['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
                 mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-                color='green', linestyle='solid',
+                color='#6B8E23', linestyle=ls[ind],
                 label=f'B2-Harm. {harm}')
 
 for ind,harm in enumerate([1]):
@@ -353,18 +376,20 @@ for ind,harm in enumerate([1]):
     filtered_df = BL_df_2_1200[(BL_df_2_1200['PhotonEnergy'] >= Emin_harm) & (BL_df_2_1200['PhotonEnergy'] <= Emax_harm)]
     ax4.plot(mov_av(filtered_df['PhotonEnergy'], window), 
              mov_av(filtered_df[f'PhotonFlux{harm}'], window),
-             color='lime', linestyle='solid',
+             color='#9DC183', linestyle=ls[ind],
              label=f'B2 1200 l/mm')    
 
 ax4.set_title('Flux at Focus')
 ax4.set_xlabel('Energy [eV]')
 ax4.set_ylabel('Photon flux [ph/s/300 mA/TBW]')
 custom_lines = [
-    Line2D([0], [0], color='royalblue', linestyle='solid', lw=2),
-    Line2D([0], [0], color='cyan', linestyle='solid', lw=2),
-    Line2D([0], [0], color='green', linestyle='solid', lw=2),
-    Line2D([0], [0], color='lime', linestyle='solid', lw=2)
+    Line2D([0], [0], color='grey', linestyle='solid', lw=2),
+    Line2D([0], [0], color='grey', linestyle='dashed', lw=2),
+    Line2D([0], [0], color='grey', linestyle='dotted', lw=2),
 ]
+
+ax4.legend(custom_lines, ['1st Harmonic - solid lines', '2nd Harmonic - dashed lines', '3rd Harmonic - dotted lines'], loc='best')
+
 
 # ax4.legend(custom_lines, ['B3 - 2400 l/mm', 'B3 - 1200 l/mm', 'B2 - 2400 l/mm', 'B2 - 1200 l/mm'], loc='best')
 ax4.set_xlim(x_range)

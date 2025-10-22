@@ -20,6 +20,15 @@ undulator_file_path = os.path.abspath(
 
 undulator = pd.read_csv(undulator_file_path)
 
+undulator_file_path = os.path.abspath(
+    os.path.join(Path(__file__).resolve().parents[4], 
+                 'undulators',
+                 'UndulatorFiles_BESSY_III',
+                 'IVUE31',
+                 'CohIm-Cryo-IVUE31-HL-1_coherent_flux.csv')
+)
+
+undulator_coherent = pd.read_csv(undulator_file_path)
 
 energy = np.arange(300, 2201,10)
 SlitSize = [0.03]

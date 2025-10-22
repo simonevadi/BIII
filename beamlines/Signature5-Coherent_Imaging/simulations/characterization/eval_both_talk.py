@@ -12,6 +12,7 @@ warnings.filterwarnings(
 from helper_lib import get_reflectivity
 from parameter import SlitSize
 from parameter import undulator as undulator_df
+from parameter import undulator_coherent as undulator_df_coherent
 from parameter import energy
 
 from raypyng.postprocessing import PostProcessAnalyzed
@@ -65,23 +66,36 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 ax2 = axs[1]
 
 harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
-
 for ind, harm in enumerate(harms):
     ax2.plot(undulator_df[f'Energy{harm}[eV]'],
              undulator_df[f'Photons{harm}'],
              color=colors[ind],
              label=f'Harm. {harm}')
     
+for ind, harm in enumerate(harms):
+    ax2.plot(undulator_df_coherent[f'Energy{harm}[eV]'],
+             undulator_df_coherent[f'Photons{harm}'],
+             color=colors[ind],
+             label=f'Harm. {harm}', 
+             linestyle='dashed')
+    
+    
 ax2.set_title('Cryo IVUE31 Flux curve, Hor Lin polarization')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/0.3A/0.1% BW]')
-ax2.legend(loc='best')
+# ax2.legend(loc='best')
 ax2.set_xlim(x_range)
-ax2.set_ylim((1e15, 4e15))
+ax2.set_ylim((6e13, 4e15))
 
 ax2.set_yscale('log')
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+custom_lines = [
+    Line2D([0], [0], color='grey', linestyle='solid', lw=2),
+    Line2D([0], [0], color='grey', linestyle='dashed', lw=2),
+]
+
+ax2.legend(custom_lines, ['Flux', 'Coherent FLux'], loc='best')
 
 # SAVING
 # Ensure the "plot" folder exists
