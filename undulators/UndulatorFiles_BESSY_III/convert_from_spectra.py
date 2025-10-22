@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List
 
-def extract_energy_flux(base_filename: str, n_files: int, output_filename: str):
+def extract_energy_flux(base_filename: str, n_files: int, output_filename: str, coherent_flux=False):
     """
     Extract Energy and Flux columns from a series of files and combine them into one DataFrame.
     Column numbering follows odd integers: 1, 3, 5, ...
@@ -16,6 +16,10 @@ def extract_energy_flux(base_filename: str, n_files: int, output_filename: str):
     Returns:
         pd.DataFrame: The combined DataFrame with all extracted columns.
     """
+    if coherent_flux:
+        idx_coherence='.1'
+    else:
+        idx_coherence=''
     dfs = []
     for i in range(n_files):
         fname = f"{base_filename}{i}.txt"
@@ -27,10 +31,10 @@ def extract_energy_flux(base_filename: str, n_files: int, output_filename: str):
         idx = i * 2 + 1
 
         # select and rename columns
-        df = df[["eV", "ph/s/0.1%"]].rename(
+        df = df[["eV", f"ph/s/0.1%{idx_coherence}"]].rename(
             columns={
                 "eV": f"Energy{idx}[eV]",
-                "ph/s/0.1%": f"Photons{idx}"
+                f"ph/s/0.1%{idx_coherence}": f"Photons{idx}"
             }
         )
 
@@ -47,7 +51,7 @@ def extract_energy_flux(base_filename: str, n_files: int, output_filename: str):
 
 # uses your existing extract_energy_flux(base_filename, n_files, output_filename)
 
-def batch_extract_energy_flux(folder: str) -> Dict[str, pd.DataFrame]:
+def batch_extract_energy_flux(folder: str, coherent_flux=False) -> Dict[str, pd.DataFrame]:
     """
     Scan `folder` for files named like '<base>-<index>.txt' (index = 0..N),
     group by <base>, infer the number of files for each base, and call
@@ -56,9 +60,14 @@ def batch_extract_energy_flux(folder: str) -> Dict[str, pd.DataFrame]:
     Returns:
         dict[str, pd.DataFrame]: Mapping base -> resulting DataFrame from extract_energy_flux.
     """
+    if coherent_flux:
+        coherent_string='_coherent_flux'
+    else:
+        coherent_string=''
+    
     folder_path = Path(folder)
     pattern = re.compile(r"^(?P<base>.+-)(?P<idx>\d+)\.txt$")
-
+    
     # 1) collect files and group by base
     groups: Dict[str, List[int]] = {}
     for p in folder_path.glob("*.txt"):
@@ -90,11 +99,12 @@ def batch_extract_energy_flux(folder: str) -> Dict[str, pd.DataFrame]:
         base_filename = str(folder_path / base)  # include trailing '-'
         # output file name: strip trailing '-' and add .csv, saved in folder
         output_stem = base[:-1]  # remove trailing '-'
-        output_filename = str(folder_path / f"{output_stem}.csv")
+        output_filename = str(folder_path / f"{output_stem}{coherent_string}.csv")
 
         df = extract_energy_flux(base_filename=base_filename,
                                  n_files=n_files,
-                                 output_filename=output_filename)
+                                 output_filename=output_filename,
+                                 coherent_flux=coherent_flux)
         results[base] = df
         print(f"[OK] Wrote: {output_filename} (n_files={n_files})")
 
@@ -104,8 +114,10 @@ def batch_extract_energy_flux(folder: str) -> Dict[str, pd.DataFrame]:
 # UE65
 all_dfs = batch_extract_energy_flux("Elisa-UE65-HL-1-1")
 ########################################
-
-####################################
-# IVUE36
+# IVUE31
 all_dfs = batch_extract_energy_flux("IVUE31")
+all_dfs = batch_extract_energy_flux("IVUE31", coherent_flux=True)
 #########################################
+# IVU28
+all_dfs = batch_extract_energy_flux("IVU28")
+all_dfs = batch_extract_energy_flux("IVU28", coherent_flux=True)
