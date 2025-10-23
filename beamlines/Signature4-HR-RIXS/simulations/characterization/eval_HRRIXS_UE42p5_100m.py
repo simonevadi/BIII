@@ -22,8 +22,11 @@ BL_df = pd.read_csv(BL_file_path)
 norm_BW = 0.1   # in %
 sim_BW = 0.0003  # in %
 
-Flux_corr = norm_BW / sim_BW  #Factor to normalize the Flux regarding the Bandwidth which used to accelaret the simulation
+bw_correction = norm_BW / sim_BW  #Factor to normalize the Flux regarding the Bandwidth which used to accelaret the simulation
+grating_eff = 0.1
 
+for harm in [1,3,5,7,9]:
+    BL_df[f'PhotonFlux{harm}'] = BL_df[f'PhotonFlux{harm}']/bw_correction*grating_eff
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
@@ -32,7 +35,7 @@ fig.suptitle('UE42.5 BESSY III HR-RIXS Beamline (100 m)', size=16)
 x_range = [50, 2150]
 
 # Smoothing the data
-window = 10
+window = 50
 step = 1
 
 BL_df  = BL_df.rolling(window=window, step=step).mean()   
@@ -47,12 +50,7 @@ theta = 0.75
 E = np.arange(50, 5001, de)
 Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
-# Ir  = rm.Material('Ir',  rho=22.56, kind='mirror',table=table)
-# Cr  = rm.Material('Cr',  rho=7.15,  kind='mirror',table=table)
-# B4C = rm.Material('C', rho=2.52,  kind='mirror',  table=table)
-# IrCrB4C = rm.Multilayer(tLayer=B4C, tThickness=40, 
-#                         bLayer=Cr, bThickness=60, 
-#                         nPairs=1, substrate=Ir)
+
 
 Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
@@ -91,11 +89,7 @@ ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # TRANSMITTED BANDWIDTH
 ax3 = axs[1, 0]
 
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax3.plot(filtered_df['PhotonEnergy'], filtered_df['Bandwidth']*1000, label=f'Harm. {harm}')
+ax3.plot(BL_df['PhotonEnergy'], BL_df['Bandwidth']*1000, label=f'All Harmonics')
 
 ax3.set_title(f'Transmitted Bandwidth (TBW) @ {SlitSize[0]*1000:.1f} µm ExitSlit')
 ax3.set_xlabel('Energy [eV]')
@@ -113,7 +107,7 @@ for harm in harms:
     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}']/Flux_corr, label=f'Harm. {harm}')
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'], label=f'Harm. {harm}')
 
 ax4.set_title('Transmitted flux (Flux on sample)')
 ax4.set_xlabel('Energy [eV]')
@@ -127,11 +121,7 @@ ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 # RESOLVING POWER
 ax5 = axs[2, 0]
 
-for harm in harms:
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
-    ax5.plot(filtered_df['PhotonEnergy'], (filtered_df[f'PhotonEnergy']/filtered_df[f'Bandwidth']), label=f'Harm. {harm}')
+ax5.plot(BL_df['PhotonEnergy'], (BL_df[f'PhotonEnergy']/BL_df[f'Bandwidth']), label=f'All Harmonics')
 
 ax5.set_title(f'Resolving Power @ {SlitSize[0]*1000:.1f} µm ExitSlit')
 ax5.set_xlabel('Energy [eV]')
@@ -149,7 +139,7 @@ for harm in harms:
     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
     filtered_df = BL_df[(BL_df['PhotonEnergy'] >= Emin_harm) & (BL_df['PhotonEnergy'] <= Emax_harm)]
     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}']/Flux_corr)/foc_area, label=f'Harm. {harm}')
+    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area, label=f'Harm. {harm}')
 
 ax6.set_title('Flux Density on sample')
 ax6.set_xlabel('Energy [eV]')
