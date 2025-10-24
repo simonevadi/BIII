@@ -8,7 +8,7 @@ this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 30
 nrays   = 1e6
 rounds  = 2
-HRRIXS_energy = np.arange(150, 2101, 25)  # eV
+HRRIXS_energy = np.arange(150, 2101, 5)  # eV
 
 
 #   PARAMS HRRIXS 100 m with 400 l/mm
