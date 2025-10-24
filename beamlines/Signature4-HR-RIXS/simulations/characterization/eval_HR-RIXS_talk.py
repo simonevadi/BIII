@@ -68,7 +68,7 @@ for harm in [1,3,5,7,9]:
 ##############################################################
 # PLOTTING AND ANALYSIS
 # Create the Main figure
-fig, (axs) = plt.subplots(4, 2, figsize=(12, 15))
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
 fig.suptitle('HR-RIXS @ BESSY III', size=16)
 x_range = [50, 2150]
 colors = ['red', 'magenta', 'orange', 'blue', 'green']
@@ -123,268 +123,13 @@ for ind,harm in enumerate(harms):
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'],
              linestyle=ls[ind], label=f'Harm. {harm}')
     
-ax2.set_title('UE42.5 Flux curve')
+ax2.set_title('IVUE42')
 ax2.set_xlabel('Energy [eV]')
 ax2.set_ylabel('Photon flux [ph/s/300 mA/0.1% BW]')
 ax2.legend(fontsize=12, loc='best')
 ax2.set_xlim(x_range)
 ax2.minorticks_on()
 ax2.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# TRANSMITTED BANDWIDTH
-ax3 = axs[1, 0]
-
-# 1200 1.8 20
-ax3.plot(BL_rp_1200_18['PhotonEnergy'],BL_rp_1200_18['Bandwidth']*1000,
-         label=f'1200l/mm, cff 1.8, ES=20µm',
-         color=colors[0])
-# 1200 5 5
-ax3.plot(BL_rp_1200_5['PhotonEnergy'],BL_rp_1200_5['Bandwidth']*1000,
-         label=f'1200l/mm, cff 5, ES=5µm',
-         color=colors[1])
-# 1200 10 2.5
-ax3.plot(BL_rp_1200_10['PhotonEnergy'],BL_rp_1200_10['Bandwidth']*1000,
-         label=f'1200l/mm, cff 10, ES=2.5µm',
-         color=colors[2])
-# 400 1.6 20
-ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
-         label=f'400l/mm, cff 1.6, ES=20µm',
-         color=colors[3])
-
-# 6000 20 1
-ax3.plot(BL_rp_6000['PhotonEnergy'],BL_rp_6000['Bandwidth']*1000,
-         label=f'6000l/mm, cff 25, ES=1',
-         color=colors[4])
-
-ax3.set_title(f'Transmitted Bandwidth')
-ax3.set_xlabel('Energy [eV]')
-ax3.set_ylabel('Transmitted bandwidth [meV]')
-ax3.legend(loc='best', fontsize=12)
-ax3.set_xlim(x_range)
-# ax3.set_yscale('log')
-ax3.minorticks_on()
-ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# BEAMLINE FLUX CURVE
-ax4 = axs[1, 1]
-
-# 1200 1.8 20
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-             linestyle=ls[ind], color=colors[0],
-             label=f'1200l/mm, cff 1.8, ES=20µm')
-
-# 1200 5 5
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-             linestyle=ls[ind], color=colors[1],
-             label=f'1200l/mm, cff 5, ES=5µm')
-# 1200 10 2.5
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-             linestyle=ls[ind], color=colors[2],
-             label=f'1200l/mm, cff 10, ES=2.5µm')
-
-# 400 1.6 20
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_400['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-             linestyle=ls[ind], color=colors[3],
-             label=f'400l/mm, cff 1.6, ES=20µm')
-    
-# 6000 20 1
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
-    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-             linestyle=ls[ind], color=colors[4],
-             label=f'6000l/mm, cff 25, ES=1')
-    
-ax4.set_title('Transmitted flux (Flux on sample)')
-ax4.set_xlabel('Energy [eV]')
-ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
-ax4.set_yscale('log')
-ax4.set_xlim(x_range)
-ax4.minorticks_on()
-ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# RESOLVING POWER
-ax5 = axs[2, 0]
-
-# 1200 1.8 20
-ax5.plot(BL_rp_1200_18['PhotonEnergy'],
-         BL_rp_1200_18['PhotonEnergy']/BL_rp_1200_18['Bandwidth'],
-         label=f'1200l/mm, cff 1.8, ES=20µm',
-         color=colors[0])
-# 1200 5 5
-ax5.plot(BL_rp_1200_5['PhotonEnergy'],
-         BL_rp_1200_5['PhotonEnergy']/BL_rp_1200_5['Bandwidth'],
-         label=f'1200l/mm, cff 5, ES=5µm',
-         color=colors[1])
-# 1200 10 2.5
-ax5.plot(BL_rp_1200_10['PhotonEnergy'],
-         BL_rp_1200_10['PhotonEnergy']/BL_rp_1200_10['Bandwidth'],
-         label=f'1200l/mm, cff 10, ES=2.5µm',
-         color=colors[2])
-
-# 400 1.6 20
-ax5.plot(BL_rp_400['PhotonEnergy'],
-         BL_rp_400['PhotonEnergy']/BL_rp_400['Bandwidth'],
-         label=f'400l/mm, cff 1.6, ES=20µm',
-         color=colors[3])
-
-# 6000 20 1
-ax5.plot(BL_rp_6000['PhotonEnergy'],
-         BL_rp_6000['PhotonEnergy']/BL_rp_6000['Bandwidth'],
-         label=f'6000l/mm, cff 25, ES=1',
-         color=colors[4])
-
-ax5.set_title(f'Resolving Power')
-ax5.set_xlabel('Energy [eV]')
-ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
-ax5.legend(loc='best', fontsize=12)
-ax5.set_xlim(x_range)
-# ax5.set_yscale('log')
-ax5.minorticks_on()
-ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-
-# Flux Density
-ax6 = axs[2, 1]
-
-# 1200 1.8 20
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
-             linestyle=ls[ind], color=colors[0],
-             label=f'1200l/mm, cff 1.8, ES=20µm')
-
-# 1200 5 5
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
-             linestyle=ls[ind], color=colors[1],
-             label=f'1200l/mm, cff 5, ES=5µm')
-# 1200 10 2.5
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
-             linestyle=ls[ind], color=colors[2],
-             label=f'1200l/mm, cff 10, ES=2.5µm')
-# 400 1.6 20
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_400['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
-             linestyle=ls[ind], color=colors[3],
-             label=f'400l/mm, cff 1.6, ES=20µm')
-
-# 6000 20 1
-for ind, harm in enumerate(harms):
-    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-    filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
-                              (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
-    foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
-    ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
-             linestyle=ls[ind], color=colors[4],
-             label=f'6000l/mm, cff 25, ES=1')
-
-ax6.set_title('Flux Density on sample')
-ax6.set_xlabel('Energy [eV]')
-ax6.set_ylabel('Photons flux per µm²')
-ax6.set_yscale('log')
-ax6.set_xlim(x_range)
-ax6.minorticks_on()
-ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-# Horizontal Focus Size
-ax7 = axs[3, 0]
-
-ax7.plot(BL_f_1200_18['PhotonEnergy'],BL_f_1200_18['HorizontalFocusFWHM']*1000, 
-         color=colors[0], label=f'1200l/mm, cff 1.8, ES=20µm')
-
-ax7.plot(BL_f_1200_5['PhotonEnergy'],BL_f_1200_5['HorizontalFocusFWHM']*1000, 
-         color=colors[1], label=f'1200l/mm, cff 5, ES=5µm')
-
-ax7.plot(BL_f_1200_10['PhotonEnergy'],BL_f_1200_10['HorizontalFocusFWHM']*1000, 
-         color=colors[2], label=f'1200l/mm, cff 10, ES=2.5µm')
-
-# 400 1.6 20
-ax7.plot(BL_f_400['PhotonEnergy'],BL_f_400['HorizontalFocusFWHM']*1000, 
-         color=colors[3], label=f'400l/mm, cff 1.6, ES=20µm')
-
-# 6000 20 1
-ax7.plot(BL_f_6000['PhotonEnergy'],BL_f_6000['HorizontalFocusFWHM']*1000, 
-         color=colors[4], label=f'6000l/mm, cff 25, ES=1')
-
-ax7.set_title('Horizontal Focus Size')
-ax7.set_xlabel('Energy [eV]')
-ax7.set_ylabel('[µm]')
-ax7.set_xlim(x_range)
-ax7.minorticks_on()
-ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
-# Vertical Focus Size
-ax8 = axs[3, 1]
-
-ax8.plot(BL_f_1200_18['PhotonEnergy'],BL_f_1200_18['VerticalFocusFWHM']*1000, 
-         color=colors[0], label=f'1200l/mm, cff 1.8, ES=20µm')
-
-ax8.plot(BL_f_1200_5['PhotonEnergy'],BL_f_1200_5['VerticalFocusFWHM']*1000, 
-         color=colors[1], label=f'1200l/mm, cff 5, ES=5µm')
-
-ax8.plot(BL_f_1200_10['PhotonEnergy'],BL_f_1200_10['VerticalFocusFWHM']*1000, 
-         color=colors[2], label=f'1200l/mm, cff 10, ES=2.5µm')
-
-# 400 1.6 20
-ax8.plot(BL_f_400['PhotonEnergy'],BL_f_400['VerticalFocusFWHM']*1000, 
-         color=colors[3], label=f'400l/mm, cff 1.6, ES=20µm')
-
-# 6000 20 1
-ax8.plot(BL_f_6000['PhotonEnergy'],BL_f_6000['VerticalFocusFWHM']*1000, 
-         color=colors[4], label=f'6000l/mm, cff 25, ES=1')
-
-ax8.set_title('Vertical Focus Size')
-ax8.set_xlabel('Energy [eV]')
-ax8.set_ylabel('[µm]')
-ax8.set_xlim(x_range)
-ax8.minorticks_on()
-ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
-
 
 ##############################################################
 # SAVING
@@ -395,6 +140,284 @@ if not os.path.exists(plot_folder):
 
 # Save the the figure
 plt.tight_layout()
-plt.savefig('plot/HRRIXS_100m_1.pdf')
-plt.savefig('plot/HRRIXS_100m_1.png', dpi=600)
+plt.savefig('plot/talk/HRRIXS_1.pdf')
+plt.savefig('plot/talk/HRRIXS_1.png', dpi=600)
 # plt.show()
+
+# # TRANSMITTED BANDWIDTH
+# ax3 = axs[1, 0]
+
+# # 1200 1.8 20
+# ax3.plot(BL_rp_1200_18['PhotonEnergy'],BL_rp_1200_18['Bandwidth']*1000,
+#          label=f'1200l/mm, cff 1.8, ES=20µm',
+#          color=colors[0])
+# # 1200 5 5
+# ax3.plot(BL_rp_1200_5['PhotonEnergy'],BL_rp_1200_5['Bandwidth']*1000,
+#          label=f'1200l/mm, cff 5, ES=5µm',
+#          color=colors[1])
+# # 1200 10 2.5
+# ax3.plot(BL_rp_1200_10['PhotonEnergy'],BL_rp_1200_10['Bandwidth']*1000,
+#          label=f'1200l/mm, cff 10, ES=2.5µm',
+#          color=colors[2])
+# # 400 1.6 20
+# ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
+#          label=f'400l/mm, cff 1.6, ES=20µm',
+#          color=colors[3])
+
+# # 6000 20 1
+# ax3.plot(BL_rp_6000['PhotonEnergy'],BL_rp_6000['Bandwidth']*1000,
+#          label=f'6000l/mm, cff 25, ES=1',
+#          color=colors[4])
+
+# ax3.set_title(f'Transmitted Bandwidth')
+# ax3.set_xlabel('Energy [eV]')
+# ax3.set_ylabel('Transmitted bandwidth [meV]')
+# ax3.legend(loc='best', fontsize=12)
+# ax3.set_xlim(x_range)
+# # ax3.set_yscale('log')
+# ax3.minorticks_on()
+# ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# # BEAMLINE FLUX CURVE
+# ax4 = axs[1, 1]
+
+# # 1200 1.8 20
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
+#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+#              linestyle=ls[ind], color=colors[0],
+#              label=f'1200l/mm, cff 1.8, ES=20µm')
+
+# # 1200 5 5
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
+#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+#              linestyle=ls[ind], color=colors[1],
+#              label=f'1200l/mm, cff 5, ES=5µm')
+# # 1200 10 2.5
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
+#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+#              linestyle=ls[ind], color=colors[2],
+#              label=f'1200l/mm, cff 10, ES=2.5µm')
+
+# # 400 1.6 20
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_400['PhotonEnergy'] <= Emax_harm)]
+#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+#              linestyle=ls[ind], color=colors[3],
+#              label=f'400l/mm, cff 1.6, ES=20µm')
+    
+# # 6000 20 1
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
+#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+#              linestyle=ls[ind], color=colors[4],
+#              label=f'6000l/mm, cff 25, ES=1')
+    
+# ax4.set_title('Transmitted flux (Flux on sample)')
+# ax4.set_xlabel('Energy [eV]')
+# ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
+# ax4.set_yscale('log')
+# ax4.set_xlim(x_range)
+# ax4.minorticks_on()
+# ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+
+
+
+
+
+
+
+
+
+
+# # RESOLVING POWER
+# ax5 = axs[2, 0]
+
+# # 1200 1.8 20
+# ax5.plot(BL_rp_1200_18['PhotonEnergy'],
+#          BL_rp_1200_18['PhotonEnergy']/BL_rp_1200_18['Bandwidth'],
+#          label=f'1200l/mm, cff 1.8, ES=20µm',
+#          color=colors[0])
+# # 1200 5 5
+# ax5.plot(BL_rp_1200_5['PhotonEnergy'],
+#          BL_rp_1200_5['PhotonEnergy']/BL_rp_1200_5['Bandwidth'],
+#          label=f'1200l/mm, cff 5, ES=5µm',
+#          color=colors[1])
+# # 1200 10 2.5
+# ax5.plot(BL_rp_1200_10['PhotonEnergy'],
+#          BL_rp_1200_10['PhotonEnergy']/BL_rp_1200_10['Bandwidth'],
+#          label=f'1200l/mm, cff 10, ES=2.5µm',
+#          color=colors[2])
+
+# # 400 1.6 20
+# ax5.plot(BL_rp_400['PhotonEnergy'],
+#          BL_rp_400['PhotonEnergy']/BL_rp_400['Bandwidth'],
+#          label=f'400l/mm, cff 1.6, ES=20µm',
+#          color=colors[3])
+
+# # 6000 20 1
+# ax5.plot(BL_rp_6000['PhotonEnergy'],
+#          BL_rp_6000['PhotonEnergy']/BL_rp_6000['Bandwidth'],
+#          label=f'6000l/mm, cff 25, ES=1',
+#          color=colors[4])
+
+# ax5.set_title(f'Resolving Power')
+# ax5.set_xlabel('Energy [eV]')
+# ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
+# ax5.legend(loc='best', fontsize=12)
+# ax5.set_xlim(x_range)
+# # ax5.set_yscale('log')
+# ax5.minorticks_on()
+# ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# # Flux Density
+# ax6 = axs[2, 1]
+
+# # 1200 1.8 20
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
+#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+#     ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
+#              linestyle=ls[ind], color=colors[0],
+#              label=f'1200l/mm, cff 1.8, ES=20µm')
+
+# # 1200 5 5
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
+#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+#     ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
+#              linestyle=ls[ind], color=colors[1],
+#              label=f'1200l/mm, cff 5, ES=5µm')
+# # 1200 10 2.5
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
+#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+#     ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
+#              linestyle=ls[ind], color=colors[2],
+#              label=f'1200l/mm, cff 10, ES=2.5µm')
+# # 400 1.6 20
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_400['PhotonEnergy'] <= Emax_harm)]
+#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+#     ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
+#              linestyle=ls[ind], color=colors[3],
+#              label=f'400l/mm, cff 1.6, ES=20µm')
+
+# # 6000 20 1
+# for ind, harm in enumerate(harms):
+#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+#     filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
+#                               (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
+#     foc_area = (filtered_df['VerticalFocusFWHM']*filtered_df['HorizontalFocusFWHM'])*1000  # in µm²
+#     ax6.plot(filtered_df['PhotonEnergy'],(filtered_df[f'PhotonFlux{harm}'])/foc_area,
+#              linestyle=ls[ind], color=colors[4],
+#              label=f'6000l/mm, cff 25, ES=1')
+
+# ax6.set_title('Flux Density on sample')
+# ax6.set_xlabel('Energy [eV]')
+# ax6.set_ylabel('Photons flux per µm²')
+# ax6.set_yscale('log')
+# ax6.set_xlim(x_range)
+# ax6.minorticks_on()
+# ax6.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# # Horizontal Focus Size
+# ax7 = axs[3, 0]
+
+# ax7.plot(BL_f_1200_18['PhotonEnergy'],BL_f_1200_18['HorizontalFocusFWHM']*1000, 
+#          color=colors[0], label=f'1200l/mm, cff 1.8, ES=20µm')
+
+# ax7.plot(BL_f_1200_5['PhotonEnergy'],BL_f_1200_5['HorizontalFocusFWHM']*1000, 
+#          color=colors[1], label=f'1200l/mm, cff 5, ES=5µm')
+
+# ax7.plot(BL_f_1200_10['PhotonEnergy'],BL_f_1200_10['HorizontalFocusFWHM']*1000, 
+#          color=colors[2], label=f'1200l/mm, cff 10, ES=2.5µm')
+
+# # 400 1.6 20
+# ax7.plot(BL_f_400['PhotonEnergy'],BL_f_400['HorizontalFocusFWHM']*1000, 
+#          color=colors[3], label=f'400l/mm, cff 1.6, ES=20µm')
+
+# # 6000 20 1
+# ax7.plot(BL_f_6000['PhotonEnergy'],BL_f_6000['HorizontalFocusFWHM']*1000, 
+#          color=colors[4], label=f'6000l/mm, cff 25, ES=1')
+
+# ax7.set_title('Horizontal Focus Size')
+# ax7.set_xlabel('Energy [eV]')
+# ax7.set_ylabel('[µm]')
+# ax7.set_xlim(x_range)
+# ax7.minorticks_on()
+# ax7.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+# # Vertical Focus Size
+# ax8 = axs[3, 1]
+
+# ax8.plot(BL_f_1200_18['PhotonEnergy'],BL_f_1200_18['VerticalFocusFWHM']*1000, 
+#          color=colors[0], label=f'1200l/mm, cff 1.8, ES=20µm')
+
+# ax8.plot(BL_f_1200_5['PhotonEnergy'],BL_f_1200_5['VerticalFocusFWHM']*1000, 
+#          color=colors[1], label=f'1200l/mm, cff 5, ES=5µm')
+
+# ax8.plot(BL_f_1200_10['PhotonEnergy'],BL_f_1200_10['VerticalFocusFWHM']*1000, 
+#          color=colors[2], label=f'1200l/mm, cff 10, ES=2.5µm')
+
+# # 400 1.6 20
+# ax8.plot(BL_f_400['PhotonEnergy'],BL_f_400['VerticalFocusFWHM']*1000, 
+#          color=colors[3], label=f'400l/mm, cff 1.6, ES=20µm')
+
+# # 6000 20 1
+# ax8.plot(BL_f_6000['PhotonEnergy'],BL_f_6000['VerticalFocusFWHM']*1000, 
+#          color=colors[4], label=f'6000l/mm, cff 25, ES=1')
+
+# ax8.set_title('Vertical Focus Size')
+# ax8.set_xlabel('Energy [eV]')
+# ax8.set_ylabel('[µm]')
+# ax8.set_xlim(x_range)
+# ax8.minorticks_on()
+# ax8.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# ##############################################################
+# # SAVING
+# # Ensure the "plot" folder exists
+# plot_folder = 'plot'
+# if not os.path.exists(plot_folder):
+#     os.makedirs(plot_folder)
+
+# # Save the the figure
+# plt.tight_layout()
+# plt.savefig('plot/HRRIXS_100m_1.pdf')
+# plt.savefig('plot/HRRIXS_100m_1.png', dpi=600)
+# # plt.show()
