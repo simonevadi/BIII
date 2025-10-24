@@ -20,6 +20,8 @@ from parameter import HRRIXS_100m_blaze_6000_file_path as rml_file
 from parameter import HRRIXS_100m_blaze_6000_sim_name  as sim_name
 from parameter import HRRIXS_6000_cff as HRRIXS_cff
 from parameter import HRRIXS_6000_slitsize as HRRIXS_slitsize
+from parameter import gr6000_eff as grating_efficiency
+
 sim = Simulate(rml_file, hide=True)
 
 rml=sim.rml
@@ -55,6 +57,9 @@ sim.raypyng_analysis=True # let raypyng analyze the results
 
 # Load the undulator table
 sim.undulator_table=undulator
+
+# grating efficiency
+sim.efficiency = grating_efficiency
 
 ## This must be a list of dictionaries
 sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']},

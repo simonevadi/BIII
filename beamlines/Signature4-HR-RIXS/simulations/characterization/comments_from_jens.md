@@ -2,9 +2,9 @@ Dear Simone,
 
 if possible, I would like to have further simulations with the same HRRIXS beamline, BUT
 # 1200 l/mm
+* c-factor: 1.8, exit slit: 20 um (should give RP=40000 at 1 keV)
 * c-factor: 5, exit slit: 5 um (should give RP=200000 at 1 keV)
 * c-factor: 10, exit slit: 2.5 um (should give RP=200000 at 1 keV)
-* c-factor: 1.8, exit slit: 20 um (should give RP=40000 at 1 keV)
 
 # 400 l/mm
 * *blaze angle 0.5° and c-factor: 1.6, exit slit: 20 um (should give RP=20000 at 1 keV)

@@ -51,3 +51,12 @@ HRRIXS_undulator_file_path  = os.path.abspath(
                             )
 HRRIXS_undulator = pd.read_csv(HRRIXS_undulator_file_path)
 
+###################################################################################
+#   grating 6000
+gr6000_eff_path  = os.path.abspath(
+                            os.path.join(Path(__file__).resolve().parents[4], 
+                            'gratings',
+                            'gr6000_HR-RIXS',
+                            'Gr6000_k1_cff25')
+                            )
+gr6000_eff = pd.read_csv(gr6000_eff_path)
