@@ -9,29 +9,33 @@ ncpu    = 30
 nrays   = 5e5
 rounds  = 1
 HRRIXS_energy = np.arange(150, 2101, 5)  # eV
-HRRIXS_order   = 2  # diffraction order
-HRRIXS_cff     = 25
-HRRIXS_SlitSize = np.array([.0012])  # mm   #NOTE: each BL has its own slit size, where the RP is max without reducing FLUX
-HRRIXS_grating  = np.array([3000])  # lines/mm
 
 
-
-#   PARAMS HRRIXS 100 m Version SIMULATIONS
-HRRIXS_100m_1_rml_file_name     = 'HRRIXS_100m_1'
-HRRIXS_100m_1_sim_name                           = HRRIXS_100m_1_rml_file_name
-HRRIXS_100m_1_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+#   PARAMS HRRIXS 100 m with 400 l/mm
+HRRIXS_100m_blaze_400_rml_file_name     = 'HRRIXS_100m_c5_400lpmm_Wolter_1_mono'
+HRRIXS_100m_blaze_400_sim_name                           = HRRIXS_100m_blaze_400_rml_file_name
+HRRIXS_100m_blaze_400_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
-                                                     HRRIXS_100m_1_rml_file_name+'.rml')
+                                                     HRRIXS_100m_blaze_400_rml_file_name+'.rml')
+HRRIXS_cff = [1.6]
+HRRIXS_slitsize = [20]/1000 # in mm
 
-
-
-#   PARAMS HRRIXS 100 m with blaze grating (250 mm) Version SIMULATIONS
-HRRIXS_100m_1_blaze_rml_file_name     = 'HRRIXS_100m_blaze'
-HRRIXS_100m_1_blaze_sim_name                           = HRRIXS_100m_1_blaze_rml_file_name
-HRRIXS_100m_1_blaze_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+#   PARAMS HRRIXS 100 m with 1200 l/mm
+HRRIXS_100m_blaze_1200_rml_file_name     = 'HRRIXS_100m_c5_1200lpmm_Wolter_1_mono'
+HRRIXS_100m_blaze_1200_sim_name                           = HRRIXS_100m_blaze_1200_rml_file_name
+HRRIXS_100m_blaze_1200_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
-                                                     HRRIXS_100m_1_blaze_rml_file_name+'.rml')
+                                                     HRRIXS_100m_blaze_1200_rml_file_name+'.rml')
+HRRIXS_cff = [1.8, 5, 10]
+HRRIXS_slitsize = [20, 5, 2.5]/1000 # in mm
 
+
+#   PARAMS HRRIXS 100 m with 6000 l/mm
+HRRIXS_100m_blaze_6000_rml_file_name     = 'HRRIXS_100m_c20_6000lpmm_Wolter_1_mono'
+HRRIXS_100m_blaze_6000_sim_name                           = HRRIXS_100m_blaze_6000_rml_file_name
+HRRIXS_100m_blaze_6000_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
+                                                     'rml',
+                                                     HRRIXS_100m_blaze_6000_rml_file_name+'.rml')
 
 
 ###################################################################################

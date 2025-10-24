@@ -16,9 +16,10 @@ from BESSY_III_machine_params import emittance_standard
 from parameter import ncpu, nrays, rounds
 from parameter import HRRIXS_energy       as energy
 from parameter import HRRIXS_undulator    as undulator
-from parameter import HRRIXS_100m_1_file_path as rml_file
-from parameter import HRRIXS_100m_1_sim_name  as sim_name
-
+from parameter import HRRIXS_100m_blaze_1200_file_path as rml_file
+from parameter import HRRIXS_100m_blaze_1200_sim_name  as sim_name
+from parameter import HRRIXS_1200_cff as HRRIXS_cff
+from parameter import HRRIXS_1200_slitsize as HRRIXS_slitsize
 sim = Simulate(rml_file, hide=True)
 
 rml=sim.rml
@@ -27,7 +28,9 @@ beamline = sim.rml.beamline
 # define a list of dictionaries with the parameters to scan
 params = [  
             {beamline.SU.numberRays:nrays},
-            {beamline.SU.photonEnergy:energy}
+            {beamline.SU.photonEnergy:energy},
+            {beamline.PG.cFactor:HRRIXS_cff,
+             beamline.ExitSlit.openingHeight:HRRIXS_slitsize}
         ]
 
 # source parameters (Dips uses sig_x_mm and sig_y_mm, IDs uses sig_x_um and sig_y_um)
@@ -54,7 +57,8 @@ sim.raypyng_analysis=True # let raypyng analyze the results
 sim.undulator_table=undulator
 
 ## This must be a list of dictionaries
-sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']}]
+sim.exports  =  [{beamline.DetectorAtFocus:['RawRaysOutgoing']},
+                 {beamline.ExitSlit:['RawRaysOutgoing']}]
 
 #uncomment to run the simulations
 sim.run(multiprocessing=ncpu, force=False, remove_rawrays=True, remove_round_folders=True)
