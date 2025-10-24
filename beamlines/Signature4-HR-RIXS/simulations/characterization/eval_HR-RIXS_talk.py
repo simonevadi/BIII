@@ -80,17 +80,24 @@ colors_harm = ['red', 'blue', 'green']
 
 ls = ['solid', 'dashed', 'dotted']
 
-# Smoothing the data
+# Smoothing the data FLUX
 window = 1
 step = 1
 
 BL_f_1200_18  = BL_f_1200_18.rolling(window=window, step=step).mean()   
 BL_f_1200_5   = BL_f_1200_5.rolling(window=window, step=step).mean()   
-BL_f_1200_10  = BL_f_1200_10.rolling(window=window, step=step).mean()   
-BL_rp_1200_18  = BL_f_1200_18.rolling(window=window, step=step).mean()   
-BL_rp_1200_5   = BL_f_1200_5.rolling(window=window, step=step).mean()   
-BL_rp_1200_10  = BL_f_1200_10.rolling(window=window, step=step).mean() 
+BL_f_1200_10  = BL_f_1200_10.rolling(window=window, step=step).mean() 
+BL_f_400  = BL_f_400.rolling(window=window, step=step).mean() 
+BL_f_6000  = BL_f_6000.rolling(window=window, step=step).mean() 
+
+# Smoothing the data RP
+window = 10
+step = 10
+BL_rp_1200_18  = BL_rp_1200_18.rolling(window=window, step=step).mean()   
+BL_rp_1200_5   = BL_rp_1200_5.rolling(window=window, step=step).mean()   
+BL_rp_1200_10  = BL_rp_1200_10.rolling(window=window, step=step).mean() 
 BL_rp_400  = BL_rp_400.rolling(window=window, step=step).mean() 
+BL_rp_6000  = BL_rp_6000.rolling(window=window, step=step).mean() 
 
 # MIRROR REFLECTIVITY
 ax1 = axs[0]
