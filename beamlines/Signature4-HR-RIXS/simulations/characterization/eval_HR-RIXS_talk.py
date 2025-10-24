@@ -69,7 +69,7 @@ for harm in [1,3,5,7,9]:
 # PLOTTING AND ANALYSIS
 # Create the Main figure
 fig, (axs) = plt.subplots(4, 2, figsize=(12, 15))
-fig.suptitle('UE42.5 BESSY III HR-RIXS Beamline (100 m)', size=16)
+fig.suptitle('HR-RIXS @ BESSY III', size=16)
 x_range = [50, 2150]
 colors = ['red', 'magenta', 'orange', 'blue', 'green']
 ls = ['solid', 'dashed', 'dotted']

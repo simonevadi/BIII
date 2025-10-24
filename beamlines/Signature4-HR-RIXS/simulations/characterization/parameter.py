@@ -7,8 +7,8 @@ from pathlib import Path
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 30
 nrays   = 1e6
-rounds  = 1
-HRRIXS_energy = np.arange(150, 2101, 50)  # eV
+rounds  = 2
+HRRIXS_energy = np.arange(150, 2101, 25)  # eV
 
 
 #   PARAMS HRRIXS 100 m with 400 l/mm
@@ -57,6 +57,6 @@ gr6000_eff_path  = os.path.abspath(
                             os.path.join(Path(__file__).resolve().parents[4], 
                             'gratings',
                             'gr6000_HR-RIXS',
-                            'Gr6000_k1_cff25')
+                            'Gr6000_k1_cff25.csv')
                             )
 gr6000_eff = pd.read_csv(gr6000_eff_path)
