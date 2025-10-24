@@ -36,6 +36,8 @@ HRRIXS_100m_blaze_6000_sim_name                           = HRRIXS_100m_blaze_60
 HRRIXS_100m_blaze_6000_file_path                          = os.path.join(Path(__file__).resolve().parents[2],
                                                      'rml',
                                                      HRRIXS_100m_blaze_6000_rml_file_name+'.rml')
+HRRIXS_6000_cff = [20]
+HRRIXS_6000_slitsize = [1/1000] # in mm
 
 
 ###################################################################################
