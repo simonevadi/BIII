@@ -67,11 +67,17 @@ for harm in [1,3,5,7,9]:
 
 ##############################################################
 # PLOTTING AND ANALYSIS
+plt.rcParams.update({'font.size': 15})  # Change 14 to any size you prefer
+import matplotlib as mpl
+mpl.rcParams['lines.linewidth'] = 3
+
 # Create the Main figure
 fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
 fig.suptitle('HR-RIXS @ BESSY III', size=16)
 x_range = [50, 2150]
 colors = ['red', 'magenta', 'orange', 'blue', 'green']
+colors_harm = ['red', 'blue', 'green']
+
 ls = ['solid', 'dashed', 'dotted']
 
 # Smoothing the data
@@ -87,7 +93,7 @@ BL_rp_1200_10  = BL_f_1200_10.rolling(window=window, step=step).mean()
 BL_rp_400  = BL_rp_400.rolling(window=window, step=step).mean() 
 
 # MIRROR REFLECTIVITY
-ax1 = axs[0, 0]
+ax1 = axs[0]
 # Coatings:
 de = 38.9579-30.0000
 table = 'Henke'
@@ -100,8 +106,8 @@ Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
-ax1.plot(E, Au, 'b', label='Au')
-ax1.plot(E, Pt, 'r', label='Pt')
+# ax1.plot(E, Au, 'b', label='Au')
+ax1.plot(E, Pt, 'r', 'silver', label='Pt', linewidth=5)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
@@ -115,13 +121,14 @@ ax1.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgre
 
 # FLUX CURVE UNDULATOR
 #Choose the harmonic to plot
-ax2 = axs[0, 1]
+ax2 = axs[1]
 
 harms = [1,3,5] # The Harmonics from the ID. Typically 1,3,5, rather higher. Depends on the FluxSims of the ID.
 
 for ind,harm in enumerate(harms):
     ax2.plot(undulator_df[f'Energy{harm}[eV]'], undulator_df[f'Photons{harm}'],
-             linestyle=ls[ind], label=f'Harm. {harm}')
+             linestyle=ls[ind], color=colors_harm[ind],
+             label=f'Harm. {harm}', linewidth=3)
     
 ax2.set_title('IVUE42')
 ax2.set_xlabel('Energy [eV]')
@@ -142,105 +149,118 @@ if not os.path.exists(plot_folder):
 plt.tight_layout()
 plt.savefig('plot/talk/HRRIXS_1.pdf')
 plt.savefig('plot/talk/HRRIXS_1.png', dpi=600)
-# plt.show()
-
-# # TRANSMITTED BANDWIDTH
-# ax3 = axs[1, 0]
-
-# # 1200 1.8 20
-# ax3.plot(BL_rp_1200_18['PhotonEnergy'],BL_rp_1200_18['Bandwidth']*1000,
-#          label=f'1200l/mm, cff 1.8, ES=20µm',
-#          color=colors[0])
-# # 1200 5 5
-# ax3.plot(BL_rp_1200_5['PhotonEnergy'],BL_rp_1200_5['Bandwidth']*1000,
-#          label=f'1200l/mm, cff 5, ES=5µm',
-#          color=colors[1])
-# # 1200 10 2.5
-# ax3.plot(BL_rp_1200_10['PhotonEnergy'],BL_rp_1200_10['Bandwidth']*1000,
-#          label=f'1200l/mm, cff 10, ES=2.5µm',
-#          color=colors[2])
-# # 400 1.6 20
-# ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
-#          label=f'400l/mm, cff 1.6, ES=20µm',
-#          color=colors[3])
-
-# # 6000 20 1
-# ax3.plot(BL_rp_6000['PhotonEnergy'],BL_rp_6000['Bandwidth']*1000,
-#          label=f'6000l/mm, cff 25, ES=1',
-#          color=colors[4])
-
-# ax3.set_title(f'Transmitted Bandwidth')
-# ax3.set_xlabel('Energy [eV]')
-# ax3.set_ylabel('Transmitted bandwidth [meV]')
-# ax3.legend(loc='best', fontsize=12)
-# ax3.set_xlim(x_range)
-# # ax3.set_yscale('log')
-# ax3.minorticks_on()
-# ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
-# # BEAMLINE FLUX CURVE
-# ax4 = axs[1, 1]
+fig, (axs) = plt.subplots(1, 2, figsize=(20, 7))
+fig.suptitle('HR-RIXS @ BESSY III', size=16)
 
-# # 1200 1.8 20
-# for ind, harm in enumerate(harms):
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-#              linestyle=ls[ind], color=colors[0],
-#              label=f'1200l/mm, cff 1.8, ES=20µm')
+# TRANSMITTED BANDWIDTH
+ax3 = axs[0]
 
-# # 1200 5 5
-# for ind, harm in enumerate(harms):
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
-#                               (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-#              linestyle=ls[ind], color=colors[1],
-#              label=f'1200l/mm, cff 5, ES=5µm')
-# # 1200 10 2.5
-# for ind, harm in enumerate(harms):
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
-#                               (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-#              linestyle=ls[ind], color=colors[2],
-#              label=f'1200l/mm, cff 10, ES=2.5µm')
+# 1200 1.8 20
+ax3.plot(BL_rp_1200_18['PhotonEnergy'],BL_rp_1200_18['Bandwidth']*1000,
+         label=f'1200l/mm, cff 1.8, ES=20µm',
+         color=colors[0])
+# 1200 5 5
+ax3.plot(BL_rp_1200_5['PhotonEnergy'],BL_rp_1200_5['Bandwidth']*1000,
+         label=f'1200l/mm, cff 5, ES=5µm',
+         color=colors[1])
+# 1200 10 2.5
+ax3.plot(BL_rp_1200_10['PhotonEnergy'],BL_rp_1200_10['Bandwidth']*1000,
+         label=f'1200l/mm, cff 10, ES=2.5µm',
+         color=colors[2])
+# 400 1.6 20
+ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
+         label=f'400l/mm, cff 1.6, ES=20µm',
+         color=colors[3])
 
-# # 400 1.6 20
-# for ind, harm in enumerate(harms):
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
-#                               (BL_f_400['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-#              linestyle=ls[ind], color=colors[3],
-#              label=f'400l/mm, cff 1.6, ES=20µm')
+# 6000 20 1
+ax3.plot(BL_rp_6000['PhotonEnergy'],BL_rp_6000['Bandwidth']*1000,
+         label=f'6000l/mm, cff 25, ES=1',
+         color=colors[4])
+
+ax3.set_title(f'Transmitted Bandwidth')
+ax3.set_xlabel('Energy [eV]')
+ax3.set_ylabel('Transmitted bandwidth [meV]')
+ax3.legend(loc='best', fontsize=12)
+ax3.set_xlim(x_range)
+# ax3.set_yscale('log')
+ax3.minorticks_on()
+ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+
+
+# BEAMLINE FLUX CURVE
+ax4 = axs[1]
+
+# 1200 1.8 20
+for ind, harm in enumerate(harms):
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_f_1200_18[(BL_f_1200_18['PhotonEnergy'] >= Emin_harm) & (BL_f_1200_18['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+             linestyle=ls[ind], color=colors[0],
+             label=f'1200l/mm, cff 1.8, ES=20µm')
+
+# 1200 5 5
+for ind, harm in enumerate(harms):
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_f_1200_5[(BL_f_1200_5['PhotonEnergy'] >= Emin_harm) & 
+                              (BL_f_1200_5['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+             linestyle=ls[ind], color=colors[1],
+             label=f'1200l/mm, cff 5, ES=5µm')
+# 1200 10 2.5
+for ind, harm in enumerate(harms):
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_f_1200_10[(BL_f_1200_10['PhotonEnergy'] >= Emin_harm) & 
+                              (BL_f_1200_10['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+             linestyle=ls[ind], color=colors[2],
+             label=f'1200l/mm, cff 10, ES=2.5µm')
+
+# 400 1.6 20
+for ind, harm in enumerate(harms):
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_f_400[(BL_f_400['PhotonEnergy'] >= Emin_harm) & 
+                              (BL_f_400['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+             linestyle=ls[ind], color=colors[3],
+             label=f'400l/mm, cff 1.6, ES=20µm')
     
-# # 6000 20 1
-# for ind, harm in enumerate(harms):
-#     Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
-#     Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
-#     filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
-#                               (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
-#     ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
-#              linestyle=ls[ind], color=colors[4],
-#              label=f'6000l/mm, cff 25, ES=1')
+# 6000 20 1
+for ind, harm in enumerate(harms):
+    Emin_harm = undulator_df[f'Energy{harm}[eV]'].min()
+    Emax_harm = undulator_df[f'Energy{harm}[eV]'].max()
+    filtered_df = BL_f_6000[(BL_f_6000['PhotonEnergy'] >= Emin_harm) & 
+                              (BL_f_6000['PhotonEnergy'] <= Emax_harm)]
+    ax4.plot(filtered_df['PhotonEnergy'], filtered_df[f'PhotonFlux{harm}'],
+             linestyle=ls[ind], color=colors[4],
+             label=f'6000l/mm, cff 25, ES=1')
     
-# ax4.set_title('Transmitted flux (Flux on sample)')
-# ax4.set_xlabel('Energy [eV]')
-# ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
-# ax4.set_yscale('log')
-# ax4.set_xlim(x_range)
-# ax4.minorticks_on()
-# ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
+ax4.set_title('Transmitted flux (Flux on sample)')
+ax4.set_xlabel('Energy [eV]')
+ax4.set_ylabel('Photon flux [ph/s/300 mA in TBW]')
+ax4.set_yscale('log')
+ax4.set_xlim(x_range)
+ax4.minorticks_on()
+ax4.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
 
 
+##############################################################
+# SAVING
+# Ensure the "plot" folder exists
+plot_folder = 'plot'
+if not os.path.exists(plot_folder):
+    os.makedirs(plot_folder)
 
+# Save the the figure
+plt.tight_layout()
+plt.savefig('plot/talk/HRRIXS_2.pdf')
+plt.savefig('plot/talk/HRRIXS_2.png', dpi=600)
 
 
 
