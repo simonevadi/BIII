@@ -6,9 +6,9 @@ from pathlib import Path
 # Standard Simulation Parameters
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu    = 30
-nrays   = 5e5
+nrays   = 1e6
 rounds  = 1
-HRRIXS_energy = np.arange(150, 2101, 5)  # eV
+HRRIXS_energy = np.arange(150, 2101, 50)  # eV
 
 
 #   PARAMS HRRIXS 100 m with 400 l/mm
@@ -18,7 +18,7 @@ HRRIXS_100m_blaze_400_file_path                          = os.path.join(Path(__f
                                                      'rml',
                                                      HRRIXS_100m_blaze_400_rml_file_name+'.rml')
 HRRIXS_400_cff = [1.6]
-HRRIXS_400_slitsize = [20]/1000 # in mm
+HRRIXS_400_slitsize = [20/1000] # in mm
 
 #   PARAMS HRRIXS 100 m with 1200 l/mm
 HRRIXS_100m_blaze_1200_rml_file_name     = 'HRRIXS_100m_c5_1200lpmm_Wolter_1_mono'
@@ -27,7 +27,7 @@ HRRIXS_100m_blaze_1200_file_path                          = os.path.join(Path(__
                                                      'rml',
                                                      HRRIXS_100m_blaze_1200_rml_file_name+'.rml')
 HRRIXS_1200_cff = [1.8, 5, 10]
-HRRIXS_1200_slitsize = [20, 5, 2.5]/1000 # in mm
+HRRIXS_1200_slitsize = [20/1000, 5/1000, 2.5/1000] # in mm
 
 
 #   PARAMS HRRIXS 100 m with 6000 l/mm
