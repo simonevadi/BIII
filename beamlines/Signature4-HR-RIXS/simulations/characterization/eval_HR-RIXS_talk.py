@@ -114,7 +114,7 @@ Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
 # ax1.plot(E, Au, 'b', label='Au')
-ax1.plot(E, Pt, 'r', 'silver', label='Pt', linewidth=5)
+ax1.plot(E, Pt, 'silver', label='Pt', linewidth=5)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
 ax1.set_xlabel('Energy [eV]')
@@ -163,6 +163,10 @@ fig.suptitle('HR-RIXS @ BESSY III', size=16)
 
 # TRANSMITTED BANDWIDTH
 ax3 = axs[0]
+# 400 1.6 20
+ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
+         label=f'400l/mm, cff 1.6, ES=20µm',
+         color=colors[3], linestyle='dashed')
 
 # 1200 1.8 20
 ax3.plot(BL_rp_1200_18['PhotonEnergy'],BL_rp_1200_18['Bandwidth']*1000,
@@ -176,10 +180,7 @@ ax3.plot(BL_rp_1200_5['PhotonEnergy'],BL_rp_1200_5['Bandwidth']*1000,
 ax3.plot(BL_rp_1200_10['PhotonEnergy'],BL_rp_1200_10['Bandwidth']*1000,
          label=f'1200l/mm, cff 10, ES=2.5µm',
          color=colors[2])
-# 400 1.6 20
-ax3.plot(BL_rp_400['PhotonEnergy'],BL_rp_400['Bandwidth']*1000,
-         label=f'400l/mm, cff 1.6, ES=20µm',
-         color=colors[3], linestyle='dashed')
+
 
 # 6000 20 1
 ax3.plot(BL_rp_6000['PhotonEnergy'],BL_rp_6000['Bandwidth']*1000,
@@ -191,7 +192,7 @@ ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Transmitted bandwidth [meV]')
 ax3.legend(loc='best', fontsize=12)
 ax3.set_xlim(x_range)
-# ax3.set_yscale('log')
+ax3.set_yscale('log')
 ax3.minorticks_on()
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
@@ -278,21 +279,31 @@ fig.suptitle('HR-RIXS @ BESSY III', size=16)
 # RESOLVING POWER
 ax5 = axs[0]
 
-# 1200 1.8 20
-ax5.plot(BL_rp_1200_18['PhotonEnergy'],
-         BL_rp_1200_18['PhotonEnergy']/BL_rp_1200_18['Bandwidth'],
-         label=f'1200l/mm, cff 1.8, ES=20µm',
-         color=colors[0])
-# 1200 5 5
-ax5.plot(BL_rp_1200_5['PhotonEnergy'],
-         BL_rp_1200_5['PhotonEnergy']/BL_rp_1200_5['Bandwidth'],
-         label=f'1200l/mm, cff 5, ES=5µm',
-         color=colors[1])
+# 6000 20 1
+ax5.plot(BL_rp_6000['PhotonEnergy'],
+         BL_rp_6000['PhotonEnergy']/BL_rp_6000['Bandwidth'],
+         label=f'6000l/mm, cff 25, ES=1',
+         color=colors[4])
+
 # 1200 10 2.5
 ax5.plot(BL_rp_1200_10['PhotonEnergy'],
          BL_rp_1200_10['PhotonEnergy']/BL_rp_1200_10['Bandwidth'],
          label=f'1200l/mm, cff 10, ES=2.5µm',
          color=colors[2])
+
+# 1200 5 5
+ax5.plot(BL_rp_1200_5['PhotonEnergy'],
+         BL_rp_1200_5['PhotonEnergy']/BL_rp_1200_5['Bandwidth'],
+         label=f'1200l/mm, cff 5, ES=5µm',
+         color=colors[1])
+
+# 1200 1.8 20
+ax5.plot(BL_rp_1200_18['PhotonEnergy'],
+         BL_rp_1200_18['PhotonEnergy']/BL_rp_1200_18['Bandwidth'],
+         label=f'1200l/mm, cff 1.8, ES=20µm',
+         color=colors[0])
+
+
 
 # 400 1.6 20
 ax5.plot(BL_rp_400['PhotonEnergy'],
@@ -300,18 +311,14 @@ ax5.plot(BL_rp_400['PhotonEnergy'],
          label=f'400l/mm, cff 1.6, ES=20µm',
          color=colors[3], linestyle='dashed')
 
-# 6000 20 1
-ax5.plot(BL_rp_6000['PhotonEnergy'],
-         BL_rp_6000['PhotonEnergy']/BL_rp_6000['Bandwidth'],
-         label=f'6000l/mm, cff 25, ES=1',
-         color=colors[4])
+
 
 ax5.set_title(f'Resolving Power')
 ax5.set_xlabel('Energy [eV]')
 ax5.set_ylabel(r'$\frac{E}{\Delta E}$ [a.u.]')
 ax5.legend(loc='best', fontsize=12)
 ax5.set_xlim(x_range)
-# ax5.set_yscale('log')
+ax5.set_yscale('log')
 ax5.minorticks_on()
 ax5.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 

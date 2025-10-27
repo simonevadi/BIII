@@ -245,12 +245,17 @@ ax3.plot(mov_av(BL_df_micro['PhotonEnergy'], window),
              color='orange',
              linewidth=5,)
 
-window=10
+window=20
 ax3.plot(mov_av(BL_df_2['PhotonEnergy'], window), 
              mov_av(BL_df_2['PhotonEnergy']/BL_df_2['Bandwidth'], window),
              linestyle='solid',
              label=f'B2', 
              color='#9DC183')
+
+
+ax3.axhline(y=5000, color='black', linestyle='--', linewidth=2)
+
+
 
 
 
@@ -259,7 +264,7 @@ ax3.set_xlabel('Energy [eV]')
 ax3.set_ylabel('Resolving Power [a.u.]')
 ax3.legend(loc='best')
 ax3.set_xlim(x_range)
-ax3.set_ylim(5000, 20000)
+ax3.set_ylim(0, 20000)
 ax3.minorticks_on()
 ax3.grid(which='major', axis='x', linestyle='--', linewidth=0.5, color='lightgrey')
 
