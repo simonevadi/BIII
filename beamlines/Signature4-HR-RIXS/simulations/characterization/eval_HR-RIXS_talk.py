@@ -106,14 +106,15 @@ de = 38.9579-30.0000
 table = 'Henke'
 theta = 0.75
 E = np.arange(50, 5001, de)
-Au  = rm.Material('Au',  rho=19.32, kind='mirror',table=table)
 Pt  = rm.Material('Pt',  rho=21.45, kind='mirror',table=table)
 
 
-Au, _ = get_reflectivity(Au, E=E, theta=theta)
 Pt, _ = get_reflectivity(Pt, E=E, theta=theta)
 
+<<<<<<< Updated upstream
 # ax1.plot(E, Au, 'b', label='Au')
+=======
+>>>>>>> Stashed changes
 ax1.plot(E, Pt, 'silver', label='Pt', linewidth=5)
 
 ax1.set_title('Mirror Coating Reflectivity @ 'f'{theta}° incident angle')
