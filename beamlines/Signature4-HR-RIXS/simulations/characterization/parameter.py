@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from undulator.ivue42.spectra import ivue42_hl as HRRIXS_undulator
 
 # Standard Simulation Parameters
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
@@ -39,17 +40,6 @@ HRRIXS_100m_blaze_6000_file_path                          = os.path.join(Path(__
 HRRIXS_6000_cff = [20]
 HRRIXS_6000_slitsize = [1/1000] # in mm
 
-
-###################################################################################
-#   PARAMS FOR Undulator BESSY III UE42.5 by smalerz
-HRRIXS_undulator_file_path  = os.path.abspath(
-                            os.path.join(Path(__file__).resolve().parents[4], 
-                            'undulators',
-                            'UndulatorFiles_BESSY_III',
-                            'IVUE42',
-                            'Elisa-IVUE42-HL-1.csv')
-                            )
-HRRIXS_undulator = pd.read_csv(HRRIXS_undulator_file_path)
 
 ###################################################################################
 #   grating 6000

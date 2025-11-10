@@ -2,24 +2,13 @@ import numpy as np
 import os
 import pandas as pd
 from pathlib import Path
+from undulator.ivue42.spectra import ivue42_hl as undulator
 
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 29
 nrays=5e5
 rounds = 10
-
-# UNDULATOR
-undulator_file_path = os.path.abspath(
-    os.path.join(Path(__file__).resolve().parents[4], 
-                 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'Signature2-ELISA',
-                 'Elisa-IVUE42-HL-1.csv')
-)
-
-undulator = pd.read_csv(undulator_file_path)
-
 
 # PARAMS FOR elisa 1200l/mm GRATING SIMULATIONS 3 micron
 energy_1200 = np.arange(200, 2101,10)

@@ -2,23 +2,13 @@ import numpy as np
 import os
 import pandas as pd
 from pathlib import Path
+from undulator.ivue42.spectra import ivue42_hl as undulator
 
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 30
 nrays=5e5
 rounds = 10
-
-# UNDULATOR
-undulator_file_path = os.path.abspath(
-    os.path.join(Path(__file__).resolve().parents[4], 
-                 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'IVUE42-HL.csv')
-)
-
-undulator = pd.read_csv(undulator_file_path)
-
 
 # PARAMS FOR SOTEXS 1200l/mm GRATING SIMULATIONS 3 micron
 e1   = np.arange(500, 2101,1)

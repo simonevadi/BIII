@@ -2,23 +2,13 @@ import numpy as np
 import os
 import pandas as pd
 from pathlib import Path
+from undulator.ivu28.spectra import ivu28_hl as undulator
 
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 30
 nrays=1e5
 rounds = 20
-
-# UNDULATOR
-
-undulator_file_path = os.path.abspath(
-    os.path.join(Path(__file__).resolve().parents[4], 
-                 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'SoTeXS-IVU28-BIII-1.csv')
-)
-
-undulator = pd.read_csv(undulator_file_path)
 
 
 # PARAMS FOR SOTEXS 1200l/mm GRATING SIMULATIONS 3 micron
