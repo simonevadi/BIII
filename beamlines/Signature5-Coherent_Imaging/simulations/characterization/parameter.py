@@ -3,32 +3,14 @@ import os
 import pandas as pd
 from pathlib import Path
 
+from undulator.ivue31.spectra import ivue31_hl_coherent_flux as undulator_coherent
+from undulator.ivue31.spectra import ivue31_hl as undulator
+
 
 this_file_dir   = os.path.dirname(os.path.realpath(__file__))
 ncpu = 29
 nrays=5e5
 rounds = 20
-
-# UNDULATOR
-undulator_file_path = os.path.abspath(
-    os.path.join(Path(__file__).resolve().parents[4], 
-                 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'IVUE31',
-                 'CohIm-Cryo-IVUE31-HL-1.csv')
-)
-
-undulator = pd.read_csv(undulator_file_path)
-
-undulator_file_path = os.path.abspath(
-    os.path.join(Path(__file__).resolve().parents[4], 
-                 'undulators',
-                 'UndulatorFiles_BESSY_III',
-                 'IVUE31',
-                 'CohIm-Cryo-IVUE31-HL-1_coherent_flux.csv')
-)
-
-undulator_coherent = pd.read_csv(undulator_file_path)
 
 energy = np.arange(300, 2201,10)
 SlitSize = [0.03]
